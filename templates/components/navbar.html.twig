@@ -1,0 +1,48 @@
+<nav class="navbar bg-gray-800 text-white p-4">
+	<div id="navbar-menu-button">
+		<svg width="24" height="24" viewbox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="">
+			<line x1="4" x2="20" y1="12" y2="12"/>
+			<line x1="4" x2="20" y1="6" y2="6"/>
+			<line x1="4" x2="20" y1="18" y2="18"/>
+		</svg>
+	</div>
+
+	<ul id="navbar-menu" class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 transition-all duration-300 ease-in-out md:left-0 left-[-100%]">
+		<li>
+			<a href="/" class="text-lg hover:text-indigo-500 transition-colors duration-200">Accueil</a>
+		</li>
+		{% if app.user %}
+			<li>
+				<a href={{path('app_profile')}} class="text-lg hover:text-indigo-500 transition-colors duration-200">Profile</a>
+			</li>
+			
+			<li>
+				<a href={{'deconnexion'}} class="text-lg hover:text-indigo-500 transition-colors duration-200">Se déconnecter</a>
+			</li>
+		{% else %}
+        {# {{ path('app_login')}} #}
+			<a href= class="class=" text-lg hover:text-indigo-500 transition-colors duration-200"">
+				Connexion
+			</a>
+			<li>
+				<a href="/inscription" class="text-lg hover:text-indigo-500 transition-colors duration-200">Authentification</a>
+			</li>
+		{% endif %}
+	</ul>
+</nav>
+
+<script>
+	const menuButton = document.querySelector('#navbar-menu-button');
+
+menuButton.addEventListener('click', () => {
+const menu = document.querySelector('#navbar-menu');
+
+if (menu.style.left == '0%') {
+
+menu.style.left = '-100%';
+} else {
+menu.style.left = '0%';
+
+}
+})
+</script>

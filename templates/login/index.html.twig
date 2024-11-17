@@ -1,0 +1,49 @@
+{# templates/auth/login.html.twig #}
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Connexion
+{% endblock %}
+
+{% block body %}
+	<div class="flex justify-center items-center h-screen bg-gray-100">
+		<div class="w-full max-w-md bg-white p-8 rounded shadow-lg">
+			<h2 class="text-2xl font-semibold text-center mb-6">Connexion</h2>
+
+			{% if error %}
+				<div class="text-red-600 mb-4">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
+
+			{{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+
+             <div class="mb-4">
+                {{ form_label(form.pseudo, 'Pseudo', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(form.pseudo, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+                {{ form_errors(form.pseudo) }}
+            </div>
+            
+			<div class="mb-4">
+				{{ form_label(form.email, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+				{{ form_widget(form.email, {'full_name':'email','attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+				{{ form_errors(form.email) }}
+			</div>
+
+			<div class="mb-4">
+				{{ form_label(form.password, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+				{{ form_widget(form.password, {'full_name':'password','attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+				{{ form_errors(form.password) }}
+			</div>
+
+			<div>
+				{{ form_widget(form.submit, {'attr': {'class': 'w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'}}) }}
+			</div>
+
+			{{ form_end(form) }}
+			{% for message in app.flashes('error') %}
+				<div class="alert alert-error">
+					{{ message }}
+				</div>
+			{% endfor %}
+		</div>
+
+	</div>
+{% endblock %}

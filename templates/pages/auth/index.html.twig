@@ -1,0 +1,64 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+<div class="bg-gray-100 min-h-screen">
+    <!-- Utilisez une marge supérieure pour donner de l'espace sous la navbar -->
+    <div class="flex justify-center items-center pt-16">
+        <div class="w-full max-w-md bg-white p-8 rounded shadow-lg">
+            <h2 class="text-2xl font-semibold text-center mb-6">Inscription</h2>
+
+            {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+
+            <div class="mb-4">
+                {{ form_label(form.email, 'Adresse Email', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(form.email, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+                {{ form_errors(form.email) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_label(form.lastName, 'Nom', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(form.lastName, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+                {{ form_errors(form.lastName) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_label(form.firstName, 'Prénom', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(form.firstName, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+                {{ form_errors(form.firstName) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_label(form.pseudo, 'Pseudo', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(form.pseudo, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+                {{ form_errors(form.pseudo) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_label(form.password.first, 'Mot de passe', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(form.password.first, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+                {{ form_errors(form.password.first) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_label(form.password.second, 'Confirmez le mot de passe', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(form.password.second, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+                {{ form_errors(form.password.second) }}
+            </div>
+
+            <div>
+                {{ form_widget(form.envoyer, {'attr': {'class': 'w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'}}) }}
+            </div>
+
+            {{ form_end(form) }}
+            
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-error">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,3 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
     background-color: skyblue;
+}
+* {
+    font-family: "roboto",serif;
+}
+.navbar {
+    background-color: rgb(9, 95, 233);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+#navbar-menu {
+    display: flex;
+    padding-right: 10px;
+    gap: 10px;
+    color: white;
+    transition: all 0.2s ease-in-out;
+}
+#navbar-menu-button {
+    display: none;
+}
+
+@media(max-width: 750px) {
+    #navbar-menu-button {
+        display: flex;
+    }
+    #navbar-menu {
+        flex-direction: column;
+        position: absolute;
+        left: 0;
+        top: 45px;
+        background-color: rgb(9, 95, 233);
+        min-width: 50vw;
+        min-height: 50vh;
+        padding: 10px;
+    }
 }
