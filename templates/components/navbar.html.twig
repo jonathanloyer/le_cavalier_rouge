@@ -1,5 +1,13 @@
-<nav class="navbar bg-gray-800 text-white p-4">
-	<div id="navbar-menu-button">
+<nav class="navbar bg-gray-800 text-white p-4 flex items-center justify-between">
+	<!-- Logo -->
+	<div class="flex items-center space-x-4">
+		<img src="/img/logo.png" alt="Logo" class="h-8 w-auto">
+		<!-- Si vous voulez un lien pour retourner à la page d'accueil en cliquant sur le logo -->
+		<a href="/" class="text-white text-xl font-bold hidden sm:block">Le Cavalier Rouge</a>
+	</div>
+
+	<!-- Menu Burger -->
+	<div id="navbar-menu-button"class="md:hidden">
 		<svg width="24" height="24" viewbox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="">
 			<line x1="4" x2="20" y1="12" y2="12"/>
 			<line x1="4" x2="20" y1="6" y2="6"/>
@@ -7,7 +15,8 @@
 		</svg>
 	</div>
 
-	<ul id="navbar-menu" class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 transition-all duration-300 ease-in-out md:left-0 left-[-100%]">
+	<!-- Menu -->
+	<ul id="navbar-menu" class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 transition-all duration-300 ease-in-out absolute md:relative top-full md:top-auto bg-gray-800 md:bg-transparent w-full md:w-auto">
 		<li>
 			<a href="/" class="text-lg hover:text-indigo-500 transition-colors duration-200">Accueil</a>
 		</li>
@@ -15,17 +24,15 @@
 			<li>
 				<a href={{path('app_profile')}} class="text-lg hover:text-indigo-500 transition-colors duration-200">Profile</a>
 			</li>
-			
 			<li>
 				<a href={{'deconnexion'}} class="text-lg hover:text-indigo-500 transition-colors duration-200">Se déconnecter</a>
 			</li>
 		{% else %}
-        {# {{ path('app_login')}} #}
-			<a href= class="class=" text-lg hover:text-indigo-500 transition-colors duration-200"">
+			<a href={{ path('app_login')}} class="text-lg hover:text-indigo-500 transition-colors duration-200">
 				Connexion
 			</a>
 			<li>
-				<a href="/inscription" class="text-lg hover:text-indigo-500 transition-colors duration-200">Authentification</a>
+				<a href="/inscription" class="text-lg hover:text-indigo-500 transition-colors duration-200">Inscription</a>
 			</li>
 		{% endif %}
 	</ul>
@@ -34,15 +41,13 @@
 <script>
 	const menuButton = document.querySelector('#navbar-menu-button');
 
-menuButton.addEventListener('click', () => {
-const menu = document.querySelector('#navbar-menu');
+	menuButton.addEventListener('click', () => {
+		const menu = document.querySelector('#navbar-menu');
 
-if (menu.style.left == '0%') {
-
-menu.style.left = '-100%';
-} else {
-menu.style.left = '0%';
-
-}
-})
+		if (menu.style.left == '0%') {
+			menu.style.left = '-100%';
+		} else {
+			menu.style.left = '0%';
+		}
+	});
 </script>

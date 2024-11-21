@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -24,40 +25,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var list<string> The user roles
      */
     #[ORM\ManyToOne(targetEntity: Role::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private array $roles = [];
+    #[ORM\JoinColumn(nullable: true)]
+    private Role $roles;
 
     #[ORM\Column(length: 100)]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 100)]
-     private ?string $firstName = null;
-     #[ORM\Column]
-     private ?string $pseudo;
- 
+    private ?string $firstName = null;
+    #[ORM\Column]
+    private ?string $pseudo;
 
-    #[ORM\Column(length: 255)]
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $ffeId = null;
 
-    #[ORM\Column(type:'boolean')]
-    private ?bool $active = null;
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $active = false;
 
     #[ORM\ManyToOne(targetEntity: Club::class)]
     #[ORM\JoinColumn(nullable: true)]
     private ?string $club = null;
 
-    #[ORM\Column(type: 'datetime')]
-private ?DateTimeImmutable $createdAt = null;
-
-
-
+    #[ORM\Column(type: 'datetime_immutable', nullable: false)]
+    private ?DateTimeImmutable $createdAt = null;
 
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
-    private ?string $password = null;
+    private ?string $password;
 
     public function getId(): ?int
     {
@@ -135,7 +133,7 @@ private ?DateTimeImmutable $createdAt = null;
 
     /**
      * Get the value of lastName
-     */ 
+     */
     public function getLastName()
     {
         return $this->lastName;
@@ -145,7 +143,7 @@ private ?DateTimeImmutable $createdAt = null;
      * Set the value of lastName
      *
      * @return  self
-     */ 
+     */
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
@@ -153,49 +151,55 @@ private ?DateTimeImmutable $createdAt = null;
         return $this;
     }
 
-     /**
-      * Get the value of firstName
-      */ 
-     public function getFirstName()
-     {
-          return $this->firstName;
-     }
+    /**
+     * Get the value of firstName
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
 
-     /**
-      * Set the value of firstName
-      *
-      * @return  self
-      */ 
-     public function setFirstName($firstName)
-     {
-          $this->firstName = $firstName;
+    /**
+     * Set the value of firstName
+     *
+     * @return  self
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
 
-          return $this;
-     }
+        return $this;
+    }
 
-/**
- * Get the value of createdAt
- */ 
-public function getCreatedAt()
-{
-return $this->createdAt;
-}
+    public function __construct()
+    {
+        $this->createdAt = new DateTimeImmutable(); // Utilisation de DateTimeImmutable
+    }
+    /**
+     * Get the value of createdAt
+     */
+    public function getCreatedAt(): ?DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
 
-/**
- * Set the value of createdAt
- *
- * @return  self
- */ 
-public function setCreatedAt($createdAt)
-{
-$this->createdAt = $createdAt;
+    /**
+     * Set the value of createdAt
+     *
+     * @return  self
+     */
+    public function setCreatedAt(DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
-return $this;
-}
+        return $this;
+    }
+
+
 
     /**
      * Get the value of club
-     */ 
+     */
     public function getClub()
     {
         return $this->club;
@@ -205,7 +209,7 @@ return $this;
      * Set the value of club
      *
      * @return  self
-     */ 
+     */
     public function setClub($club)
     {
         $this->club = $club;
@@ -215,17 +219,16 @@ return $this;
 
     /**
      * Get the value of active
-     */ 
+     */
     public function getActive()
     {
         return $this->active;
     }
-
     /**
      * Set the value of active
      *
      * @return  self
-     */ 
+     */
     public function setActive($active)
     {
         $this->active = $active;
@@ -235,7 +238,7 @@ return $this;
 
     /**
      * Get the value of ffeId
-     */ 
+     */
     public function getFfeId()
     {
         return $this->ffeId;
@@ -245,7 +248,7 @@ return $this;
      * Set the value of ffeId
      *
      * @return  self
-     */ 
+     */
     public function setFfeId($ffeId)
     {
         $this->ffeId = $ffeId;
@@ -253,23 +256,23 @@ return $this;
         return $this;
     }
 
-     /**
-      * Get the value of pseudo
-      */ 
-     public function getPseudo()
-     {
-          return $this->pseudo;
-     }
+    /**
+     * Get the value of pseudo
+     */
+    public function getPseudo()
+    {
+        return $this->pseudo;
+    }
 
-     /**
-      * Set the value of pseudo
-      *
-      * @return  self
-      */ 
-     public function setPseudo($pseudo)
-     {
-          $this->pseudo = $pseudo;
+    /**
+     * Set the value of pseudo
+     *
+     * @return  self
+     */
+    public function setPseudo($pseudo)
+    {
+        $this->pseudo = $pseudo;
 
-          return $this;
-     }
+        return $this;
+    }
 }

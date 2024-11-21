@@ -47,7 +47,7 @@ class AuthController extends AbstractController
         ]);
     }
     // pour la function deco pas besoin d'en faire plus car symfony gérera automatiquement 
-    #[Route('/deconnexion', name: 'app_deconnexion', methods: ['GET'])]
+    #[Route('/deconnexion', name: 'app_logout', methods: ['GET'])]
     public function deco(): void
     {
        

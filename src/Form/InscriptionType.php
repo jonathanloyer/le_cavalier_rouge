@@ -108,7 +108,7 @@ class InscriptionType extends AbstractType
             ])
 
             ->add('envoyer', SubmitType::class, [
-                'label' => 'Inscription',
+                'label' => 'S\'inscrire',
                 'attr' => [
                     'class' => 'btn btn-primary',
                 ],

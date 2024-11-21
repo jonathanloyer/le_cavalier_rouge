@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 body {
-    background-color: skyblue;
+    background-color: rgb(241, 241, 241);
 }
 * {
     font-family: "roboto",serif;
 }
 .navbar {
-    background-color: rgb(9, 95, 233);
+    background-color: rgb(2, 36, 90);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -36,7 +36,7 @@ body {
         position: absolute;
         left: 0;
         top: 45px;
-        background-color: rgb(9, 95, 233);
+        background-color: rgb(2, 36, 90);
         min-width: 50vw;
         min-height: 50vh;
         padding: 10px;
