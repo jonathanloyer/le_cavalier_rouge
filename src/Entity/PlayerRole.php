@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Entity;
-
+use App\Entity\User;
 use App\Repository\RoleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
-class Role
+class PlayerRole
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -15,6 +15,8 @@ class Role
 
     #[ORM\Column(length: 255)]
     private ?string $roleName = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'playerRole')]
+    private ?User $user;
 
     public function getId(): ?int
     {
@@ -29,6 +31,16 @@ class Role
     public function setRoleName(string $roleName): static
     {
         $this->roleName = $roleName;
+
+        return $this;
+    }
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
