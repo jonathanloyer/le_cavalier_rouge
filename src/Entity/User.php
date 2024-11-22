@@ -5,13 +5,16 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface,
+PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,13 +23,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180)]
     private ?string $email = null;
+    
+    #[ORM\Column(type: 'json', nullable:false)]
+    private array $roles = [];
 
-    /**
-     * @var list<string> The user roles
-     */
-    #[ORM\ManyToOne(targetEntity: Role::class)]
-    #[ORM\JoinColumn(nullable: true)]
-    private Role $roles;
+    #[ORM\OneToMany(targetEntity: PlayerRole::class, mappedBy: 'user')]
+    private Collection $playerRole;
 
     #[ORM\Column(length: 100)]
     private ?string $lastName = null;
@@ -35,13 +37,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $firstName = null;
     #[ORM\Column]
     private ?string $pseudo;
-
+   
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $ffeId = null;
 
     #[ORM\Column(type: 'boolean')]
     private ?bool $active = false;
+    
+    #[ORM\Column(length: 180, nullable: true)]
+    private ?string $avatar = null;
+
 
     #[ORM\ManyToOne(targetEntity: Club::class)]
     #[ORM\JoinColumn(nullable: true)]
@@ -49,11 +55,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'datetime_immutable', nullable: false)]
     private ?DateTimeImmutable $createdAt = null;
+   
 
-
-    /**
-     * @var string The hashed password
-     */
     #[ORM\Column]
     private ?string $password;
 
@@ -83,26 +86,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return (string) $this->email;
     }
-
-    /**
-     * @see UserInterface
-     * @return list<string>
-     */
-    public function getRoles(): array
+    public function __construct()
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        $this->createdAt = new DateTimeImmutable(); // Utilisation de DateTimeImmutable
+        $this->playerRole = new ArrayCollection();
     }
 
-    /**
-     * @param list<string> $roles
-     */
-    public function setRoles(array $roles): static
+    public function getPlayerRoles()
     {
-        $this->roles = $roles;
+        // $roles = $this->roles;
+        // garantir que chaque utilisateur a au moins ROLE_USER
+        // $roles[] = 'ROLE_USER';
+        return $this->playerRole;
+        // return array_unique($roles);
+    }
+
+
+    public function addPlayerRoles(PlayerRole $playerRole)
+    {
+        $playerRole->setUser($this);
+        $this->playerRole->add($playerRole);
 
         return $this;
     }
@@ -171,10 +174,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function __construct()
-    {
-        $this->createdAt = new DateTimeImmutable(); // Utilisation de DateTimeImmutable
-    }
+
     /**
      * Get the value of createdAt
      */
@@ -272,6 +272,51 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPseudo($pseudo)
     {
         $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+//     /**
+//      * Get the value of roles
+//      */ 
+//     *  @see UserInterface
+//    */
+  public function getRoles(): array {
+    $roles = $this->roles;
+    // Yous les utilisateur on au moin le ROLE_USER
+    $roles[] = 'ROLE_USER';
+
+    return array_unique($roles);
+  }
+    /**
+     * Set the value of roles
+     *
+     * @return  self
+     */ 
+    public function setRoles($roles):self
+    {
+        // Ajout automatique du rôle "ROLE_USER" si absent
+    $this->roles = array_unique(array_merge($roles, ['ROLE_USER']));
+
+        return $this;
+    }
+
+    /**
+     * Get the value of avatar
+     */ 
+    public function getAvatar():?string
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * Set the value of avatar
+     *
+     * @return  self
+     */ 
+    public function setAvatar($avatar):static
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

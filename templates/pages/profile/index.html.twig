@@ -1,0 +1,44 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Profil de {{ app.user.pseudo }}{% endblock %}
+
+{% block body %}
+<div class="profile-container max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
+    <!-- Avatar avec l'icône pour modifier le profil -->
+    <div class="flex items-center justify-center relative">
+        <img 
+            src="{{ user.avatar ? asset('uploads/avatar/' ~ user.avatar) : asset('images/default-avatar.png') }}" 
+            alt="Avatar" 
+            class="avatar-img w-32 h-32 rounded-full border-4 border-gray-300">
+
+        <!-- Icône pour modifier -->
+        <a href="{{ path('app_profile_update') }}" class="absolute bottom-0 right-0 bg-blue-500 p-2 rounded-full text-white hover:bg-blue-600 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 3l9 9-9 9M21 12H7"></path>
+            </svg>
+        </a>
+
+        <!-- Formulaire d'upload d'avatar (optionnel, désactivé pour l'instant) -->
+        {# 
+        <form action="{{ path('app_profile_update') }}" method="post" enctype="multipart/form-data" class="absolute bottom-0 left-0">
+            <label for="avatar-upload" class="cursor-pointer bg-green-500 p-2 rounded-full text-white hover:bg-green-600 focus:outline-none flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+            </label>
+            <input type="file" id="avatar-upload" name="avatar" accept="image/*" class="hidden" onchange="this.form.submit()">
+        </form>
+        #}
+    </div>
+
+    <!-- Informations utilisateur -->
+    <div class="text-center mt-6">
+        <h2 class="text-3xl font-semibold text-gray-800">{{ user.pseudo }}</h2>
+        <span class="text-gray-600 mt-2">{{ user.lastName ?: '' }}</span>
+        <span class="text-gray-600 mt-2">{{ user.firstName ?: '' }}</span>
+        <p class="text-gray-600 mt-2">
+            <strong>Email:</strong> {{ user.email }}
+        </p>
+    </div>
+</div>
+{% endblock %}
