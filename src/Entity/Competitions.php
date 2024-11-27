@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\CompetitionsRepository;
@@ -16,6 +15,10 @@ class Competitions
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    // Ajoute ici le champ "status"
+    #[ORM\Column(length: 255)]
+    private ?string $status = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +32,19 @@ class Competitions
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    // Getter et setter pour "status"
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

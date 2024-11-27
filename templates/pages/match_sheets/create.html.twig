@@ -1,0 +1,91 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Préparation de la feuille de match
+{% endblock %}
+
+{% block body %}
+	<div
+		class="p-4 bg-gray-100">
+		<!-- Section des filtres -->
+		<div class="bg-white p-4 rounded shadow mb-4">
+			<label class="block mb-2 text-gray-700">Interclub :</label>
+			<select class="w-full border border-gray-300 rounded px-2 py-1">
+				<option>Sélectionnez un Interclub</option>
+			</select>
+
+			<label class="block mt-4 mb-2 text-gray-700">Division :</label>
+			<select class="w-full border border-gray-300 rounded px-2 py-1">
+				<option>Sélectionnez une Division</option>
+			</select>
+
+			<label class="block mt-4 mb-2 text-gray-700">Groupe :</label>
+			<select class="w-full border border-gray-300 rounded px-2 py-1">
+				<option>Sélectionnez un Groupe</option>
+			</select>
+		</div>
+
+		<!-- Titre -->
+		<div class="bg-orange-500 text-white text-center font-bold py-2 mb-2">
+			Préparation d'un Procès-verbal du groupe :
+			<span>"nom de groupe"</span>
+		</div>
+
+		<!-- Formulaire principal -->
+		<div class="overflow-x-auto">
+			<table class="w-full border-collapse">
+				<thead>
+					<tr class="bg-gray-200 text-gray-700">
+						<th class="border border-gray-300 p-2 text-center">#</th>
+						<th class="border border-gray-300 p-2 text-center">Club</th>
+						<th class="border border-gray-300 p-2 text-center">Code FFE ou joueur</th>
+						<th class="border border-gray-300 p-2 text-center">Résultat</th>
+						<th class="border border-gray-300 p-2 text-center">Code FFE ou joueur</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for i in 1..8 %}
+						<tr class="text-center">
+							<td class="border border-gray-300 p-2">{{ i }}</td>
+							<td class="border border-gray-300 p-2">
+								<select class="w-full border border-gray-300 rounded px-2 py-1">
+									<option>Sélectionnez un club</option>
+								</select>
+							</td>
+							<td class="border border-gray-300 p-2">
+								<select class="w-full border border-gray-300 rounded px-2 py-1">
+									<option>Code FFE ou joueur de club</option>
+								</select>
+							</td>
+							<td class="border border-gray-300 p-2">
+								<select class="w-full border border-gray-300 rounded px-2 py-1">
+									<option>Sélectionnez le résultat</option>
+								</select>
+							</td>
+							<td class="border border-gray-300 p-2">
+								<select class="w-full border border-gray-300 rounded px-2 py-1">
+									<option>Code FFE ou joueur de club</option>
+								</select>
+							</td>
+						</tr>
+					{% endfor %}
+					<!-- Ligne des capitaines -->
+					<tr class="bg-gray-100">
+						<td colspan="5" class="border border-gray-300 p-2 font-bold text-center align-middle">
+							CAPITAINES
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Section boutons -->
+		<div class="flex justify-between mt-4">
+			<button class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+				Afficher la feuille de match
+			</button>
+			<button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400 transition">
+				Annuler
+			</button>
+		</div>
+	</div>
+{% endblock %}

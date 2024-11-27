@@ -1,0 +1,67 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Tableau de bord - Administration{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <h1 class="text-3xl font-bold mb-6 text-gray-700">Tableau de bord - Administration</h1>
+
+    <!-- Statistiques rapides -->
+   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <div class="bg-white shadow rounded-lg p-5 text-center">
+        <p class="text-lg font-semibold text-gray-600">Membres inscrits</p>
+        <p class="text-4xl font-bold text-blue-500">{{ totalUsers }}</p>
+    </div>
+    <div class="bg-white shadow rounded-lg p-5 text-center">
+        <p class="text-lg font-semibold text-gray-600">Tournois actifs</p>
+        <p class="text-4xl font-bold text-green-500">{{ activeCompetitions }}</p>
+    </div>
+    <div class="bg-white shadow rounded-lg p-5 text-center">
+        <p class="text-lg font-semibold text-gray-600">Joueurs actif ce mois</p>
+        <p class="text-4xl font-bold text-red-500">{{ totalJoueurs }}</p>
+    </div>
+    <div class="bg-white shadow rounded-lg p-5 text-center">
+        <p class="text-lg font-semibold text-gray-600">Feuilles de match créées ce mois</p>
+        <p class="text-4xl font-bold text-purple-500">{{ matchesThisMonth }}</p>
+    </div>
+</div>
+
+    <!-- Actions principales -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a href="{{ path('admin_manage_users') }}" class="bg-blue-500 text-white rounded-lg shadow p-4 text-center hover:bg-blue-600">
+            <p class="text-xl font-bold">Gérer les utilisateurs</p>
+        </a>
+        <a href="{{ path('admin_manage_competitions') }}" class="bg-green-500 text-white rounded-lg shadow p-4 text-center hover:bg-green-600">
+            <p class="text-xl font-bold">Gérer les tournois</p>
+        </a>
+        <a href="{{ path('admin_manage_players') }}" class="bg-yellow-500 text-white rounded-lg shadow p-4 text-center hover:bg-yellow-600">
+            <p class="text-xl font-bold">Voir la liste des joueurs</p>
+        </a>
+          <a href="{{ path('admin_manage_match_sheets') }}" class="bg-purple-500 text-white rounded-lg shadow p-4 text-center hover:bg-purple-600">
+        <p class="text-xl font-bold">Feuilles de match</p>
+    </a>
+        <a href="{{ path('admin_settings') }}" class="bg-gray-800 text-white rounded-lg shadow p-4 text-center hover:bg-gray-900">
+            <p class="text-xl font-bold">Paramètres</p>
+        </a>
+    </div>
+
+    <!-- Dernières activités -->
+    <div class="mt-10 bg-white shadow rounded-lg p-6">
+        <h2 class="text-2xl font-bold mb-4 text-gray-700">Dernières activités</h2>
+        <ul class="divide-y divide-gray-300">
+            <li class="py-4 flex justify-between">
+                <span class="text-gray-600">Nouvel utilisateur : Jean Dupont</span>
+                <span class="text-sm text-gray-500">il y a 2 heures</span>
+            </li>
+            <li class="py-4 flex justify-between">
+                <span class="text-gray-600">Tournoi créé : Championnat régional</span>
+                <span class="text-sm text-gray-500">il y a 1 jour</span>
+            </li>
+            <li class="py-4 flex justify-between">
+                <span class="text-gray-600">Partie terminée : Alice vs Bob</span>
+                <span class="text-sm text-gray-500">il y a 3 jours</span>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -2,20 +2,20 @@
 
 namespace App\Repository;
 
-use App\Entity\Role;
+use App\Entity\PlayerRole;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Role>
+ * @extends ServiceEntityRepository<PlayerRole>
  */
-class RoleRepository extends ServiceEntityRepository
+class PlayerRoleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Role::class);
+        parent::__construct($registry, PlayerRole::class);
     }
-    function save(Role $newRole, ?bool $flush=false)
+    function save(PlayerRole $newRole, ?bool $flush=false)
     {
         $this->getEntityManager()->persist($newRole);
         if ($flush){

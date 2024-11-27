@@ -5,9 +5,7 @@
 body {
     background-color: rgb(241, 241, 241);
 }
-* {
-    font-family: "roboto",serif;
-}
+
 .navbar {
     background-color: rgb(2, 36, 90);
     display: flex;
