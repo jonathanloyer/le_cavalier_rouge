@@ -1,0 +1,36 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Gérer les joueurs{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <h1 class="text-3xl font-bold mb-6 text-gray-700">Gérer les joueurs</h1>
+
+    <!-- Tableau des joueurs -->
+    <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-2xl font-bold mb-4 text-gray-700">Liste des joueurs</h2>
+        <table class="min-w-full table-auto">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="px-4 py-2 text-left text-gray-600">Nom</th>
+                    <th class="px-4 py-2 text-left text-gray-600">Club</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for joueur in joueurs %}
+                    <tr class="border-t">
+                        <td class="px-4 py-2 text-gray-700">{{ joueur.name }}</td>
+                        <td class="px-4 py-2 text-gray-700">
+                            {% if joueur.club %}
+                                {{ joueur.club.name }}
+                            {% else %}
+                                Aucun club
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -2,13 +2,12 @@
 	<!-- Logo -->
 	<div class="flex items-center space-x-4">
 		<img src="/img/logo.png" alt="Logo" class="h-8 w-auto">
-		<!-- Si vous voulez un lien pour retourner à la page d'accueil en cliquant sur le logo -->
 		<a href="/" class="text-white text-xl font-bold hidden sm:block">Le Cavalier Rouge</a>
 	</div>
 
 	<!-- Menu Burger -->
-	<div id="navbar-menu-button"class="md:hidden">
-		<svg width="24" height="24" viewbox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="">
+	<div id="navbar-menu-button" class="md:hidden">
+		<svg width="24" height="24" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 			<line x1="4" x2="20" y1="12" y2="12"/>
 			<line x1="4" x2="20" y1="6" y2="6"/>
 			<line x1="4" x2="20" y1="18" y2="18"/>
@@ -21,16 +20,22 @@
 			<a href="/" class="text-lg hover:text-indigo-500 transition-colors duration-200">Accueil</a>
 		</li>
 		{% if app.user %}
+			{% if is_granted('ROLE_ADMIN') %}
+				<li>
+					<a href="{{ path('app_admin') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Tableau de bord</a>
+				</li>
+			{% else %}
+				<li>
+					<a href="{{ path('app_profile') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Profil</a>
+				</li>
+			{% endif %}
 			<li>
-				<a href={{path('app_profile')}} class="text-lg hover:text-indigo-500 transition-colors duration-200">Profile</a>
-			</li>
-			<li>
-				<a href={{'deconnexion'}} class="text-lg hover:text-indigo-500 transition-colors duration-200">Se déconnecter</a>
+				<a href="{{ path('app_logout') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Se déconnecter</a>
 			</li>
 		{% else %}
-			<a href={{ path('app_login')}} class="text-lg hover:text-indigo-500 transition-colors duration-200">
-				Connexion
-			</a>
+			<li>
+				<a href="{{ path('app_login') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Connexion</a>
+			</li>
 			<li>
 				<a href="/inscription" class="text-lg hover:text-indigo-500 transition-colors duration-200">Inscription</a>
 			</li>
@@ -40,14 +45,9 @@
 
 <script>
 	const menuButton = document.querySelector('#navbar-menu-button');
+	const menu = document.querySelector('#navbar-menu');
 
 	menuButton.addEventListener('click', () => {
-		const menu = document.querySelector('#navbar-menu');
-
-		if (menu.style.left == '0%') {
-			menu.style.left = '-100%';
-		} else {
-			menu.style.left = '0%';
-		}
+		menu.classList.toggle('hidden');
 	});
 </script>
