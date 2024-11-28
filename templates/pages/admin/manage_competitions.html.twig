@@ -1,0 +1,61 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Gérer les tournois{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <h1 class="text-3xl font-bold mb-6 text-gray-700">Gérer les tournois</h1>
+
+    <!-- Formulaire pour ajouter un tournoi -->
+    <div class="bg-white shadow rounded-lg p-6 mb-6">
+        <h2 class="text-2xl font-bold mb-4 text-gray-700">Ajouter un tournoi</h2>
+        <form method="POST" action="{{ path('admin_manage_competitions') }}">
+            <div class="grid grid-cols-1 gap-4">
+                <div>
+                    <label for="nom" class="block text-sm font-medium text-gray-600">Nom du tournoi</label>
+                    <input type="text" id="nom" name="nom" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required />
+                </div>
+
+                <div>
+                    <label for="date" class="block text-sm font-medium text-gray-600">Date du tournoi</label>
+                    <input type="date" id="date" name="date" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required />
+                </div>
+
+                <div>
+                    <label for="lieu" class="block text-sm font-medium text-gray-600">Lieu du tournoi</label>
+                    <input type="text" id="lieu" name="lieu" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required />
+                </div>
+
+                <div class="flex justify-end mt-4">
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                        Ajouter le tournoi
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tableau des tournois -->
+    <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-2xl font-bold mb-4 text-gray-700">Liste des tournois</h2>
+        <table class="min-w-full table-auto">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="px-4 py-2 text-left text-gray-600">Nom</th>
+                    <th class="px-4 py-2 text-left text-gray-600">Date</th>
+                    <th class="px-4 py-2 text-left text-gray-600">Lieu</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tournoi in competitions %}
+                    <tr class="border-t">
+                        <td class="px-4 py-2 text-gray-700">{{ tournoi.nom }}</td>
+                        <td class="px-4 py-2 text-gray-700">{{ tournoi.date|date('d/m/Y') }}</td>
+                        <td class="px-4 py-2 text-gray-700">{{ tournoi.lieu }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

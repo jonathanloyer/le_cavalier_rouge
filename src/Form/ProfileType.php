@@ -68,13 +68,13 @@ class ProfileType extends AbstractType
                 'class' => 'form-control',
             ],
         ])
-        ->add('password', PasswordType::class, [
-            'label' => 'Mot de passe',
-            'required' => true,
-            'attr' => [
-                'class' => 'form-control',
-            ],
-        ])
+        // ->add('password', PasswordType::class, [
+        //     'label' => 'Mot de passe',
+        //     'required' => true,
+        //     'attr' => [
+        //         'class' => 'form-control',
+        //     ],
+        // ])
         
         // j'ajoute un champ avatar de type FileType
             ->add('avatar', FileType::class, [
