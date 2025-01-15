@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\MatchSheetType;
 use App\Repository\UserRepository;
 use App\Repository\ClubRepository;
 use App\Repository\CompetitionsRepository;
@@ -9,6 +10,7 @@ use App\Repository\FeuilleMatchRepository;
 use App\Repository\JoueursRepository;
 use App\Repository\PlayerRoleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -141,14 +143,41 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/feuilles-match', name: 'admin_manage_match_sheets')]
-    public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository): Response
-    {
-        $feuillesMatch = $feuilleMatchRepository->findAll();
+public function manageMatchSheets(Request $request, FeuilleMatchRepository $feuilleMatchRepository): Response
+{
+    // Création du formulaire
+    $form = $this->createForm(MatchSheetType::class);
 
-        return $this->render('pages/admin/manage_match_sheets.html.twig', [
-            'feuillesMatch' => $feuillesMatch,
-        ]);
+    // Gestion de la soumission du formulaire
+    $form->handleRequest($request);
+
+    // Vérifie si le formulaire a été soumis et est valide
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Récupère les données du formulaire
+        $data = $form->getData();
+
+        // Vérifie si l'une des actions de bouton a été soumise en comparant les données
+        if (isset($data['creer'])) {
+            // Si le bouton "Créer" a été cliqué
+            return $this->redirectToRoute('app_create_match_sheet', ['type' => $data['typeFeuille']]);
+        }
+
+        if (isset($data['consulter'])) {
+            // Si le bouton "Consulter" a été cliqué
+            return $this->redirectToRoute('app_view_match_sheet', ['reference' => $data['reference']]);
+        }
     }
+
+    // Récupère toutes les feuilles de match pour les afficher
+    $feuillesMatch = $feuilleMatchRepository->findAll();
+
+    // Rend la vue avec les données
+    return $this->render('pages/admin/manage_match_sheets.html.twig', [
+        'feuillesMatch' => $feuillesMatch,
+        'form' => $form->createView(),
+    ]);
+}
+
 
     #[Route('/admin/joueurs', name: 'admin_manage_players')]
     public function managePlayers(JoueursRepository $joueurRepository): Response
