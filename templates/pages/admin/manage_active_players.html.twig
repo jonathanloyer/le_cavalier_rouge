@@ -1,0 +1,44 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Liste des joueurs actifs{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <h1 class="text-3xl font-bold mb-6 text-gray-700">Liste des joueurs actifs</h1>
+
+    <!-- Tableau des joueurs actifs -->
+    <div class="bg-white shadow rounded-lg p-6">
+        <h2 class="text-2xl font-bold mb-4 text-gray-700">Joueurs actifs</h2>
+        <table class="min-w-full table-auto">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="px-4 py-2 text-left text-gray-600">Nom</th>
+                    <th class="px-4 py-2 text-left text-gray-600">Prénom</th>
+                    <th class="px-4 py-2 text-left text-gray-600">Club</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in joueurs %}
+                    <tr class="border-t">
+                        <td class="px-4 py-2 text-gray-700">{{ user.lastName }}</td>
+                        <td class="px-4 py-2 text-gray-700">{{ user.firstName }}</td>
+                        <td class="px-4 py-2 text-gray-700">
+                            {% if user.club %}
+                                {{ user.club.name }}
+                            {% else %}
+                                Aucun club
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3" class="px-4 py-2 text-center text-gray-500">
+                            Aucun joueur actif trouvé.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

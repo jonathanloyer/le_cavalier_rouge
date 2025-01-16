@@ -1,0 +1,32 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Feuille de Match - {{ feuilleMatch.id }}{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-8">
+    <h1 class="text-2xl font-bold text-center mb-8">Feuille de Match</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-6 mb-8">
+        <h2 class="text-lg font-semibold mb-4">Informations de la Feuille</h2>
+        <ul>
+            <li><strong>ID :</strong> {{ feuilleMatch.id }}</li>
+            <li><strong>Club A :</strong> {{ feuilleMatch.clubA }}</li>
+            <li><strong>Club B :</strong> {{ feuilleMatch.clubB }}</li>
+            <li><strong>Ronde :</strong> {{ feuilleMatch.ronde }}</li>
+            <li><strong>Date du Match :</strong> {{ feuilleMatch.dateMatch|date('d/m/Y') }}</li>
+        </ul>
+    </div>
+
+    <div class="flex justify-end space-x-4">
+        <!-- Lien pour retourner à la liste -->
+        <a href="{{ path('app_match_sheets_list') }}" class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition">
+            Retour à la liste
+        </a>
+
+        <!-- Bouton pour télécharger en PDF -->
+        <a href="{{ path('app_match_sheets_download_pdf', {'id': feuilleMatch.id}) }}" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition">
+            Télécharger en PDF
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -37,6 +37,10 @@ PasswordAuthenticatedUserInterface
     private ?string $firstName = null;
     #[ORM\Column]
     private ?string $pseudo;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $codeFFE = null;
+
    
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -51,11 +55,10 @@ PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne(targetEntity: Club::class)]
     #[ORM\JoinColumn(nullable: true)]
-    private ?string $club = null;
+    private ?Club $club = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: false)]
     private ?DateTimeImmutable $createdAt = null;
-   
 
     #[ORM\Column]
     private ?string $password;
@@ -200,7 +203,7 @@ PasswordAuthenticatedUserInterface
     /**
      * Get the value of club
      */
-    public function getClub()
+    public function getClub(): ?Club
     {
         return $this->club;
     }
@@ -210,7 +213,7 @@ PasswordAuthenticatedUserInterface
      *
      * @return  self
      */
-    public function setClub($club)
+    public function setClub(?Club $club): self
     {
         $this->club = $club;
 
@@ -317,6 +320,26 @@ PasswordAuthenticatedUserInterface
     public function setAvatar($avatar):static
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of codeFFE
+     */ 
+    public function getCodeFFE(): ?string    
+    {
+        return $this->codeFFE;
+    }
+
+    /**
+     * Set the value of codeFFE
+     *
+     * @return  self
+     */ 
+    public function setCodeFFE(?string $codeFFE): self
+    {
+        $this->codeFFE = $codeFFE;
 
         return $this;
     }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Feuille de Match - {{ feuilleMatch.id }}</title>
+    <style>
+        /* Intégration des classes Tailwind en inline pour Dompdf */
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .font-bold { font-weight: 700; }
+        .text-center { text-align: center; }
+        .text-gray-500 { color: #6B7280; }
+        .border { border-width: 1px; border-color: #E5E7EB; }
+        .rounded-lg { border-radius: 0.5rem; }
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .m-4 { margin: 1rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mt-4 { margin-top: 1rem; }
+        .bg-gray-100 { background-color: #F3F4F6; }
+        .w-full { width: 100%; }
+    </style>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="w-full max-w-2xl mx-auto border rounded-lg bg-white p-6">
+        <!-- Titre principal -->
+        <h1 class="text-2xl font-bold text-center mb-4">Feuille de Match</h1>
+        <h2 class="text-xl font-bold text-center mb-6">ID : {{ feuilleMatch.id }}</h2>
+
+        <!-- Détails de la feuille de match -->
+        <div class="mb-4">
+            <p class="text-lg"><strong>Club A :</strong> {{ feuilleMatch.clubA }}</p>
+            <p class="text-lg"><strong>Club B :</strong> {{ feuilleMatch.clubB }}</p>
+            <p class="text-lg"><strong>Ronde :</strong> {{ feuilleMatch.ronde }}</p>
+            <p class="text-lg"><strong>Date du Match :</strong> {{ feuilleMatch.dateMatch|date('d/m/Y') }}</p>
+        </div>
+
+        <!-- Pied de page -->
+        <div class="mt-4 text-center text-gray-500">
+            <p>Document généré automatiquement</p>
+            <p>{{ "now"|date("d/m/Y H:i") }}</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -40,21 +40,19 @@
         {{ form_errors(form.pseudo) }}
     </div>
 
-    {# Champ pour le lastName #}
+    {# Champ pour le nom #}
     <div class="form-group">
-        {{ form_label(form.lastName, 'lastName', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
+        {{ form_label(form.lastName, 'Nom', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
         {{ form_widget(form.lastName, { 'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'} }) }}
         {{ form_errors(form.lastName) }}
     </div>
 
-    {# Champ pour le firstName #}
+    {# Champ pour le prénom #}
     <div class="form-group">
-        {{ form_label(form.firstName, 'firstName', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
+        {{ form_label(form.firstName, 'Prénom', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
         {{ form_widget(form.firstName, { 'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'} }) }}
         {{ form_errors(form.firstName) }}
     </div>
-
-
 
     {# Champ pour l'email #}
     <div class="form-group">
@@ -63,13 +61,27 @@
         {{ form_errors(form.email) }}
     </div>
 
-    {# Champ pour le mot de passe
+    {# Champ pour le code FFE #}
     <div class="form-group">
-        {{ form_label(form.password, 'Mot de passe', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
-        {{ form_widget(form.password, { 'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'} }) }}
-        {{ form_errors(form.password) }}
+        {{ form_label(form.codeFFE, 'Code FFE', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
+        {{ form_widget(form.codeFFE, { 'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline', 'placeholder': 'Entrez votre code FFE'} }) }}
+        {{ form_errors(form.codeFFE) }}
     </div>
-           #}
+
+    {# Champ pour le mot de passe
+
+    <div class="form-group">
+
+        {{ form_label(form.password, 'Mot de passe', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
+
+        {{ form_widget(form.password, { 'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'} }) }}
+
+        {{ form_errors(form.password) }}
+
+    </div>
+
+           #}
+
     {# Bouton de soumission #}
     <div class="flex items-center justify-between">
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
@@ -80,4 +92,3 @@
     {{ form_end(form) }}
 </div>
 {% endblock %}
-

@@ -17,18 +17,6 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 3l9 9-9 9M21 12H7"></path>
             </svg>
         </a>
-
-        <!-- Formulaire d'upload d'avatar (optionnel, désactivé pour l'instant) -->
-        {# 
-        <form action="{{ path('app_profile_update') }}" method="post" enctype="multipart/form-data" class="absolute bottom-0 left-0">
-            <label for="avatar-upload" class="cursor-pointer bg-green-500 p-2 rounded-full text-white hover:bg-green-600 focus:outline-none flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                </svg>
-            </label>
-            <input type="file" id="avatar-upload" name="avatar" accept="image/*" class="hidden" onchange="this.form.submit()">
-        </form>
-        #}
     </div>
 
     <!-- Informations utilisateur -->
@@ -40,5 +28,17 @@
             <strong>Email:</strong> {{ user.email }}
         </p>
     </div>
+
+    <!-- Bouton Feuilles de match, visible uniquement si l'utilisateur est capitaine ou admin -->
+    {% if is_granted('ROLE_CAPITAINE') or is_granted('ROLE_ADMIN') %}
+        <div class="text-center mt-6">
+            <!-- Style identique au bouton "Feuilles de match" du dashboard admin -->
+            <a href="{{ path('app_match_sheets') }}"
+               class="bg-purple-500 text-white rounded-lg shadow p-4 text-center hover:bg-purple-600 inline-block">
+                <p class="text-xl font-bold">Feuilles de match</p>
+            </a>
+        </div>
+    {% endif %}
+
 </div>
 {% endblock %}
