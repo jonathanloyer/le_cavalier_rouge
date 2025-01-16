@@ -1,61 +1,78 @@
 {% extends 'pages/layout.html.twig' %}
 
-{% block title %}Gestion des utilisateurs{% endblock %}
+{% block title %}Gestion des utilisateurs
+{% endblock %}
 
 {% block body %}
-    <h1 class="text-2xl font-semibold mb-4">Gestion des utilisateurs</h1>
+	<h1 class="text-2xl font-semibold mb-4">Gestion des utilisateurs</h1>
 
-    <!-- Tableau des utilisateurs -->
-    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-        <table class="table-auto w-full text-sm text-left text-gray-600">
-            <thead class="bg-gray-100">
-                <tr>
-                    <th class="px-4 py-2">ID</th>
-                    <th class="px-4 py-2">Email</th>
-                    <th class="px-4 py-2">Pseudo</th>
-                    <th class="px-4 py-2">Nom</th>
-                    <th class="px-4 py-2">Prénom</th>
-                    <th class="px-4 py-2">Club</th>
-                    <th class="px-4 py-2">Actif</th>
-                    <th class="px-4 py-2">Créé le</th>
-                    <th class="px-4 py-2">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                    <tr class="border-b">
-                        <td class="px-4 py-2">{{ user.id }}</td>
-                        <td class="px-4 py-2">{{ user.email }}</td>
-                        <td class="px-4 py-2">{{ user.pseudo }}</td>
-                        <td class="px-4 py-2">{{ user.lastName }}</td>
-                        <td class="px-4 py-2">{{ user.firstName }}</td>
-                        <td class="px-4 py-2">{{ user.club ? user.club : 'Aucun' }}</td>
-                        <td class="px-4 py-2">
-                            {% if user.active %}
-                                <span class="bg-green-500 text-white px-2 py-1 rounded-full">Actif</span>
-                            {% else %}
-                                <span class="bg-red-500 text-white px-2 py-1 rounded-full">Inactif</span>
-                            {% endif %}
-                        </td>
-                        <td class="px-4 py-2">{{ user.createdAt|date('d/m/Y H:i') }}</td>
-                        <td class="px-4 py-2 space-x-2">
-                            <!-- Boutons Modifier et Supprimer -->
-                            <a href="{{ path('admin_edit_user', {'id': user.id}) }}" class="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition duration-300">
-                                Modifier
-                            </a>
-                            <form action="{{ path('admin_delete_user', {'id': user.id}) }}" method="POST" style="display:inline;">
-                                <button type="submit" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition duration-300" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
-                                    Supprimer
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="9" class="px-4 py-2 text-center text-gray-500">Aucun utilisateur trouvé.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+	<!-- Tableau des utilisateurs -->
+	<div class="overflow-x-auto bg-white shadow-md rounded-lg">
+		<table class="table-auto w-full text-sm text-left text-gray-600">
+			<thead class="bg-gray-100">
+				<tr>
+					<th class="px-4 py-2">ID</th>
+					<th class="px-4 py-2">Email</th>
+					<th class="px-4 py-2">Pseudo</th>
+					<th class="px-4 py-2">Nom</th>
+					<th class="px-4 py-2">Prénom</th>
+					<th class="px-4 py-2">Club</th>
+					<th class="px-4 py-2">Actif</th>
+					<th class="px-4 py-2">Créé le</th>
+					<th class="px-4 py-2">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+					<tr class="border-b">
+						<td class="px-4 py-2">{{ user.id }}</td>
+						<td class="px-4 py-2">{{ user.email }}</td>
+						<td class="px-4 py-2">{{ user.pseudo }}</td>
+						<td class="px-4 py-2">{{ user.lastName }}</td>
+						<td class="px-4 py-2">{{ user.firstName }}</td>
+						<td class="px-4 py-2">{{ user.club ? user.club.name : 'Aucun club' }}</td>
+						<td class="px-4 py-2">
+							{% if user.active %}
+								<span class="bg-green-500 text-white px-2 py-1 rounded-full">Actif</span>
+							{% else %}
+								<span class="bg-red-500 text-white px-2 py-1 rounded-full">Inactif</span>
+							{% endif %}
+						</td>
+						<td class="px-4 py-2">{{ user.createdAt|date('d/m/Y H:i') }}</td>
+						<td
+							class="px-4 py-2 space-x-2">
+							<!-- Bouton Modifier -->
+							<a href="{{ path('admin_edit_user', {'id': user.id}) }}" class="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition duration-300">
+								Modifier
+							</a>
+
+							<!-- Bouton Supprimer -->
+							<form action="{{ path('admin_delete_user', {'id': user.id}) }}" method="POST" style="display:inline;">
+								<button type="submit" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition duration-300" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
+									Supprimer
+								</button>
+							</form>
+
+							<!-- Ajouter ou Retirer ROLE_CAPITAINE -->
+							{% if 'ROLE_CAPITAINE' in user.roles %}
+								<a href="{{ path('admin_remove_capitaine', {'id': user.id}) }}" class="bg-yellow-500 text-white py-1 px-3 rounded hover:bg-yellow-600 transition duration-300" onclick="return confirm('Retirer le rôle capitaine à cet utilisateur ?')">
+									Retirer ROLE_CAPITAINE
+								</a>
+							{% else %}
+								<a href="{{ path('admin_add_capitaine', {'id': user.id}) }}" class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600 transition duration-300" onclick="return confirm('Donner le rôle capitaine à cet utilisateur ?')">
+									Ajouter ROLE_CAPITAINE
+								</a>
+							{% endif %}
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="9" class="px-4 py-2 text-center text-gray-500">
+							Aucun utilisateur trouvé.
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}

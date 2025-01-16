@@ -3,12 +3,17 @@
 namespace App\Controller;
 
 use App\Form\MatchSheetType;
+use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Repository\ClubRepository;
 use App\Repository\CompetitionsRepository;
 use App\Repository\FeuilleMatchRepository;
 use App\Repository\JoueursRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\PlayerRoleRepository;
+use App\Entity\Club;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +29,6 @@ class AdminController extends AbstractController
         FeuilleMatchRepository $feuilleMatchRepository,
         JoueursRepository $joueurRepository
     ): Response {
-        // Vérification des permissions
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_login');
         }
@@ -33,103 +37,125 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_profile');
         }
 
-        // Données dynamiques pour le tableau de bord
-
-        // Compte le nombre total d'utilisateurs dans la base de données en utilisant le UserRepository
         $totalUsers = $userRepository->count([]);
-
-        // compte le nombre total de joueurs dans la base de données en utilisant le JoueurRepository
         $totalJoueurs = $joueurRepository->count([]);
-
-        // Compte le nombre total de clubs dans la base de données en utilisant le ClubRepository
         $totalClubs = $clubRepository->count([]);
-
-        // Compte le nombre total de compétitions actives (avec le statut 'active') en utilisant le CompetitionRepository
         $activeCompetitions = $competitionRepository->count(['status' => 'active']);
 
-        // Compte le nombre de feuilles de match créées depuis le début du mois en utilisant une requête personnalisée
-        $matchesThisMonth = $feuilleMatchRepository->createQueryBuilder('f') // Crée un QueryBuilder pour l'entité "Feuille de match"
+        $matchesThisMonth = $feuilleMatchRepository->createQueryBuilder('f')
+            ->select('count(f.id)')
+            ->where('f.dateMatch >= :startOfMonth')
+            ->setParameter('startOfMonth', new \DateTime('first day of this month'))
+            ->getQuery()
+            ->getSingleScalarResult();
 
-            ->select('count(f.id)') // Sélectionne le nombre total d'ID dans la table des feuilles de match
-
-            ->where('f.dateMatch >= :startOfMonth') // Ajoute une condition pour inclure uniquement les feuilles de match à partir du début du mois
-
-            ->setParameter('startOfMonth', new \DateTime('first day of this month')) // Définit le paramètre :startOfMonth à la première date du mois actuel
-
-            ->getQuery() // Génère la requête basée sur les critères définis
-
-            ->getSingleScalarResult();  // Récupère le résultat unique (le nombre de feuilles de match)
-
-        // Définit un tableau d'activités récentes à afficher sur le tableau de bord
         $recentActivities = [
-            ['message' => 'Nouvel utilisateur inscrit', 'time' => 'il y a 2 heures'],  // Récupère le résultat unique (le nombre de feuilles de match)
-
-            ['message' => 'Compétition ajoutée : Open de France', 'time' => 'il y a 1 jour'], // Exemple d'une compétition ajoutée récemment
-
-            ['message' => 'Feuille de match soumise', 'time' => 'il y a 3 jours'], // Exemple d'une soumission récente de feuille de match
+            ['message' => 'Nouvel utilisateur inscrit', 'time' => 'il y a 2 heures'],
+            ['message' => 'Compétition ajoutée : Open de France', 'time' => 'il y a 1 jour'],
+            ['message' => 'Feuille de match soumise', 'time' => 'il y a 3 jours'],
         ];
 
-        // Rend la vue Twig pour la page d'administration en passant les données calculées à la vue
         return $this->render('pages/admin/index.html.twig', [
-            'totalUsers' => $totalUsers, // Passe le nombre total d'utilisateurs à la vue
-            'totalJoueurs' => $totalJoueurs, // Passe le nombre total de joueurs à la vue
-            'totalClubs' => $totalClubs, // Passe le nombre total de clubs à la vue
-            'activeCompetitions' => $activeCompetitions, // Passe le nombre total de compétitions actives à la vue
-            'matchesThisMonth' => $matchesThisMonth, // Passe le nombre de matchs du mois à la vue
-            'recentActivities' => $recentActivities, // Passe les activités récentes à la vue
+            'totalUsers' => $totalUsers,
+            'totalJoueurs' => $totalJoueurs,
+            'totalClubs' => $totalClubs,
+            'activeCompetitions' => $activeCompetitions,
+            'matchesThisMonth' => $matchesThisMonth,
+            'recentActivities' => $recentActivities,
         ]);
     }
-    // fonction permettant de gérer les utilisateurs
+
     #[Route('/admin/utilisateurs', name: 'admin_manage_users')]
     public function manageUsers(UserRepository $userRepository): Response
     {
-        // Récupère la liste de tous les utilisateurs en utilisant le UserRepository
         $users = $userRepository->findAll();
 
         return $this->render('pages/admin/manage_users.html.twig', [
             'users' => $users,
         ]);
     }
-    // Route pour modifier un utilisateur
+
     #[Route('/admin/utilisateur/{id}/modifier', name: 'admin_edit_user')]
-    public function editUser(int $id, UserRepository $userRepository): Response
-    {
+    public function editUser(
+        int $id,
+        Request $request,
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
         $user = $userRepository->find($id);
         if (!$user) {
             throw $this->createNotFoundException('Utilisateur non trouvé');
         }
 
-        // Ici tu peux traiter les données du formulaire de modification
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
 
-        // Pour l'instant, redirige vers la page de gestion des utilisateurs
-        return $this->redirectToRoute('admin_manage_users');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Utilisateur modifié avec succès.');
+            return $this->redirectToRoute('admin_manage_users');
+        }
+
+        return $this->render('pages/admin/edit_user.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
-    // Fonction pour supprimer un utilisateur
     #[Route('/admin/utilisateur/{id}/supprimer', name: 'admin_delete_user', methods: ['POST'])]
-    public function deleteUser(int $id, UserRepository $userRepository): Response
+    public function deleteUser(int $id, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $userRepository->find($id);
         if (!$user) {
             throw $this->createNotFoundException('Utilisateur non trouvé');
         }
 
-        $entityManager = $this->$this->getDoctrine()->getManager();
         $entityManager->remove($user);
         $entityManager->flush();
 
-        // Rediriger après suppression
+        $this->addFlash('success', 'Utilisateur supprimé avec succès.');
         return $this->redirectToRoute('admin_manage_users');
     }
 
-    #[Route('/admin/clubs', name: 'admin_manage_clubs')]
-    public function manageClubs(ClubRepository $clubRepository): Response
+    #[Route('/admin/utilisateur/{id}/ajouter-capitaine', name: 'admin_add_capitaine')]
+    public function addCapitaine(int $id, UserRepository $userRepository, ManagerRegistry $doctrine): Response
     {
-        $clubs = $clubRepository->findAll();
+        $user = $userRepository->find($id);
+        if (!$user) {
+            throw $this->createNotFoundException('Utilisateur non trouvé.');
+        }
 
-        return $this->render('pages/admin/manage_clubs.html.twig', [
-            'clubs' => $clubs,
-        ]);
+        $roles = $user->getRoles();
+        if (!in_array('ROLE_CAPITAINE', $roles)) {
+            $roles[] = 'ROLE_CAPITAINE';
+        }
+        $user->setRoles($roles);
+
+        $em = $doctrine->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        $this->addFlash('success', 'Le rôle capitaine a été attribué.');
+        return $this->redirectToRoute('admin_manage_users');
+    }
+
+    #[Route('/admin/utilisateur/{id}/retirer-capitaine', name: 'admin_remove_capitaine')]
+    public function removeCapitaine(int $id, UserRepository $userRepository, ManagerRegistry $doctrine): Response
+    {
+        $user = $userRepository->find($id);
+        if (!$user) {
+            throw $this->createNotFoundException('Utilisateur non trouvé.');
+        }
+
+        $roles = array_diff($user->getRoles(), ['ROLE_CAPITAINE']);
+        $user->setRoles($roles);
+
+        $em = $doctrine->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        $this->addFlash('success', 'Le rôle capitaine a été retiré.');
+        return $this->redirectToRoute('admin_manage_users');
     }
 
     #[Route('/admin/competitions', name: 'admin_manage_competitions')]
@@ -141,68 +167,126 @@ class AdminController extends AbstractController
             'competitions' => $competitions,
         ]);
     }
-
-    #[Route('/admin/feuilles-match', name: 'admin_manage_match_sheets')]
-public function manageMatchSheets(Request $request, FeuilleMatchRepository $feuilleMatchRepository): Response
-{
-    // Création du formulaire
-    $form = $this->createForm(MatchSheetType::class);
-
-    // Gestion de la soumission du formulaire
-    $form->handleRequest($request);
-
-    // Vérifie si le formulaire a été soumis et est valide
-    if ($form->isSubmitted() && $form->isValid()) {
-        // Récupère les données du formulaire
-        $data = $form->getData();
-
-        // Vérifie si l'une des actions de bouton a été soumise en comparant les données
-        if (isset($data['creer'])) {
-            // Si le bouton "Créer" a été cliqué
-            return $this->redirectToRoute('app_create_match_sheet', ['type' => $data['typeFeuille']]);
-        }
-
-        if (isset($data['consulter'])) {
-            // Si le bouton "Consulter" a été cliqué
-            return $this->redirectToRoute('app_view_match_sheet', ['reference' => $data['reference']]);
-        }
-    }
-
-    // Récupère toutes les feuilles de match pour les afficher
-    $feuillesMatch = $feuilleMatchRepository->findAll();
-
-    // Rend la vue avec les données
-    return $this->render('pages/admin/manage_match_sheets.html.twig', [
-        'feuillesMatch' => $feuillesMatch,
-        'form' => $form->createView(),
-    ]);
-}
-
-
     #[Route('/admin/joueurs', name: 'admin_manage_players')]
-    public function managePlayers(JoueursRepository $joueurRepository): Response
+    public function managePlayers(JoueursRepository $joueursRepository): Response
     {
-        $joueurs = $joueurRepository->findAll();
+        $joueurs = $joueursRepository->findAll();
 
         return $this->render('pages/admin/manage_players.html.twig', [
             'joueurs' => $joueurs,
         ]);
     }
-
-    #[Route('/admin/roles', name: 'admin_manage_roles')]
-    public function manageRoles(PlayerRoleRepository $playerRoleRepository): Response
+    #[Route('/admin/feuilles-de-match', name: 'admin_manage_match_sheets')]
+    public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository): Response
     {
-        $roles = $playerRoleRepository->findAll();
+        // Récupérer toutes les feuilles de match
+        $feuillesMatch = $feuilleMatchRepository->findAll();
 
-        return $this->render('pages/admin/manage_roles.html.twig', [
-            'roles' => $roles,
+        // Retourner la vue pour gérer les feuilles de match
+        return $this->render('pages/admin/manage_match_sheets.html.twig', [
+            'feuillesMatch' => $feuillesMatch,
+        ]);
+    }
+    #[Route('/admin/clubs', name: 'admin_manage_clubs')]
+    public function manageClubs(
+        ClubRepository $clubRepository,
+        EntityManagerInterface $entityManager,
+        Request $request
+    ): Response {
+        $clubs = $clubRepository->findAll();
+
+        if ($request->isMethod('POST')) {
+            $clubName = $request->request->get('name');
+            if ($clubName) {
+                $club = new Club();
+                $club->setName($clubName);
+
+                $entityManager->persist($club);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Le club a été créé avec succès.');
+                return $this->redirectToRoute('admin_manage_clubs');
+            }
+
+            $this->addFlash('error', 'Le nom du club ne peut pas être vide.');
+        }
+
+        return $this->render('pages/admin/manage_clubs.html.twig', [
+            'clubs' => $clubs,
         ]);
     }
 
-    #[Route('/admin/set-admin/', name: 'admin_settings', methods: ['GET', 'POST'])]
-    public function settings()
+    #[Route('/admin/clubs/{id}/edit', name: 'admin_edit_club')]
+    public function editClub(
+        int $id,
+        Request $request,
+        ClubRepository $clubRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $club = $clubRepository->find($id);
+
+        if (!$club) {
+            throw $this->createNotFoundException('Club introuvable.');
+        }
+
+        if ($request->isMethod('POST')) {
+            $clubName = $request->request->get('name');
+
+            if ($clubName) {
+                $club->setName($clubName);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Le club a été mis à jour avec succès.');
+                return $this->redirectToRoute('admin_manage_clubs');
+            }
+
+            $this->addFlash('error', 'Le nom du club ne peut pas être vide.');
+        }
+
+        return $this->render('pages/admin/edit_club.html.twig', [
+            'club' => $club,
+        ]);
+    }
+
+    #[Route('/admin/clubs/{id}/delete', name: 'admin_delete_club', methods: ['POST'])]
+    public function deleteClub(int $id, ClubRepository $clubRepository, EntityManagerInterface $entityManager): Response
     {
-        // Logique pour gérer les paramètres
+        $club = $clubRepository->find($id);
+
+        if ($club) {
+            $entityManager->remove($club);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le club a été supprimé avec succès.');
+        } else {
+            $this->addFlash('error', 'Le club n\'existe pas.');
+        }
+
+        return $this->redirectToRoute('admin_manage_clubs');
+    }
+
+    #[Route('/admin/parametres', name: 'admin_settings')]
+    public function settings(Request $request): Response
+    {
+        // Vous pouvez ajouter une logique spécifique pour gérer les paramètres ici
+        // Par exemple, charger des configurations ou traiter un formulaire
+
         return $this->render('pages/admin/settings.html.twig');
+    }
+
+    #[Route('/admin/joueurs/actifs', name: 'admin_active_players')]
+    public function manageActivePlayers(UserRepository $userRepository): Response
+    {
+        // Récupère uniquement les utilisateurs actifs
+        $activePlayers = $userRepository->findBy(['active' => true]);
+
+        // Débogage temporaire
+        if (empty($activePlayers)) {
+            throw new \Exception('Aucun utilisateur actif trouvé. Vérifiez les données dans la base de données.');
+        }
+
+        return $this->render('pages/admin/manage_active_players.html.twig', [
+            'joueurs' => $activePlayers,
+        ]);
     }
 }

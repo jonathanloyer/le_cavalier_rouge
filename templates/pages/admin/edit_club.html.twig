@@ -1,0 +1,23 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Modifier le Club{% endblock %}
+
+{% block body %}
+    <h1 class="text-3xl font-semibold mb-6 text-gray-800">Modifier le Club</h1>
+
+    <form method="POST">
+        <div class="mb-6">
+            <label for="name" class="block text-lg font-medium text-gray-700">Nom du club</label>
+            <div class="mt-1">
+                <input type="text" id="name" name="name" value="{{ club.name }}" required
+                    class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+        </div>
+
+        <div class="mt-6">
+            <button type="submit" class="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+                Enregistrer
+            </button>
+        </div>
+    </form>
+{% endblock %}

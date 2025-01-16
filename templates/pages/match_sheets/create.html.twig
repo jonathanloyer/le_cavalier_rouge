@@ -1,91 +1,175 @@
 {% extends 'pages/layout.html.twig' %}
-
-{% block title %}Préparation de la feuille de match
+{% block title %}Création d'une Feuille de Match
 {% endblock %}
-
 {% block body %}
-	<div
-		class="p-4 bg-gray-100">
-		<!-- Section des filtres -->
-		<div class="bg-white p-4 rounded shadow mb-4">
-			<label class="block mb-2 text-gray-700">Interclub :</label>
-			<select class="w-full border border-gray-300 rounded px-2 py-1">
-				<option>Sélectionnez un Interclub</option>
-			</select>
+	<div class="max-w-screen-lg mx-auto p-4 bg-gray-100">
+		<form
+			method="POST" action="{{ path('app_match_sheets_save') }}">
+			<!-- Section des filtres -->
+			<div class="bg-white p-4 rounded shadow mb-4 text-sm">
+				<label class="block mb-2 text-gray-700">Interclub :</label>
+				<select name="interclub" class="w-full border border-gray-300 rounded px-2 py-1">
+					<option>Sélectionnez un Interclub</option>
+				</select>
 
-			<label class="block mt-4 mb-2 text-gray-700">Division :</label>
-			<select class="w-full border border-gray-300 rounded px-2 py-1">
-				<option>Sélectionnez une Division</option>
-			</select>
+				<label class="block mt-4 mb-2 text-gray-700">Division :</label>
+				<select name="division" class="w-full border border-gray-300 rounded px-2 py-1">
+					<option>
+						{% if type == 'criterium' %}
+							Critérium
+						{% else %}
+							Nationale
+						{% endif %}
+					</option>
+				</select>
 
-			<label class="block mt-4 mb-2 text-gray-700">Groupe :</label>
-			<select class="w-full border border-gray-300 rounded px-2 py-1">
-				<option>Sélectionnez un Groupe</option>
-			</select>
-		</div>
+				<label class="block mt-4 mb-2 text-gray-700">Groupe :</label>
+				<select name="groupe" class="w-full border border-gray-300 rounded px-2 py-1">
+					<option>Sélectionnez un Groupe</option>
+				</select>
+			</div>
 
-		<!-- Titre -->
-		<div class="bg-orange-500 text-white text-center font-bold py-2 mb-2">
-			Préparation d'un Procès-verbal du groupe :
-			<span>"nom de groupe"</span>
-		</div>
+			<!-- Titre dynamique -->
+			<div class="bg-orange-500 text-white text-center font-bold py-2 mb-2 text-sm">
+				Préparation d'un Procès-verbal du groupe :
+				<span>
+					{% if type == 'criterium' %}
+						"Critérium"
+					{% else %}
+						"National"
+					{% endif %}
+				</span>
+			</div>
 
-		<!-- Formulaire principal -->
-		<div class="overflow-x-auto">
-			<table class="w-full border-collapse">
-				<thead>
-					<tr class="bg-gray-200 text-gray-700">
-						<th class="border border-gray-300 p-2 text-center">#</th>
-						<th class="border border-gray-300 p-2 text-center">Club</th>
-						<th class="border border-gray-300 p-2 text-center">Code FFE ou joueur</th>
-						<th class="border border-gray-300 p-2 text-center">Résultat</th>
-						<th class="border border-gray-300 p-2 text-center">Code FFE ou joueur</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for i in 1..8 %}
-						<tr class="text-center">
-							<td class="border border-gray-300 p-2">{{ i }}</td>
-							<td class="border border-gray-300 p-2">
-								<select class="w-full border border-gray-300 rounded px-2 py-1">
-									<option>Sélectionnez un club</option>
+			<!-- Table des joueurs -->
+			{% set maxLines = (type == 'criterium') ? 5 : 11 %}
+			<div class="overflow-x-auto">
+				<table class="table-auto w-full border-collapse text-sm">
+					<thead>
+						<tr class="bg-gray-200 text-gray-700">
+							<th class="border border-gray-300 p-1 text-center">#</th>
+							<th class="border border-gray-300 p-1 text-center">Club A</th>
+							<th class="border border-gray-300 p-1 text-center">Code FFE / Joueur</th>
+							<th class="border border-gray-300 p-1 text-center">Résultat</th>
+							<th class="border border-gray-300 p-1 text-center">Résultat</th>
+							<th class="border border-gray-300 p-1 text-center">Code FFE / Joueur</th>
+							<th class="border border-gray-300 p-1 text-center">Club B</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for i in 1..maxLines %}
+							<tr class="text-center">
+								<td class="border border-gray-300 p-1">{{ i }}</td>
+								<!-- Club A -->
+								<td class="border border-gray-300 p-1">
+									<select name="clubA[]" class="w-full border border-gray-300 rounded px-2 py-1">
+										<option value="" disabled selected>Sélectionnez un club</option>
+										{% for club in clubs %}
+											<option value="{{ club.id }}">{{ club.name }}</option>
+										{% endfor %}
+									</select>
+								</td>
+								<td class="border border-gray-300 p-1">
+									<select name="joueurs[]" class="w-full border border-gray-300 rounded px-2 py-1">
+										<option value="" disabled selected>Code FFE - joueur de club</option>
+										{% for club in clubs %}
+											<optgroup label="{{ club.name }}">
+												{% for user in club.users %}
+													<option value="{{ user.id }}">
+														{{ user.codeFFE }}
+														-
+														{{ user.lastName }}
+														{{ user.firstName }}
+													</option>
+												{% else %}
+													<option disabled>Aucun joueur disponible</option>
+												{% endfor %}
+											</optgroup>
+										{% endfor %}
+									</select>
+								</td>
+								<td class="border border-gray-300 p-1">
+									<select name="resultats[]" class="w-full border border-gray-300 rounded px-2 py-1">
+										<option>Sélectionnez le résultat</option>
+										<option>Gain Blanc</option>
+										<option>Gain Noir</option>
+										<option>Nulle</option>
+									</select>
+								</td>
+								<td class="border border-gray-300 p-1">
+									<select name="resultats[]" class="w-full border border-gray-300 rounded px-2 py-1">
+										<option>Sélectionnez le résultat</option>
+										<option>Gain Blanc</option>
+										<option>Gain Noir</option>
+										<option>Nulle</option>
+									</select>
+								</td>
+								<td class="border border-gray-300 p-1">
+									<select name="joueurs[]" class="w-full border border-gray-300 rounded px-2 py-1">
+										<option value="" disabled selected>Code FFE - joueur de club</option>
+										{% for club in clubs %}
+											<optgroup label="{{ club.name }}">
+												{% for user in club.users %}
+													<option value="{{ user.id }}">
+														{{ user.codeFFE }}
+														-
+														{{ user.lastName }}
+														{{ user.firstName }}
+													</option>
+												{% else %}
+													<option disabled>Aucun joueur disponible</option>
+												{% endfor %}
+											</optgroup>
+										{% endfor %}
+									</select>
+								</td>
+								<!-- Club B -->
+								<td class="border border-gray-300 p-1">
+									<select name="clubB[]" class="w-full border border-gray-300 rounded px-2 py-1">
+										<option value="" disabled selected>Sélectionnez un club</option>
+										{% for club in clubs %}
+											<option value="{{ club.id }}">{{ club.name }}</option>
+										{% endfor %}
+									</select>
+								</td>
+							</tr>
+						{% endfor %}
+
+						<!-- Ligne Capitaine -->
+						<tr class="bg-gray-100">
+							<td colspan="7" class="border border-gray-300 p-2 font-bold text-center align-middle">
+								<select name="capitaineA" class="border border-gray-300 rounded px-2 py-1">
+									<option>Code FFE - Capitaine équipe A</option>
 								</select>
-							</td>
-							<td class="border border-gray-300 p-2">
-								<select class="w-full border border-gray-300 rounded px-2 py-1">
-									<option>Code FFE ou joueur de club</option>
-								</select>
-							</td>
-							<td class="border border-gray-300 p-2">
-								<select class="w-full border border-gray-300 rounded px-2 py-1">
-									<option>Sélectionnez le résultat</option>
-								</select>
-							</td>
-							<td class="border border-gray-300 p-2">
-								<select class="w-full border border-gray-300 rounded px-2 py-1">
-									<option>Code FFE ou joueur de club</option>
+								<span class="mx-4">CAPITAINES</span>
+								<select name="capitaineB" class="border border-gray-300 rounded px-2 py-1">
+									<option>Code FFE - Capitaine équipe B</option>
 								</select>
 							</td>
 						</tr>
-					{% endfor %}
-					<!-- Ligne des capitaines -->
-					<tr class="bg-gray-100">
-						<td colspan="5" class="border border-gray-300 p-2 font-bold text-center align-middle">
-							CAPITAINES
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
 
-		<!-- Section boutons -->
-		<div class="flex justify-between mt-4">
-			<button class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
-				Afficher la feuille de match
-			</button>
-			<button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400 transition">
-				Annuler
-			</button>
-		</div>
+						<!-- Ligne Arbitre -->
+						<tr class="bg-gray-100">
+							<td colspan="7" class="border border-gray-300 p-2 font-bold text-center align-middle">
+								ARBITRE
+								<select name="arbitre" class="border border-gray-300 rounded px-2 py-1 ml-2">
+									<option>Code FFE - joueur arbitre</option>
+								</select>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Section boutons -->
+			<div class="flex justify-between mt-4 text-sm">
+				<button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+					Enregistrer
+				</button>
+				<a href="{{ path('app_match_sheets') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400 transition">
+					Annuler
+				</a>
+			</div>
+		</form>
 	</div>
 {% endblock %}

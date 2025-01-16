@@ -68,6 +68,26 @@ class ProfileType extends AbstractType
                 'class' => 'form-control',
             ],
         ])
+        // j'ajoute le champ codeFFE de type TextType
+        ->add('codeFFE', TextType::class, [
+            'label' => 'Code FFE',
+            'required' => true,
+            'attr' => [
+                'class' => 'form-control',
+            ],
+        ])
+
+        // j'ajoute le champ club de type EntityType
+        ->add('club', EntityType::class, [
+            'class' => Club::class,
+            'choice_label' => 'name',
+            'label' => 'Club',
+            'required' => true,
+            'attr' => [
+                'class' => 'form-control',
+            ],
+        ])
+        
         // ->add('password', PasswordType::class, [
         //     'label' => 'Mot de passe',
         //     'required' => true,

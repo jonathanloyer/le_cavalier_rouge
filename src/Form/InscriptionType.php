@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Club;
-use App\Entity\Role;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -15,7 +14,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-
 
 class InscriptionType extends AbstractType
 {
@@ -33,7 +31,7 @@ class InscriptionType extends AbstractType
                 ],
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'lastName',
+                'label' => 'Nom',
                 'attr' => [
                     'placeholder' => 'Entrez votre nom',
                 ],
@@ -43,14 +41,14 @@ class InscriptionType extends AbstractType
                         'min' => 2,
                         'max' => 50,
                         'minMessage' => 'Le nom est trop court',
-                        'maxMessage' => 'Le nom est trop long ',
+                        'maxMessage' => 'Le nom est trop long',
                     ]),
                 ],
             ])
             ->add('firstName', TextType::class, [
-                'label' => 'firstName',
+                'label' => 'Prénom',
                 'attr' => [
-                    'placeholder' => 'entrez votre prénom',
+                    'placeholder' => 'Entrez votre prénom',
                 ],
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'Le prénom est obligatoire']),
@@ -58,11 +56,10 @@ class InscriptionType extends AbstractType
                         'min' => 3,
                         'max' => 50,
                         'minMessage' => 'Le prénom est trop court',
-                        'maxMessage' => 'Le prénom est trop long ',
+                        'maxMessage' => 'Le prénom est trop long',
                     ]),
                 ],
             ])
-
             ->add('pseudo', TextType::class, [
                 'label' => 'Pseudo',
                 'attr' => [
@@ -74,9 +71,30 @@ class InscriptionType extends AbstractType
                         'min' => 3,
                         'max' => 50,
                         'minMessage' => 'Le pseudo est trop court',
-                        'maxMessage' => 'Le pseudo est trop long ',
+                        'maxMessage' => 'Le pseudo est trop long',
                     ]),
                 ],
+            ])
+            ->add('codeFFE', TextType::class, [
+                'label' => 'Code FFE',
+                'attr' => [
+                    'placeholder' => 'Entrez votre code FFE',
+                ],
+                'required' => false,
+                'constraints' => [
+                    new Assert\Length([
+                        'max' => 255,
+                        'maxMessage' => 'Le code FFE ne peut pas dépasser {{ limit }} caractères',
+                    ]),
+                ],
+            ])
+
+            ->add('club', EntityType::class, [
+                'class' => Club::class,
+                'choice_label' => 'name', // Assurez-vous que l'entité Club a une propriété `name`
+                'label' => 'Club',
+                'required' => false,
+                'placeholder' => 'Sélectionnez un club',
             ])
 
             ->add('password', RepeatedType::class, [
@@ -106,7 +124,6 @@ class InscriptionType extends AbstractType
                     ],
                 ],
             ])
-
             ->add('envoyer', SubmitType::class, [
                 'label' => 'S\'inscrire',
                 'attr' => [
