@@ -1,0 +1,18 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Modifier la compétition{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <h1 class="text-3xl font-bold mb-6 text-gray-700">Modifier la compétition</h1>
+
+    {{ form_start(form, { 'attr': { 'class': 'bg-white shadow rounded-lg p-6' } }) }}
+        {{ form_widget(form) }}
+        <div class="flex justify-end mt-4">
+            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                Enregistrer
+            </button>
+        </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

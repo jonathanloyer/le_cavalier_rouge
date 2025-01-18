@@ -1,0 +1,43 @@
+{% extends 'pages/layout.html.twig' %}
+{% block title %}Liste des Feuilles de Match{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-8">
+    <h1 class="text-2xl font-bold mb-6">Liste des Feuilles de Match</h1>
+
+    {% if feuilles is empty %}
+        <p>Aucune feuille de match n'a été trouvée.</p>
+    {% else %}
+        <table class="table-auto w-full border-collapse border border-gray-300">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="border border-gray-300 p-2 text-left">ID</th>
+                    <th class="border border-gray-300 p-2 text-left">Club A</th>
+                    <th class="border border-gray-300 p-2 text-left">Club B</th>
+                    <th class="border border-gray-300 p-2 text-left">Date</th>
+                    <th class="border border-gray-300 p-2 text-left">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for feuille in feuilles %}
+                    <tr>
+                        <td class="border border-gray-300 p-2">{{ feuille.id }}</td>
+                        <td class="border border-gray-300 p-2">{{ feuille.clubA ? feuille.clubA.name : 'Non défini' }}</td>
+                        <td class="border border-gray-300 p-2">{{ feuille.clubB ? feuille.clubB.name : 'Non défini' }}</td>
+                        <td class="border border-gray-300 p-2">{{ feuille.dateMatch|date('d/m/Y') }}</td>
+                        <td class="border border-gray-300 p-2">
+                            <a href="{{ path('app_match_sheets_show', {'id': feuille.id}) }}" class="text-blue-600 hover:underline">Voir</a>
+                            |
+                            <a href="{{ path('app_match_sheets_edit', {'id': feuille.id}) }}" class="text-yellow-600 hover:underline">Modifier</a>
+                            |
+                            <form method="POST" action="{{ path('app_match_sheets_delete', {'id': feuille.id}) }}" style="display:inline;">
+                                <button type="submit" class="text-red-600 hover:underline" onclick="return confirm('Confirmez-vous la suppression ?')">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}

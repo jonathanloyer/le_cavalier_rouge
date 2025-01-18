@@ -1,0 +1,21 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Gérer les contacts{% endblock %}
+
+{% block body %}
+    <h1>Liste des contacts</h1>
+
+    {% for contact in contacts %}
+        <div class="contact">
+            <p><strong>Nom :</strong> {{ contact.name }}</p>
+            <p><strong>Email :</strong> {{ contact.email }}</p>
+            <p><strong>Message :</strong> {{ contact.message }}</p>
+            <form method="POST" action="{{ path('admin_delete_contact', {id: contact.id}) }}">
+                <button type="submit">Supprimer</button>
+            </form>
+        </div>
+        <hr>
+    {% else %}
+        <p>Aucun contact trouvé.</p>
+    {% endfor %}
+{% endblock %}

@@ -1,4 +1,5 @@
-<nav class="navbar bg-gray-800 text-white p-4 flex items-center justify-between">
+<nav
+	class="navbar bg-gray-800 text-white p-4 flex items-center justify-between">
 	<!-- Logo -->
 	<div class="flex items-center space-x-4">
 		<img src="/img/logo.png" alt="Logo" class="h-8 w-auto">
@@ -7,7 +8,7 @@
 
 	<!-- Menu Burger -->
 	<div id="navbar-menu-button" class="md:hidden">
-		<svg width="24" height="24" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+		<svg width="24" height="24" viewbox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 			<line x1="4" x2="20" y1="12" y2="12"/>
 			<line x1="4" x2="20" y1="6" y2="6"/>
 			<line x1="4" x2="20" y1="18" y2="18"/>
@@ -40,14 +41,17 @@
 				<a href="/inscription" class="text-lg hover:text-indigo-500 transition-colors duration-200">Inscription</a>
 			</li>
 		{% endif %}
+		<li>
+			<a href="{{ path('contact_form') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Contactez-nous</a>
+		</li>
 	</ul>
 </nav>
 
 <script>
 	const menuButton = document.querySelector('#navbar-menu-button');
-	const menu = document.querySelector('#navbar-menu');
+const menu = document.querySelector('#navbar-menu');
 
-	menuButton.addEventListener('click', () => {
-		menu.classList.toggle('hidden');
-	});
+menuButton.addEventListener('click', () => {
+menu.classList.toggle('hidden');
+});
 </script>

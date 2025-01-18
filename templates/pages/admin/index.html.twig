@@ -15,7 +15,7 @@
 			</div>
 			<div class="bg-white shadow rounded-lg p-5 text-center">
 				<p class="text-lg font-semibold text-gray-600">Tournois actifs</p>
-				<p class="text-4xl font-bold text-green-500">{{ activeCompetitions }}</p>
+				<p class="text-4xl font-bold text-green-500">{{ totalCompetitions }}</p>
 			</div>
 			<div class="bg-white shadow rounded-lg p-5 text-center">
 				<p class="text-lg font-semibold text-gray-600">Joueurs actif ce mois</p>
@@ -36,7 +36,8 @@
 				<p class="text-xl font-bold">Gérer les tournois</p>
 			</a>
 			<a href="{{ path('admin_active_players') }}" class="bg-yellow-500 text-white rounded-lg shadow p-4 text-center hover:bg-yellow-600">
-				<p class="text-xl font-bold"> Joueurs Actif</p>
+				<p class="text-xl font-bold">
+					Joueurs Actif</p>
 			</a>
 			<a href="{{ path('admin_manage_match_sheets') }}" class="bg-purple-500 text-white rounded-lg shadow p-4 text-center hover:bg-purple-600">
 				<p class="text-xl font-bold">Feuilles de match</p>
@@ -44,8 +45,8 @@
 			<a href="{{ path('admin_manage_clubs') }}" class="bg-indigo-500 text-white rounded-lg shadow p-4 text-center hover:bg-indigo-600">
 				<p class="text-xl font-bold">Gérer les Clubs</p>
 			</a>
-			<a href="{{ path('admin_settings') }}" class="bg-gray-800 text-white rounded-lg shadow p-4 text-center hover:bg-gray-900">
-				<p class="text-xl font-bold">Paramètres</p>
+			<a href="{{ path('admin_manage_contacts') }}" class="bg-gray-800 text-white rounded-lg shadow p-4 text-center hover:bg-gray-900">
+				<p class="text-xl font-bold">Contacts</p>
 			</a>
 		</div>
 

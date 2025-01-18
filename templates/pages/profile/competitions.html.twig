@@ -1,0 +1,43 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Compétitions{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <h1 class="text-3xl font-bold mb-6 text-gray-700">Liste des compétitions</h1>
+
+    <!-- Tableau des compétitions -->
+    <div class="bg-white shadow rounded-lg p-6">
+        {% if competitions is not empty %}
+            <table class="min-w-full table-auto">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="px-4 py-2 text-left text-gray-600">Nom</th>
+                        <th class="px-4 py-2 text-left text-gray-600">Date</th>
+                        <th class="px-4 py-2 text-left text-gray-600">Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for competition in competitions %}
+                        <tr class="border-t">
+                            <td class="px-4 py-2 text-gray-700">{{ competition.name }}</td>
+                            <td class="px-4 py-2 text-gray-700">{{ competition.competitionDate|date('d/m/Y') }}</td>
+                            <td class="px-4 py-2 text-gray-700">
+                                {% if competition.status == 'En attente' %}
+                                    <span class="bg-yellow-500 text-white px-2 py-1 rounded-full">À venir</span>
+                                {% elseif competition.status == 'En cours' %}
+                                    <span class="bg-blue-500 text-white px-2 py-1 rounded-full">En cours</span>
+                                {% else %}
+                                    <span class="bg-green-500 text-white px-2 py-1 rounded-full">Terminé</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-gray-600">Aucune compétition enregistrée pour le moment.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
