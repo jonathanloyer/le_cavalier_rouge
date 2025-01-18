@@ -1,8 +1,11 @@
 <?php
+
 namespace App\Entity;
 
 use App\Repository\CompetitionsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: CompetitionsRepository::class)]
 class Competitions
@@ -13,12 +16,15 @@ class Competitions
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
-    // Ajoute ici le champ "status"
     #[ORM\Column(length: 255)]
-    private ?string $status = null;
+    private ?string $status = 'En attente';
 
+    #[ORM\Column(type: 'datetime')]
+    #[Assert\NotNull]
+    private ?\DateTimeInterface $competitionDate = null;
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +51,27 @@ class Competitions
     public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of competitionDate
+     */
+    public function getCompetitionDate(): ?\DateTimeInterface
+    {
+        return $this->competitionDate;
+    }
+
+
+    /**
+     * Set the value of competitionDate
+     *
+     * @return  self
+     */
+    public function setCompetitionDate(\DateTimeInterface $competitionDate): static
+    {
+        $this->competitionDate = $competitionDate;
 
         return $this;
     }

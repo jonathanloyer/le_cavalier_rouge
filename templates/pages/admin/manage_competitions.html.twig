@@ -1,61 +1,86 @@
 {% extends 'pages/layout.html.twig' %}
 
-{% block title %}Gérer les tournois{% endblock %}
+{% block title %}Gérer les compétitions{% endblock %}
 
 {% block body %}
 <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
-    <h1 class="text-3xl font-bold mb-6 text-gray-700">Gérer les tournois</h1>
+    <h1 class="text-3xl font-bold mb-6 text-gray-700">Gérer les compétitions</h1>
 
-    <!-- Formulaire pour ajouter un tournoi -->
+    {% for message in app.flashes('success') %}
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <!-- Formulaire pour ajouter une compétition -->
     <div class="bg-white shadow rounded-lg p-6 mb-6">
-        <h2 class="text-2xl font-bold mb-4 text-gray-700">Ajouter un tournoi</h2>
-        <form method="POST" action="{{ path('admin_manage_competitions') }}">
-            <div class="grid grid-cols-1 gap-4">
-                <div>
-                    <label for="nom" class="block text-sm font-medium text-gray-600">Nom du tournoi</label>
-                    <input type="text" id="nom" name="nom" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required />
-                </div>
-
-                <div>
-                    <label for="date" class="block text-sm font-medium text-gray-600">Date du tournoi</label>
-                    <input type="date" id="date" name="date" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required />
-                </div>
-
-                <div>
-                    <label for="lieu" class="block text-sm font-medium text-gray-600">Lieu du tournoi</label>
-                    <input type="text" id="lieu" name="lieu" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required />
-                </div>
-
-                <div class="flex justify-end mt-4">
-                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                        Ajouter le tournoi
-                    </button>
-                </div>
+        <h2 class="text-2xl font-bold mb-4 text-gray-700">Ajouter une compétition</h2>
+        {{ form_start(form, {'attr': {'class': 'grid grid-cols-1 gap-4'}}) }}
+            <div>
+                {{ form_label(form.name, 'Nom de la compétition', {'label_attr': {'class': 'block text-sm font-medium text-gray-600'}}) }}
+                {{ form_widget(form.name, {'attr': {'class': 'mt-1 block w-full p-2 border border-gray-300 rounded-md'}}) }}
+                {{ form_errors(form.name) }}
             </div>
-        </form>
+            <div>
+                {{ form_label(form.competitionDate, 'Date de la compétition', {'label_attr': {'class': 'block text-sm font-medium text-gray-600'}}) }}
+                {{ form_widget(form.competitionDate, {'attr': {'class': 'mt-1 block w-full p-2 border border-gray-300 rounded-md'}}) }}
+                {{ form_errors(form.competitionDate) }}
+            </div>
+            <div class="flex justify-end mt-4">
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                    Ajouter la compétition
+                </button>
+            </div>
+        {{ form_end(form) }}
     </div>
 
-    <!-- Tableau des tournois -->
+    <!-- Tableau des compétitions -->
     <div class="bg-white shadow rounded-lg p-6">
-        <h2 class="text-2xl font-bold mb-4 text-gray-700">Liste des tournois</h2>
-        <table class="min-w-full table-auto">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="px-4 py-2 text-left text-gray-600">Nom</th>
-                    <th class="px-4 py-2 text-left text-gray-600">Date</th>
-                    <th class="px-4 py-2 text-left text-gray-600">Lieu</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for tournoi in competitions %}
-                    <tr class="border-t">
-                        <td class="px-4 py-2 text-gray-700">{{ tournoi.nom }}</td>
-                        <td class="px-4 py-2 text-gray-700">{{ tournoi.date|date('d/m/Y') }}</td>
-                        <td class="px-4 py-2 text-gray-700">{{ tournoi.lieu }}</td>
+        <h2 class="text-2xl font-bold mb-4 text-gray-700">Liste des compétitions</h2>
+        {% if competitions is not empty %}
+            <table class="min-w-full table-auto">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="px-4 py-2 text-left text-gray-600">Nom</th>
+                        <th class="px-4 py-2 text-left text-gray-600">Date</th>
+                        <th class="px-4 py-2 text-left text-gray-600">Statut</th>
+                        <th class="px-4 py-2 text-left text-gray-600">Actions</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for competition in competitions %}
+                        <tr class="border-t">
+                            <td class="px-4 py-2 text-gray-700">{{ competition.name }}</td>
+                            <td class="px-4 py-2 text-gray-700">{{ competition.competitionDate|date('d/m/Y') }}</td>
+                            <td class="px-4 py-2 text-gray-700">
+                                {% if competition.status == 'En attente' %}
+                                    <span class="bg-yellow-500 text-white px-2 py-1 rounded-full">En attente</span>
+                                {% elseif competition.status == 'En cours' %}
+                                    <span class="bg-blue-500 text-white px-2 py-1 rounded-full">En cours</span>
+                                {% else %}
+                                    <span class="bg-green-500 text-white px-2 py-1 rounded-full">Terminé</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-4 py-2 space-x-2">
+                                <!-- Bouton Modifier -->
+                                <a href="{{ path('admin_modify_competition', {'id': competition.id}) }}" class="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition duration-300">
+                                    Modifier
+                                </a>
+
+                                <!-- Bouton Supprimer -->
+                                <form action="{{ path('admin_delete_competition', {'id': competition.id}) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition duration-300" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette compétition ?')">
+                                        Supprimer
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-gray-600">Aucune compétition enregistrée pour le moment.</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

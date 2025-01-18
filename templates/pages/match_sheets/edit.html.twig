@@ -1,0 +1,134 @@
+{% extends 'pages/layout.html.twig' %}
+{% block title %}Modification de la Feuille de Match
+{% endblock %}
+
+{% block body %}
+	<div class="max-w-screen-lg mx-auto p-4 bg-gray-100">
+		<form
+			method="POST" action="{{ path('app_match_sheets_save') }}">
+			<!-- Champ caché pour l'ID de la feuille -->
+			<input
+			type="hidden" name="id" value="{{ feuilleMatch.id }}">
+
+			<!-- Section des filtres -->
+			<div class="bg-white p-4 rounded shadow mb-4 text-sm">
+				<label class="block mb-2 text-gray-700">Interclub :</label>
+				<select name="interclub" class="w-full border border-gray-300 rounded px-2 py-1">
+					<option>Sélectionnez un Interclub</option>
+				</select>
+
+				<label class="block mt-4 mb-2 text-gray-700">Division :</label>
+				<select name="division" class="w-full border border-gray-300 rounded px-2 py-1">
+					<option>Nationale 2/3</option>
+				</select>
+
+				<label class="block mt-4 mb-2 text-gray-700">Ronde :</label>
+				<input type="number" name="ronde" value="{{ feuilleMatch.ronde }}" class="w-full border border-gray-300 rounded px-2 py-1" placeholder="Numéro de la ronde">
+			</div>
+
+			<!-- Table des joueurs -->
+			<div class="overflow-x-auto">
+				<table class="table-auto w-full border-collapse text-sm">
+					<thead>
+						<tr class="bg-gray-200 text-gray-700">
+							<th class="border border-gray-300 p-1 text-center">#</th>
+							<th class="border border-gray-300 p-1 text-center">Club A</th>
+							<th class="border border-gray-300 p-1 text-center">Joueur A</th>
+							<th class="border border-gray-300 p-1 text-center">Résultat</th>
+							<th class="border border-gray-300 p-1 text-center">Joueur B</th>
+							<th class="border border-gray-300 p-1 text-center">Club B</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-center">
+							<td class="border border-gray-300 p-1">1</td>
+
+							<!-- Club A -->
+							<td class="border border-gray-300 p-1">
+								<select name="clubA" class="w-full border border-gray-300 rounded px-2 py-1">
+									<option value="" disabled>Sélectionnez un club</option>
+									{% for club in clubs %}
+										<option value="{{ club.id }}" {% if club.id == feuilleMatch.clubA.id %} selected {% endif %}>
+											{{ club.name }}
+										</option>
+									{% endfor %}
+								</select>
+							</td>
+
+							<!-- Joueur A -->
+							<td class="border border-gray-300 p-1">
+								<select name="joueurA" class="w-full border border-gray-300 rounded px-2 py-1">
+									<option value="" disabled>Code FFE - joueur de club</option>
+									{% for club in clubs %}
+										<optgroup label="{{ club.name }}">
+											{% for user in club.users %}
+												<option value="{{ user.id }}" {% if feuilleMatch.joueurAId is defined and user.id == feuilleMatch.joueurAId %} selected {% endif %}>
+													{{ user.codeFFE }}
+													-
+													{{ user.lastName }}
+													{{ user.firstName }}
+												</option>
+											{% endfor %}
+										</optgroup>
+									{% endfor %}
+								</select>
+							</td>
+
+							<!-- Résultat -->
+							<td class="border border-gray-300 p-1">
+								<select name="resultat" class="w-full border border-gray-300 rounded px-2 py-1">
+									{% for resultat in resultats %}
+										<option value="{{ resultat }}" {% if feuilleMatch.resultat is defined and feuilleMatch.resultat == resultat %} selected {% endif %}>
+											{{ resultat }}
+										</option>
+									{% endfor %}
+								</select>
+							</td>
+
+							<!-- Joueur B -->
+							<td class="border border-gray-300 p-1">
+								<select name="joueurB" class="w-full border border-gray-300 rounded px-2 py-1">
+									<option value="" disabled>Code FFE - joueur de club</option>
+									{% for club in clubs %}
+										<optgroup label="{{ club.name }}">
+											{% for user in club.users %}
+												<option value="{{ user.id }}" {% if feuilleMatch.joueurBId is defined and user.id == feuilleMatch.joueurBId %} selected {% endif %}>
+													{{ user.codeFFE }}
+													-
+													{{ user.lastName }}
+													{{ user.firstName }}
+												</option>
+											{% endfor %}
+										</optgroup>
+									{% endfor %}
+								</select>
+							</td>
+
+							<!-- Club B -->
+							<td class="border border-gray-300 p-1">
+								<select name="clubB" class="w-full border border-gray-300 rounded px-2 py-1">
+									<option value="" disabled>Sélectionnez un club</option>
+									{% for club in clubs %}
+										<option value="{{ club.id }}" {% if club.id == feuilleMatch.clubB.id %} selected {% endif %}>
+											{{ club.name }}
+										</option>
+									{% endfor %}
+								</select>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Boutons d'action -->
+			<div class="flex justify-between mt-4 text-sm">
+				<button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+					Enregistrer les modifications
+				</button>
+				<a href="{{ path('app_match_sheets_list') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400 transition">
+					Annuler
+				</a>
+			</div>
+		</form>
+	</div>
+{% endblock %}
