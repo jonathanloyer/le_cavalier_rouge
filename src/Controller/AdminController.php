@@ -15,6 +15,7 @@ use App\Repository\PlayerRoleRepository;
 use App\Entity\Club;
 use App\Entity\User;
 use App\Service\MongoDBClient;
+use MongoDB\Client;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -283,18 +284,25 @@ class AdminController extends AbstractController
         ]);
     }
 
-    // Gérer les Feuilles de match
     #[Route('/admin/feuilles-de-match', name: 'admin_manage_match_sheets')]
-    public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository): Response
-    {
-        // Récupérer toutes les feuilles de match
-        $feuillesMatch = $feuilleMatchRepository->findAll();
+public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository): Response
+{
+    // Récupérer toutes les feuilles de match
+    $feuillesMatch = $feuilleMatchRepository->findAll();
 
-        // Retourner la vue pour gérer les feuilles de match
-        return $this->render('pages/admin/manage_match_sheets.html.twig', [
-            'feuillesMatch' => $feuillesMatch,
-        ]);
+    // Vérifier et corriger les feuilles avec des données invalides pour `joueurs`
+    foreach ($feuillesMatch as $feuille) {
+        if (!is_array($feuille->getJoueurs())) {
+            $feuille->setJoueurs([]); // Définit un tableau vide par défaut si nécessaire
+        }
     }
+
+    // Retourner la vue pour gérer les feuilles de match
+    return $this->render('pages/admin/manage_match_sheets.html.twig', [
+        'feuillesMatch' => $feuillesMatch,
+    ]);
+}
+
 
     // Gérer les clubs
     #[Route('/admin/clubs', name: 'admin_manage_clubs')]
@@ -452,36 +460,23 @@ class AdminController extends AbstractController
             'joueurs' => $activePlayers,
         ]);
     }
-    
+
     #[Route('/admin/contacts', name: 'admin_manage_contacts')]
-    public function manageContacts(\MongoDB\Client $mongoClient): Response
-    {
-        // Sélectionnez la base de données et la collection
-        $db = $mongoClient->selectDatabase($_ENV['MONGODB_DB']);
-        $collection = $db->contacts;
+    public function manageContacts(Client $mongoClient): Response
+{
+    $db = $mongoClient->selectDatabase($_ENV['MONGODB_DB']);
+    $contacts = $db->contacts->find()->toArray();
 
-        // Récupérez les contacts sous forme de tableau
-        $contacts = $collection->find()->toArray();
+    return $this->render('pages/admin/manage_contacts.html.twig', [
+        'contacts' => $contacts,
+    ]);
+}
 
-        // Convertir chaque document BSONDocument en tableau
-        $contactsArray = array_map(function ($contact) {
-            return [
-                'id' => (string) $contact['_id'], // Convertit ObjectId en chaîne
-                'name' => $contact['name'] ?? 'Inconnu',
-                'email' => $contact['email'] ?? 'Non fourni',
-                'message' => $contact['message'] ?? 'Pas de message',
-            ];
-        }, $contacts);
-
-        return $this->render('pages/admin/manage_contacts.html.twig', [
-            'contacts' => $contactsArray,
-        ]);
-    }
 
 
 
     #[Route('/admin/contacts/{id}/delete', name: 'admin_delete_contact', methods: ['POST'])]
-    public function deleteContact(string $id, \MongoDB\Client $mongoClient): Response
+    public function deleteContact(string $id, Client $mongoClient): Response
     {
         try {
             // Sélectionner la base de données et la collection

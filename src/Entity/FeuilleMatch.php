@@ -28,6 +28,24 @@ class FeuilleMatch
     #[ORM\Column]
     private ?int $ronde = null;
 
+    #[ORM\Column(length: 50)]
+    private ?string $type = null; // "criterium" ou "national"
+
+    #[ORM\Column(length: 50)]
+    private ?string $groupe = null; // Groupe 1 ou Groupe 2
+
+    #[ORM\Column(length: 50)]
+    private ?string $interclub = null; // "Interclub Jeune", etc.
+
+    #[ORM\Column(type: 'json')]
+    private array $joueurs = []; // Liste des joueurs et résultats
+
+    // Constructeur pour initialiser les propriétés par défaut
+    public function __construct()
+    {
+        $this->joueurs = [];
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +108,53 @@ class FeuilleMatch
     {
         $this->ronde = $ronde;
 
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getGroupe(): ?string
+    {
+        return $this->groupe;
+    }
+
+    public function setGroupe(string $groupe): static
+    {
+        $this->groupe = $groupe;
+
+        return $this;
+    }
+
+    public function getInterclub(): ?string
+    {
+        return $this->interclub;
+    }
+
+    public function setInterclub(string $interclub): static
+    {
+        $this->interclub = $interclub;
+
+        return $this;
+    }
+
+    public function getJoueurs(): array
+    {
+        return $this->joueurs;
+    }
+
+    public function setJoueurs(array $joueurs): static
+    {
+        $this->joueurs = $joueurs ?? []; // Si null, initialiser avec un tableau vide
         return $this;
     }
 }

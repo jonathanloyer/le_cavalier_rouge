@@ -63,15 +63,18 @@
 		<!-- Section de création -->
 		<div class="bg-white shadow-md rounded-lg p-6">
 			<h3 class="text-lg font-semibold mb-4">Créer une feuille de match</h3>
-			<div class="flex space-x-4">
+			<div
+				class="flex space-x-4">
+				<!-- Lien pour Critérium -->
 				<a href="{{ path('app_match_sheets_create', {'type': 'criterium'}) }}" class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-center">
-					Critériums
+					Critérium
 				</a>
-
+				<!-- Lien pour National -->
 				<a href="{{ path('app_match_sheets_create', {'type': 'national'}) }}" class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-center">
 					Nationale 2/3
 				</a>
 			</div>
 		</div>
+
 	</div>
 {% endblock %}
