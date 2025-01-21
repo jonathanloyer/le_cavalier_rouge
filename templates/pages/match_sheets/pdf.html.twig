@@ -4,36 +4,178 @@
     <meta charset="UTF-8">
     <title>Feuille de Match - {{ feuilleMatch.id }}</title>
     <style>
-        /* Intégration des classes Tailwind en inline pour Dompdf */
-        .text-lg { font-size: 1.125rem; }
-        .text-xl { font-size: 1.25rem; }
-        .text-2xl { font-size: 1.5rem; }
-        .font-bold { font-weight: 700; }
-        .text-center { text-align: center; }
-        .text-gray-500 { color: #6B7280; }
-        .border { border-width: 1px; border-color: #E5E7EB; }
-        .rounded-lg { border-radius: 0.5rem; }
-        .p-4 { padding: 1rem; }
-        .p-6 { padding: 1.5rem; }
-        .m-4 { margin: 1rem; }
-        .mb-4 { margin-bottom: 1rem; }
-        .mt-4 { margin-top: 1rem; }
-        .bg-gray-100 { background-color: #F3F4F6; }
-        .w-full { width: 100%; }
+        /* Styles Tailwind adaptés pour Dompdf */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 16px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .font-bold {
+            font-weight: bold;
+        }
+        .text-lg {
+            font-size: 1.125rem;
+        }
+        .text-xl {
+            font-size: 1.25rem;
+        }
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+        .bg-gray-100 {
+            background-color: #f3f4f6;
+        }
+        .border {
+            border: 1px solid #ddd;
+        }
+        .rounded {
+            border-radius: 4px;
+        }
+        .rounded-lg {
+            border-radius: 8px;
+        }
+        .p-4 {
+            padding: 16px;
+        }
+        .p-6 {
+            padding: 24px;
+        }
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+        .mt-4 {
+            margin-top: 16px;
+        }
+        .w-full {
+            width: 100%;
+        }
+        .table-auto {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table-auto th, .table-auto td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        .bg-gray-200 {
+            background-color: #e5e7eb;
+        }
     </style>
 </head>
 <body class="bg-gray-100 p-4">
-    <div class="w-full max-w-2xl mx-auto border rounded-lg bg-white p-6">
+    <div class="container">
         <!-- Titre principal -->
         <h1 class="text-2xl font-bold text-center mb-4">Feuille de Match</h1>
         <h2 class="text-xl font-bold text-center mb-6">ID : {{ feuilleMatch.id }}</h2>
 
         <!-- Détails de la feuille de match -->
         <div class="mb-4">
-            <p class="text-lg"><strong>Club A :</strong> {{ feuilleMatch.clubA }}</p>
-            <p class="text-lg"><strong>Club B :</strong> {{ feuilleMatch.clubB }}</p>
-            <p class="text-lg"><strong>Ronde :</strong> {{ feuilleMatch.ronde }}</p>
-            <p class="text-lg"><strong>Date du Match :</strong> {{ feuilleMatch.dateMatch|date('d/m/Y') }}</p>
+            <table class="table-auto">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th colspan="2" class="text-lg">Informations Générales</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="font-bold">Club A</td>
+                        <td>{{ feuilleMatch.clubA ? feuilleMatch.clubA.name : 'Non défini' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Club B</td>
+                        <td>{{ feuilleMatch.clubB ? feuilleMatch.clubB.name : 'Non défini' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Ronde</td>
+                        <td>{{ feuilleMatch.ronde }}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Date du Match</td>
+                        <td>{{ feuilleMatch.dateMatch|date('d/m/Y') }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tableau des joueurs -->
+        <div class="mb-4">
+            <table class="table-auto">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th>#</th>
+                        <th>Joueur A</th>
+                        <th>Résultat</th>
+                        <th>Joueur B</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in 0..4 %}
+                        <tr>
+                            <td>{{ i + 1 }}</td>
+                            <td>
+                                {% if joueursSelectionnesA[i] is defined %}
+                                    {{ joueursSelectionnesA[i].codeFFE }} - {{ joueursSelectionnesA[i].lastName }} {{ joueursSelectionnesA[i].firstName }}
+                                {% else %}
+                                    Non défini
+                                {% endif %}
+                            </td>
+                            <td>{{ resultats[i]|default('Non défini') }}</td>
+                            <td>
+                                {% if joueursSelectionnesB[i] is defined %}
+                                    {{ joueursSelectionnesB[i].codeFFE }} - {{ joueursSelectionnesB[i].lastName }} {{ joueursSelectionnesB[i].firstName }}
+                                {% else %}
+                                    Non défini
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Capitaines et arbitre -->
+        <div>
+            <table class="table-auto">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th>Rôle</th>
+                        <th>Code FFE</th>
+                        <th>Nom Prénom</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Capitaine équipe A</td>
+                        <td>{{ capitaineA ? capitaineA.codeFFE : 'Non défini' }}</td>
+                        <td>{{ capitaineA ? capitaineA.lastName ~ ' ' ~ capitaineA.firstName : 'Non défini' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Capitaine équipe B</td>
+                        <td>{{ capitaineB ? capitaineB.codeFFE : 'Non défini' }}</td>
+                        <td>{{ capitaineB ? capitaineB.lastName ~ ' ' ~ capitaineB.firstName : 'Non défini' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Arbitre</td>
+                        <td>{{ arbitre ? arbitre.codeFFE : 'Non défini' }}</td>
+                        <td>{{ arbitre ? arbitre.lastName ~ ' ' ~ arbitre.firstName : 'Non défini' }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <!-- Pied de page -->

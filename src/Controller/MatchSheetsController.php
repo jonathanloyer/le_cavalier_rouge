@@ -287,32 +287,55 @@ public function edit(
 
     // Route pour télécharger une feuille de match au format PDF
     #[Route('/feuille-de-match/{id}/pdf', name: 'app_match_sheets_download_pdf')]
-    public function downloadPdf($id, FeuilleMatchRepository $feuilleMatchRepo): Response
-    {
-        // Récupération de la feuille de match
-        $feuilleMatch = $feuilleMatchRepo->find($id);
+public function downloadPdf(
+    int $id,
+    FeuilleMatchRepository $feuilleMatchRepo,
+    UserRepository $userRepo
+): Response {
+    // Récupération de la feuille de match
+    $feuilleMatch = $feuilleMatchRepo->find($id);
 
-        if (!$feuilleMatch) {
-            throw $this->createNotFoundException("Feuille de match introuvable.");
-        }
-
-        // Génération du contenu HTML pour le PDF
-        $html = $this->renderView('pages/match_sheets/pdf.html.twig', [
-            'feuilleMatch' => $feuilleMatch,
-        ]);
-
-        // Configuration de Dompdf
-        $options = new Options();
-        $options->set('defaultFont', 'Arial');
-        $dompdf = new Dompdf($options);
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-
-        // Retourne le fichier PDF en téléchargement
-        return new Response($dompdf->output(), 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="feuille_de_match_' . $feuilleMatch->getId() . '.pdf"',
-        ]);
+    if (!$feuilleMatch) {
+        throw $this->createNotFoundException("Feuille de match introuvable.");
     }
+
+    // Récupération des capitaines et de l'arbitre
+    $roles = $feuilleMatch->getJoueurs() ?? [];
+    $capitaineA = null;
+    $capitaineB = null;
+    $arbitre = null;
+
+    foreach ($roles as $role) {
+        if ($role['role'] === 'capitaineA') {
+            $capitaineA = $userRepo->find($role['id']);
+        } elseif ($role['role'] === 'capitaineB') {
+            $capitaineB = $userRepo->find($role['id']);
+        } elseif ($role['role'] === 'arbitre') {
+            $arbitre = $userRepo->find($role['id']);
+        }
+    }
+
+    // Génération du contenu HTML pour le PDF
+    $html = $this->renderView('pages/match_sheets/pdf.html.twig', [
+        'feuilleMatch' => $feuilleMatch,
+        'capitaineA' => $capitaineA,
+        'capitaineB' => $capitaineB,
+        'arbitre' => $arbitre,
+    ]);
+
+    // Configuration de Dompdf
+    $options = new Options();
+    $options->set('defaultFont', 'Arial');
+    $dompdf = new Dompdf($options);
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+
+    // Retourne le fichier PDF en téléchargement
+    return new Response($dompdf->output(), 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'attachment; filename="feuille_de_match_' . $feuilleMatch->getId() . '.pdf"',
+    ]);
+}
+
 }
