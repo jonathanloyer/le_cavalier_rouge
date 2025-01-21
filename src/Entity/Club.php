@@ -19,35 +19,34 @@ class Club
     private ?string $name = null;
 
     /**
-     * @var Collection<int, FeuilleMatch>
+     * @var Collection<int, FeuilleMatch> Liste des matchs où ce club est ClubA
      */
     #[ORM\OneToMany(targetEntity: FeuilleMatch::class, mappedBy: 'clubA')]
     private Collection $clubA;
 
     /**
-     * @var Collection<int, FeuilleMatch>
+     * @var Collection<int, FeuilleMatch> Liste des matchs où ce club est ClubB
      */
     #[ORM\OneToMany(targetEntity: FeuilleMatch::class, mappedBy: 'clubB')]
     private Collection $clubB;
 
     /**
-     * @var Collection<int, Joueurs>
+     * @var Collection<int, Joueurs> Liste des joueurs appartenant au club
      */
     #[ORM\OneToMany(targetEntity: Joueurs::class, mappedBy: 'club')]
-    private Collection $club;
+    private Collection $joueurs;
 
     /**
-     * @var Collection<int, User>
+     * @var Collection<int, User> Liste des utilisateurs associés au club
      */
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'club')]
     private Collection $users;
-
 
     public function __construct()
     {
         $this->clubA = new ArrayCollection();
         $this->clubB = new ArrayCollection();
-        $this->club = new ArrayCollection();
+        $this->joueurs = new ArrayCollection();
         $this->users = new ArrayCollection();
     }
 
@@ -69,7 +68,7 @@ class Club
     }
 
     /**
-     * @return Collection<int, FeuilleMatch>
+     * @return Collection<int, FeuilleMatch> Matchs où ce club est ClubA
      */
     public function getClubA(): Collection
     {
@@ -89,7 +88,6 @@ class Club
     public function removeClubA(FeuilleMatch $clubA): static
     {
         if ($this->clubA->removeElement($clubA)) {
-            // set the owning side to null (unless already changed)
             if ($clubA->getClubA() === $this) {
                 $clubA->setClubA(null);
             }
@@ -99,7 +97,7 @@ class Club
     }
 
     /**
-     * @return Collection<int, FeuilleMatch>
+     * @return Collection<int, FeuilleMatch> Matchs où ce club est ClubB
      */
     public function getClubB(): Collection
     {
@@ -119,7 +117,6 @@ class Club
     public function removeClubB(FeuilleMatch $clubB): static
     {
         if ($this->clubB->removeElement($clubB)) {
-            // set the owning side to null (unless already changed)
             if ($clubB->getClubB() === $this) {
                 $clubB->setClubB(null);
             }
@@ -129,36 +126,36 @@ class Club
     }
 
     /**
-     * @return Collection<int, Joueurs>
+     * @return Collection<int, Joueurs> Liste des joueurs du club
      */
-    public function getClub(): Collection
+    public function getJoueurs(): Collection
     {
-        return $this->club;
+        return $this->joueurs;
     }
 
-    public function addClub(Joueurs $club): static
+    public function addJoueur(Joueurs $joueur): static
     {
-        if (!$this->club->contains($club)) {
-            $this->club->add($club);
-            $club->setClub($this);
+        if (!$this->joueurs->contains($joueur)) {
+            $this->joueurs->add($joueur);
+            $joueur->setClub($this);
         }
 
         return $this;
     }
 
-    public function removeClub(Joueurs $club): static
+    public function removeJoueur(Joueurs $joueur): static
     {
-        if ($this->club->removeElement($club)) {
-            // set the owning side to null (unless already changed)
-            if ($club->getClub() === $this) {
-                $club->setClub(null);
+        if ($this->joueurs->removeElement($joueur)) {
+            if ($joueur->getClub() === $this) {
+                $joueur->setClub(null);
             }
         }
 
         return $this;
     }
+
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, User> Liste des utilisateurs associés au club
      */
     public function getUsers(): Collection
     {

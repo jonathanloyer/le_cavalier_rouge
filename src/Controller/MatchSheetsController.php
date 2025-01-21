@@ -10,237 +10,309 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\FeuilleMatch;
 use App\Repository\FeuilleMatchRepository;
 use App\Repository\ClubRepository;
+use App\Repository\UserRepository;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
 class MatchSheetsController extends AbstractController
 {
-    // Je crée une route pour la page des feuilles de match
+    // Route pour afficher la page d'accueil des feuilles de match
     #[Route('/feuille-de-match', name: 'app_match_sheets')]
     public function index(): Response
     {
         return $this->render('pages/match_sheets/matchsheets.html.twig');
     }
 
-    // Je crée une route pour créer une feuille de match
+    // Route pour créer une feuille de match
     #[Route('/feuille-de-match/creer/{type}', name: 'app_match_sheets_create', defaults: ['type' => null])]
     public function create(?string $type, ClubRepository $clubRepository): Response
     {
-        // Vérification des rôles
+        // Vérification des rôles : seuls les administrateurs et capitaines peuvent accéder
         if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_CAPITAINE')) {
             throw $this->createAccessDeniedException('Accès refusé.');
         }
 
-        // Utilisation du type transmis par la route ou définition d'une valeur par défaut
+        // Définir le type par défaut si le type fourni est invalide
         if (!in_array($type, ['criterium', 'national'])) {
-            $type = 'criterium'; // Par défaut si le type est invalide ou non transmis
+            $type = 'criterium'; // Valeur par défaut
         }
 
-        // Récupération des clubs
+        // Récupération des clubs disponibles
         $clubs = $clubRepository->findAll();
 
-        // Rendu de la vue avec les clubs
+        // Rendu de la vue pour créer une feuille de match
         return $this->render('pages/match_sheets/create.html.twig', [
             'type' => $type,
             'clubs' => $clubs,
         ]);
     }
 
-    // Je crée une route pour enregistrer une feuille de match
+    // Route pour enregistrer une feuille de match
     #[Route('/feuille-de-match/save', name: 'app_match_sheets_save', methods: ['POST'])]
-    public function save(Request $request, EntityManagerInterface $em, ClubRepository $clubRepository): Response
+    public function save(Request $request, EntityManagerInterface $em, ClubRepository $clubRepo): Response
     {
         $formData = $request->request->all();
-    
-        // Récupérez les IDs des clubs
-        $clubAId = $formData['clubA'] ?? null;
-        $clubBId = $formData['clubB'] ?? null;
-    
-        // Vérifiez que les IDs sont valides
-        if (!$clubAId || !$clubBId) {
-            throw new \Exception('Les identifiants des clubs sont invalides ou manquants.');
-        }
-    
-        // Recherchez les entités Club à partir des IDs
-        $clubA = $clubRepository->find($clubAId);
-        $clubB = $clubRepository->find($clubBId);
-    
-        if (!$clubA || !$clubB) {
-            throw new \Exception('Un des clubs sélectionnés est introuvable dans la base de données.');
-        }
-    
-        // Je crée la feuille de match
-        $feuilleMatch = new FeuilleMatch();
 
-        // Je définis les valeurs de la feuille de match
+        // Récupération des clubs
+        $clubA = $clubRepo->find($formData['clubA']);
+        $clubB = $clubRepo->find($formData['clubB']);
+
+        if (!$clubA || !$clubB) {
+            throw $this->createNotFoundException('Clubs invalides.');
+        }
+
+        // Création de la feuille de match
+        $feuilleMatch = new FeuilleMatch();
+        $feuilleMatch->setType($formData['typeFeuille'] ?? 'criterium'); // Utilise le choix ou 'criterium' par défaut
+        $feuilleMatch->setGroupe($formData['groupe']); // "Groupe 1" ou "Groupe 2"
+        $feuilleMatch->setInterclub($formData['interclub']); // "Interclub Jeune"
         $feuilleMatch->setClubA($clubA);
         $feuilleMatch->setClubB($clubB);
-        $feuilleMatch->setRonde((int)($formData['ronde'] ?? 1)); // Par défaut, définissez une valeur pour la ronde
-
-        // Je définis la date du match
         $feuilleMatch->setDateMatch(new \DateTimeImmutable($formData['dateMatch'] ?? 'now'));
-
-        // Je définis la date de création de la feuille de match
         $feuilleMatch->setCreation(new \DateTimeImmutable());
-    
-        // J'enregistre la feuille de match
-        $em->persist($feuilleMatch);
 
-        // J'envoie les données en base de données
+        // Attribuer une valeur par défaut à `ronde`
+        $feuilleMatch->setRonde(1); // Remplacez 1 par une autre valeur par défaut si nécessaire
+
+        // Gestion des joueurs et rôles
+        $joueurs = [];
+
+        if (!empty($formData['capitaineA'])) {
+            $joueurs[] = [
+                'id' => $formData['capitaineA'],
+                'role' => 'capitaineA',
+            ];
+        }
+
+        if (!empty($formData['capitaineB'])) {
+            $joueurs[] = [
+                'id' => $formData['capitaineB'],
+                'role' => 'capitaineB',
+            ];
+        }
+
+        if (!empty($formData['arbitre'])) {
+            $joueurs[] = [
+                'id' => $formData['arbitre'],
+                'role' => 'arbitre',
+            ];
+        }
+
+        foreach ($formData['joueursA'] ?? [] as $joueurA) {
+            $joueurs[] = [
+                'id' => $joueurA,
+                'role' => 'joueurA',
+            ];
+        }
+
+        foreach ($formData['joueursB'] ?? [] as $joueurB) {
+            $joueurs[] = [
+                'id' => $joueurB,
+                'role' => 'joueurB',
+            ];
+        }
+
+        $feuilleMatch->setJoueurs($joueurs ?: []); // Assurez-vous que `joueurs` est un tableau
+
+        // Enregistrement en base
+        $em->persist($feuilleMatch);
         $em->flush();
-    
-        // Je redirige l'utilisateur vers la liste des feuilles de match
+
         return $this->redirectToRoute('app_match_sheets_list');
     }
-    
-    // Je crée une route pour la liste des feuilles de match
+
+
+    // Route pour afficher la liste des feuilles de match
     #[Route('/feuille-de-match/consulter', name: 'app_match_sheets_list')]
     public function list(FeuilleMatchRepository $feuilleMatchRepo): Response
     {
-        // Récupérer toutes les feuilles de match
+        // Récupération de toutes les feuilles de match
         $feuilles = $feuilleMatchRepo->findAll();
 
-        // Rendu de la vue avec les feuilles de match
+        // S'assurer que chaque feuille a un tableau valide pour `joueurs`
+        foreach ($feuilles as $feuille) {
+            if ($feuille->getJoueurs() === null) {
+                $feuille->setJoueurs([]);
+            }
+        }
+
+        // Rendu de la vue avec la liste des feuilles
         return $this->render('pages/match_sheets/list.html.twig', [
             'feuilles' => $feuilles,
         ]);
     }
 
-    // Je crée une route pour afficher une feuille de match
+    // Route pour afficher une feuille de match
     #[Route('/feuille-de-match/{id}', name: 'app_match_sheets_show')]
-    public function show($id, FeuilleMatchRepository $feuilleMatchRepo): Response
+    public function show(int $id, FeuilleMatchRepository $feuilleMatchRepo, UserRepository $userRepo): Response
     {
-        // Je récupère la feuille de match
+        // Récupération de la feuille de match
         $feuilleMatch = $feuilleMatchRepo->find($id);
 
-        // Je vérifie que la feuille de match existe
-        // dd($feuilleMatch);
-
-        // Si la feuille de match n'existe pas, je renvoie une erreur 404
         if (!$feuilleMatch) {
-            $this->addFlash('error', "La feuille de match avec l'ID $id est introuvable.");
-    return $this->redirectToRoute('app_match_sheets_list');
+            $this->addFlash('error', "Feuille de match introuvable.");
+            return $this->redirectToRoute('app_match_sheets_list');
         }
 
-        // Rendu de la vue avec la feuille de match
+        // Validation des données des joueurs
+        $roles = $feuilleMatch->getJoueurs() ?? [];
+        $capitaineA = isset($roles['capitaineA']) ? $userRepo->find($roles['capitaineA']) : null;
+        $capitaineB = isset($roles['capitaineB']) ? $userRepo->find($roles['capitaineB']) : null;
+        $arbitre = isset($roles['arbitre']) ? $userRepo->find($roles['arbitre']) : null;
+
+        // Rendu de la vue avec les données nécessaires
         return $this->render('pages/match_sheets/show.html.twig', [
             'feuilleMatch' => $feuilleMatch,
+            'capitaineA' => $capitaineA,
+            'capitaineB' => $capitaineB,
+            'arbitre' => $arbitre,
         ]);
     }
 
-    // Je crée une route pour récupérer les joueurs d'un club
-    #[Route('/feuille-de-match/club/{id}/joueurs', name: 'app_match_sheets_get_players_by_club', methods: ['GET'])]
-    public function getPlayersByClub(int $id, ClubRepository $clubRepository): Response
-    {
-        // Récupérer le club
-        $club = $clubRepository->find($id);
 
-        // Si le club n'existe pas, renvoyer une erreur 404
-        if (!$club) {
-            return $this->json(['error' => 'Club introuvable'], Response::HTTP_NOT_FOUND);
+    #[Route('/feuille-de-match/{id}/modifier', name: 'app_match_sheets_edit', methods: ['GET', 'POST'])]
+public function edit(
+    int $id,
+    Request $request,
+    FeuilleMatchRepository $feuilleMatchRepo,
+    EntityManagerInterface $em,
+    ClubRepository $clubRepository,
+    UserRepository $userRepo
+): Response {
+    // Récupération de la feuille de match
+    $feuilleMatch = $feuilleMatchRepo->find($id);
+
+    if (!$feuilleMatch) {
+        $this->addFlash('error', 'Feuille de match introuvable.');
+        return $this->redirectToRoute('app_match_sheets_list');
+    }
+
+    // Initialisation des tableaux pour les joueurs sélectionnés et les résultats
+    $joueursSelectionnesA = array_fill(0, 5, null);
+    $joueursSelectionnesB = array_fill(0, 5, null);
+    $resultats = array_fill(0, 5, '');
+
+    // Parcourir les joueurs dans la feuille de match pour remplir les tableaux
+    foreach ($feuilleMatch->getJoueurs() as $joueur) {
+        if ($joueur['role'] === 'joueurA') {
+            $joueursSelectionnesA[] = $userRepo->find($joueur['id']);
+        } elseif ($joueur['role'] === 'joueurB') {
+            $joueursSelectionnesB[] = $userRepo->find($joueur['id']);
         }
-
-        // Récupére les utilisateurs actifs liés au club
-        $joueurs = $club->getUsers()->filter(function ($user) {
-
-            // Filtre uniquement les utilisateurs actifs
-            return $user->getActive(); 
-        });
-
-        // Transforme les données en format JSON
-        $data = array_map(function ($joueur) {
-            return [
-                'id' => $joueur->getId(), // ID de l'utilisateur
-                'codeFfe' => $joueur->getCodeFFE(), // Code FFE de l'utilisateur
-                'firstName' => $joueur->getFirstName(), // Prénom de l'utilisateur
-                'lastName' => $joueur->getLastName(), // Nom de l'utilisateur
-            ];
-
-            // Transforme les données en tableau
-        }, $joueurs->toArray());
-
-        // Renvoie les données en format JSON
-        return $this->json($data);
-    }
-
-    // Je crée une route pour télécharger une feuille de match au format PDF
-    #[Route('/feuille-de-match/{id}/pdf', name: 'app_match_sheets_download_pdf')]
-    public function downloadPdf($id, FeuilleMatchRepository $feuilleMatchRepo): Response
-    {
-        // Je récupère la feuille de match
-        $feuilleMatch = $feuilleMatchRepo->find($id);
-
-        // Si la feuille de match n'existe pas, je renvoie une erreur 404
-        if (!$feuilleMatch) {
-            throw $this->createNotFoundException("Feuille de match introuvable.");
+        if (isset($joueur['resultat'])) {
+            $resultats[] = $joueur['resultat'];
         }
-
-        // Je crée le contenu HTML de la feuille de match
-        $html = $this->renderView('pages/match_sheets/pdf.html.twig', [
-            'feuilleMatch' => $feuilleMatch,
-        ]);
-
-        // Je crée une instance de Dompdf
-        $options = new Options();
-
-        // Je définis la police par défaut
-        $options->set('defaultFont', 'Arial');
-
-        // Je crée une instance de Dompdf
-        $dompdf = new Dompdf($options);
-
-        // Je charge le contenu HTML
-        $dompdf->loadHtml($html);
-
-        // Je rends le PDF
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-
-        // Je renvoie le PDF en réponse
-        return new Response($dompdf->output(), 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="feuille_de_match_' . $feuilleMatch->getId() . '.pdf"',
-        ]);
     }
 
-    // Je crée une route pour modifier une feuille de match
-    #[Route('/feuille-de-match/{id}/modifier', name: 'app_match_sheets_edit')]
-    public function edit($id, Request $request, FeuilleMatchRepository $feuilleMatchRepo, ClubRepository $clubRepository): Response
-    {
-        $feuilleMatch = $feuilleMatchRepo->find($id);
-        if (!$feuilleMatch) {
-            throw $this->createNotFoundException("Feuille de match introuvable.");
+    // Préparation des capitaines et de l'arbitre
+    $capitainesEtArbitre = [
+        'capitaineA' => null,
+        'capitaineB' => null,
+        'arbitre' => null,
+    ];
+    foreach ($feuilleMatch->getJoueurs() as $joueur) {
+        if ($joueur['role'] === 'capitaineA') {
+            $capitainesEtArbitre['capitaineA'] = $userRepo->find($joueur['id']);
+        } elseif ($joueur['role'] === 'capitaineB') {
+            $capitainesEtArbitre['capitaineB'] = $userRepo->find($joueur['id']);
+        } elseif ($joueur['role'] === 'arbitre') {
+            $capitainesEtArbitre['arbitre'] = $userRepo->find($joueur['id']);
         }
-    
-        $clubs = $clubRepository->findAll();
-    
-        // Exemples de résultats possibles (adapter selon vos besoins)
-        $resultats = [
-            'Gain Blanc',
-            'Gain Noir',
-            'Nulle',
-        ];
-    
-        return $this->render('pages/match_sheets/edit.html.twig', [
-            'feuilleMatch' => $feuilleMatch,
-            'clubs' => $clubs,
-            'resultats' => $resultats,
-        ]);
     }
-    // Je crée une route pour supprimer une feuille de match
+
+    // Récupération des clubs et des joueurs associés
+    $clubs = $clubRepository->findAll();
+    $joueursA = $feuilleMatch->getClubA() ? $feuilleMatch->getClubA()->getUsers() : [];
+    $joueursB = $feuilleMatch->getClubB() ? $feuilleMatch->getClubB()->getUsers() : [];
+
+    // Transmission des données à la vue
+    return $this->render('pages/match_sheets/edit.html.twig', [
+        'feuilleMatch' => $feuilleMatch,
+        'clubs' => $clubs,
+        'joueursA' => $joueursA,
+        'joueursB' => $joueursB,
+        'joueursSelectionnesA' => $joueursSelectionnesA,
+        'joueursSelectionnesB' => $joueursSelectionnesB,
+        'resultats' => $resultats,
+        'capitainesEtArbitre' => $capitainesEtArbitre,
+        'interclub' => $feuilleMatch->getInterclub(), // Ajout d'interclub
+        'division' => $feuilleMatch->getType(), // Ajout de division
+        'groupe' => $feuilleMatch->getGroupe(), // Ajout de groupe
+    ]);
+}
+
+    
+
+    // Route pour supprimer une feuille de match
     #[Route('/feuille-de-match/{id}/supprimer', name: 'app_match_sheets_delete', methods: ['POST'])]
     public function delete($id, FeuilleMatchRepository $feuilleMatchRepo, EntityManagerInterface $em): Response
     {
-        // Je récupère la feuille de match par son ID
+        // Récupération de la feuille de match
         $feuilleMatch = $feuilleMatchRepo->find($id);
 
-        // Si la feuille de match n'existe pas, je renvoie une erreur 404
+        // Suppression si elle existe
         if ($feuilleMatch) {
             $em->remove($feuilleMatch);
             $em->flush();
         }
 
-        // Je redirige l'utilisateur vers la liste des feuilles de match
+        // Redirection vers la liste
         return $this->redirectToRoute('app_match_sheets_list');
+    }
+
+    // Route pour récupérer les joueurs d'un club
+    #[Route('/feuille-de-match/club/{id}/joueurs', name: 'app_match_sheets_get_players_by_club', methods: ['GET'])]
+    public function getPlayersByClub(int $id, ClubRepository $clubRepository): Response
+    {
+        // Récupération du club
+        $club = $clubRepository->find($id);
+
+        if (!$club) {
+            return $this->json(['error' => 'Club introuvable'], Response::HTTP_NOT_FOUND);
+        }
+
+        // Filtrage des joueurs actifs
+        $joueurs = $club->getUsers()->filter(fn($user) => $user->getActive());
+
+        // Conversion en format JSON
+        $data = array_map(fn($joueur) => [
+            'id' => $joueur->getId(),
+            'codeFfe' => $joueur->getCodeFFE(),
+            'firstName' => $joueur->getFirstName(),
+            'lastName' => $joueur->getLastName(),
+        ], $joueurs->toArray());
+
+        return $this->json($data);
+    }
+
+    // Route pour télécharger une feuille de match au format PDF
+    #[Route('/feuille-de-match/{id}/pdf', name: 'app_match_sheets_download_pdf')]
+    public function downloadPdf($id, FeuilleMatchRepository $feuilleMatchRepo): Response
+    {
+        // Récupération de la feuille de match
+        $feuilleMatch = $feuilleMatchRepo->find($id);
+
+        if (!$feuilleMatch) {
+            throw $this->createNotFoundException("Feuille de match introuvable.");
+        }
+
+        // Génération du contenu HTML pour le PDF
+        $html = $this->renderView('pages/match_sheets/pdf.html.twig', [
+            'feuilleMatch' => $feuilleMatch,
+        ]);
+
+        // Configuration de Dompdf
+        $options = new Options();
+        $options->set('defaultFont', 'Arial');
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Retourne le fichier PDF en téléchargement
+        return new Response($dompdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="feuille_de_match_' . $feuilleMatch->getId() . '.pdf"',
+        ]);
     }
 }

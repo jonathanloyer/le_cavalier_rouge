@@ -1,29 +1,82 @@
 {% extends 'pages/layout.html.twig' %}
-
 {% block title %}Feuille de Match - {{ feuilleMatch.id }}{% endblock %}
 
 {% block body %}
 <div class="container mx-auto p-8">
     <h1 class="text-2xl font-bold text-center mb-8">Feuille de Match</h1>
 
+    <!-- Informations générales -->
     <div class="bg-white shadow-md rounded-lg p-6 mb-8">
         <h2 class="text-lg font-semibold mb-4">Informations de la Feuille</h2>
         <ul>
             <li><strong>ID :</strong> {{ feuilleMatch.id }}</li>
-            <li><strong>Club A :</strong> {{ feuilleMatch.clubA }}</li>
-            <li><strong>Club B :</strong> {{ feuilleMatch.clubB }}</li>
+            <li><strong>Club A :</strong> {{ feuilleMatch.clubA ? feuilleMatch.clubA.name : 'Non défini' }}</li>
+            <li><strong>Club B :</strong> {{ feuilleMatch.clubB ? feuilleMatch.clubB.name : 'Non défini' }}</li>
             <li><strong>Ronde :</strong> {{ feuilleMatch.ronde }}</li>
             <li><strong>Date du Match :</strong> {{ feuilleMatch.dateMatch|date('d/m/Y') }}</li>
         </ul>
     </div>
 
+    <!-- Tableau des joueurs et résultats -->
+    <div class="bg-white shadow-md rounded-lg p-6 mb-8">
+        <h2 class="text-lg font-semibold mb-4">Détails des Joueurs et Résultats</h2>
+        <table class="table-auto w-full border-collapse border border-gray-300 text-sm">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="border border-gray-300 p-2 text-center">#</th>
+                    <th class="border border-gray-300 p-2 text-center">Joueur A</th>
+                    <th class="border border-gray-300 p-2 text-center">Résultat</th>
+                    <th class="border border-gray-300 p-2 text-center">Joueur B</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in 0..4 %}
+                    <tr>
+                        <td class="border border-gray-300 p-2 text-center">{{ i + 1 }}</td>
+                        <td class="border border-gray-300 p-2 text-center">
+                            {% if joueursSelectionnesA[i] is defined %}
+                                {{ joueursSelectionnesA[i].codeFFE }} - {{ joueursSelectionnesA[i].lastName }} {{ joueursSelectionnesA[i].firstName }}
+                            {% else %}
+                                Non défini
+                            {% endif %}
+                        </td>
+                        <td class="border border-gray-300 p-2 text-center">
+                            {{ resultats[i]|default('Non défini') }}
+                        </td>
+                        <td class="border border-gray-300 p-2 text-center">
+                            {% if joueursSelectionnesB[i] is defined %}
+                                {{ joueursSelectionnesB[i].codeFFE }} - {{ joueursSelectionnesB[i].lastName }} {{ joueursSelectionnesB[i].firstName }}
+                            {% else %}
+                                Non défini
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Capitaines et arbitre -->
+    <div class="bg-white shadow-md rounded-lg p-6 mb-8">
+        <h2 class="text-lg font-semibold mb-4">Capitaines et Arbitre</h2>
+        <ul>
+            <li><strong>Capitaine A :</strong> 
+                {{ capitaineA ? capitaineA.codeFFE ~ ' - ' ~ capitaineA.lastName ~ ' ' ~ capitaineA.firstName : 'Non défini' }}
+            </li>
+            <li><strong>Capitaine B :</strong> 
+                {{ capitaineB ? capitaineB.codeFFE ~ ' - ' ~ capitaineB.lastName ~ ' ' ~ capitaineB.firstName : 'Non défini' }}
+            </li>
+            <li><strong>Arbitre :</strong> 
+                {{ arbitre ? arbitre.codeFFE ~ ' - ' ~ arbitre.lastName ~ ' ' ~ arbitre.firstName : 'Non défini' }}
+            </li>
+        </ul>
+    </div>
+
+    <!-- Boutons -->
     <div class="flex justify-end space-x-4">
-        <!-- Lien pour retourner à la liste -->
         <a href="{{ path('app_match_sheets_list') }}" class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition">
             Retour à la liste
         </a>
-
-        <!-- Bouton pour télécharger en PDF -->
         <a href="{{ path('app_match_sheets_download_pdf', {'id': feuilleMatch.id}) }}" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition">
             Télécharger en PDF
         </a>

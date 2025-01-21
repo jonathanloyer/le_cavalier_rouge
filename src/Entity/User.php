@@ -53,7 +53,7 @@ PasswordAuthenticatedUserInterface
     private ?string $avatar = null;
 
 
-    #[ORM\ManyToOne(targetEntity: Club::class)]
+    #[ORM\ManyToOne(targetEntity: Club::class,inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Club $club = null;
 

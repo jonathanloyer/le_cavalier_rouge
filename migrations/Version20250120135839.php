@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250116105656 extends AbstractMigration
+final class Version20250120135839 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,12 @@ final class Version20250116105656 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE user ADD code_ffe VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE feuille_match ADD type VARCHAR(50) NOT NULL, ADD groupe VARCHAR(50) NOT NULL, ADD interclub VARCHAR(50) NOT NULL, ADD joueurs JSON NOT NULL COMMENT \'(DC2Type:json)\'');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE user DROP code_ffe');
+        $this->addSql('ALTER TABLE feuille_match DROP type, DROP groupe, DROP interclub, DROP joueurs');
     }
 }
