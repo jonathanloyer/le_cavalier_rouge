@@ -1,20 +1,29 @@
+{# J’étends la mise en page globale (pages/layout.html.twig) pour conserver la structure générale du site #}
 {% extends 'pages/layout.html.twig' %}
 
+{# J’indique le titre de la page comme « Gérer les contacts » #}
 {% block title %}Gérer les contacts{% endblock %}
 
+{# J’ouvre le bloc "body" pour définir le contenu principal de cette page #}
 {% block body %}
+    {# Je place un titre h1 pour indiquer la liste des contacts #}
     <h1>Liste des contacts</h1>
 
+    {# Je boucle sur la variable "contacts" #}
     {% for contact in contacts %}
+        {# J’affiche un bloc "contact" contenant le nom, l’email et le message #}
         <div class="contact">
             <p><strong>Nom :</strong> {{ contact.name }}</p>
             <p><strong>Email :</strong> {{ contact.email }}</p>
             <p><strong>Message :</strong> {{ contact.message }}</p>
+            
+            {# Formulaire POST pour supprimer le contact en appelant la route "admin_delete_contact" #}
             <form method="POST" action="{{ path('admin_delete_contact', {id: contact.id}) }}">
                 <button type="submit">Supprimer</button>
             </form>
         </div>
         <hr>
+    {# Si la boucle ne retourne aucun élément, j’affiche un message "Aucun contact trouvé." #}
     {% else %}
         <p>Aucun contact trouvé.</p>
     {% endfor %}

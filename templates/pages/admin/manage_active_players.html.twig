@@ -1,14 +1,28 @@
+{# J’indique que ce template hérite de "pages/layout.html.twig" pour la structure globale #}
 {% extends 'pages/layout.html.twig' %}
 
+{# Je définis la balise <title> de la page comme « Liste des joueurs actifs » #}
 {% block title %}Liste des joueurs actifs{% endblock %}
 
+{# J’ouvre le bloc body pour y insérer le contenu principal #}
 {% block body %}
+{# Je crée un conteneur (container mx-auto) avec du padding (p-6),
+   un fond gris clair (bg-gray-100), et une hauteur minimale full screen (min-h-screen). #}
 <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+
+    {# Titre principal (h1), taille 3xl, gras (font-bold), marge-basse (mb-6),
+       texte gris (text-gray-700) #}
     <h1 class="text-3xl font-bold mb-6 text-gray-700">Liste des joueurs actifs</h1>
 
     <!-- Tableau des joueurs actifs -->
+    {# Un bloc blanc (bg-white) avec une ombre (shadow), arrondi (rounded-lg),
+       padding (p-6). #}
     <div class="bg-white shadow rounded-lg p-6">
+        {# Titre secondaire (h2), taille 2xl, gras (font-bold),
+           marge-basse (mb-4), texte gris (text-gray-700). #}
         <h2 class="text-2xl font-bold mb-4 text-gray-700">Joueurs actifs</h2>
+        
+        {# Tableau (min-w-full table-auto) pour afficher Nom, Prénom, Club #}
         <table class="min-w-full table-auto">
             <thead>
                 <tr class="bg-gray-200">
@@ -18,11 +32,14 @@
                 </tr>
             </thead>
             <tbody>
+                {# Je boucle sur la liste "joueurs" #}
                 {% for user in joueurs %}
                     <tr class="border-t">
+                        {# Nom et Prénom en texte gris (text-gray-700) #}
                         <td class="px-4 py-2 text-gray-700">{{ user.lastName }}</td>
                         <td class="px-4 py-2 text-gray-700">{{ user.firstName }}</td>
                         <td class="px-4 py-2 text-gray-700">
+                            {# Si user.club existe, j’affiche son nom, sinon "Aucun club" #}
                             {% if user.club %}
                                 {{ user.club.name }}
                             {% else %}
@@ -31,6 +48,7 @@
                         </td>
                     </tr>
                 {% else %}
+                    {# Si la boucle ne retourne rien, j’affiche un message indiquant aucun joueur actif #}
                     <tr>
                         <td colspan="3" class="px-4 py-2 text-center text-gray-500">
                             Aucun joueur actif trouvé.

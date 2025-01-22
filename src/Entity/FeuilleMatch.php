@@ -154,7 +154,22 @@ class FeuilleMatch
 
     public function setJoueurs(array $joueurs): static
     {
-        $this->joueurs = $joueurs ?? []; // Si null, initialiser avec un tableau vide
+        // Vérifiez que chaque élément du tableau contient les clés nécessaires
+        foreach ($joueurs as &$joueur) {
+            if (!isset($joueur['id'])) {
+                $joueur['id'] = null; // Ajoutez une valeur par défaut
+            }
+            if (!isset($joueur['role'])) {
+                $joueur['role'] = null; // Ajoutez une valeur par défaut
+            }
+            if (!isset($joueur['resultat'])) {
+                $joueur['resultat'] = null; // Ajoutez une valeur par défaut
+            }
+        }
+    
+        $this->joueurs = $joueurs;
+    
         return $this;
     }
+    
 }

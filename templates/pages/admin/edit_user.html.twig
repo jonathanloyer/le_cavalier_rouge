@@ -1,41 +1,56 @@
+{# J’indique que ce template hérite de "pages/layout.html.twig" pour la structure générale #}
 {% extends 'pages/layout.html.twig' %}
 
+{# Je définis la balise <title> comme "Modifier l'utilisateur" #}
 {% block title %}Modifier l'utilisateur{% endblock %}
 
+{# Je débute le bloc "body" où je place le contenu spécifique de cette page #}
 {% block body %}
+    {# Titre principal h1, taille 3xl, gras (font-semibold), 
+       marge-basse (mb-6), texte gris foncé (text-gray-800). #}
     <h1 class="text-3xl font-semibold mb-6 text-gray-800">Modifier l'utilisateur</h1>
 
+    {# Je démarre le formulaire Twig, généré par "form" #}
     {{ form_start(form) }}
 
+        {# Champ "email" #}
         <div class="mb-6">
             {{ form_row(form.email) }}
         </div>
 
+        {# Champ "pseudo" #}
         <div class="mb-6">
             {{ form_row(form.pseudo) }}
         </div>
 
+        {# Champ "lastName" #}
         <div class="mb-6">
             {{ form_row(form.lastName) }}
         </div>
 
+        {# Champ "firstName" #}
         <div class="mb-6">
             {{ form_row(form.firstName) }}
         </div>
 
+        {# Champ "club" (sélecteur pour le club) #}
         <div class="mb-6">
             {{ form_row(form.club) }}
         </div>
 
+        {# Champ "active" (case à cocher ou équivalent) #}
         <div class="mb-6">
             {{ form_row(form.active) }}
         </div>
 
+        {# Bouton "Enregistrer" #}
         <div class="mt-6">
-            <button type="submit" class="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+            <button type="submit"
+                    class="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
                 Enregistrer
             </button>
         </div>
 
+    {# Je termine le formulaire #}
     {{ form_end(form) }}
 {% endblock %}
