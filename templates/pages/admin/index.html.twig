@@ -1,72 +1,90 @@
+{# J’étends le layout global (pages/layout.html.twig) pour conserver la structure du site #}
 {% extends 'pages/layout.html.twig' %}
 
+{# J’indique le titre de la page dans la balise <title> #}
 {% block title %}Tableau de bord - Administration
 {% endblock %}
 
+{# J’ouvre le bloc "body" qui contiendra tout le contenu de cette page #}
 {% block body %}
-	<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
-		<h1 class="text-3xl font-bold mb-6 text-gray-700">Tableau de bord - Administration</h1>
+    {# Conteneur avec un fond gris (bg-gray-100), un padding (p-6),
+       une largeur centrée (mx-auto), couvrant la hauteur complète (min-h-screen). #}
+    <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
 
-		<!-- Statistiques rapides -->
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-			<div class="bg-white shadow rounded-lg p-5 text-center">
-				<p class="text-lg font-semibold text-gray-600">Membres inscrits</p>
-				<p class="text-4xl font-bold text-blue-500">{{ totalUsers }}</p>
-			</div>
-			<div class="bg-white shadow rounded-lg p-5 text-center">
-				<p class="text-lg font-semibold text-gray-600">Tournois actifs</p>
-				<p class="text-4xl font-bold text-green-500">{{ totalCompetitions }}</p>
-			</div>
-			<div class="bg-white shadow rounded-lg p-5 text-center">
-				<p class="text-lg font-semibold text-gray-600">Joueurs actif ce mois</p>
-				<p class="text-4xl font-bold text-red-500">{{ totalJoueurs }}</p>
-			</div>
-			<div class="bg-white shadow rounded-lg p-5 text-center">
-				<p class="text-lg font-semibold text-gray-600">Feuilles de match créées ce mois</p>
-				<p class="text-4xl font-bold text-purple-500">{{ matchesThisMonth }}</p>
-			</div>
-		</div>
+        {# Titre principal, taille 3xl, gras (font-bold),
+           marge-basse (mb-6), texte gris (text-gray-700). #}
+        <h1 class="text-3xl font-bold mb-6 text-gray-700">Tableau de bord - Administration</h1>
 
-		<!-- Actions principales -->
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-			<a href="{{ path('admin_manage_users') }}" class="bg-blue-500 text-white rounded-lg shadow p-4 text-center hover:bg-blue-600">
-				<p class="text-xl font-bold">Gérer les utilisateurs</p>
-			</a>
-			<a href="{{ path('admin_manage_competitions') }}" class="bg-green-500 text-white rounded-lg shadow p-4 text-center hover:bg-green-600">
-				<p class="text-xl font-bold">Gérer les tournois</p>
-			</a>
-			<a href="{{ path('admin_active_players') }}" class="bg-yellow-500 text-white rounded-lg shadow p-4 text-center hover:bg-yellow-600">
-				<p class="text-xl font-bold">
-					Joueurs Actif</p>
-			</a>
-			<a href="{{ path('admin_manage_match_sheets') }}" class="bg-purple-500 text-white rounded-lg shadow p-4 text-center hover:bg-purple-600">
-				<p class="text-xl font-bold">Feuilles de match</p>
-			</a>
-			<a href="{{ path('admin_manage_clubs') }}" class="bg-indigo-500 text-white rounded-lg shadow p-4 text-center hover:bg-indigo-600">
-				<p class="text-xl font-bold">Gérer les Clubs</p>
-			</a>
-			<a href="{{ path('admin_manage_contacts') }}" class="bg-gray-800 text-white rounded-lg shadow p-4 text-center hover:bg-gray-900">
-				<p class="text-xl font-bold">Contacts</p>
-			</a>
-		</div>
+        <!-- Statistiques rapides -->
+        {# Une grille responsive (grid grid-cols-1 md:grid-cols-3) 
+           avec un espacement (gap-6) et une marge-basse (mb-6). #}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            {# Carte blanche (bg-white), ombrée (shadow), arrondie (rounded-lg), 
+               padding (p-5), texte centré #}
+            <div class="bg-white shadow rounded-lg p-5 text-center">
+                <p class="text-lg font-semibold text-gray-600">Membres inscrits</p>
+                <p class="text-4xl font-bold text-blue-500">{{ totalUsers }}</p>
+            </div>
+            <div class="bg-white shadow rounded-lg p-5 text-center">
+                <p class="text-lg font-semibold text-gray-600">Tournois actifs</p>
+                <p class="text-4xl font-bold text-green-500">{{ totalCompetitions }}</p>
+            </div>
+            <div class="bg-white shadow rounded-lg p-5 text-center">
+                <p class="text-lg font-semibold text-gray-600">Joueurs actif ce mois</p>
+                <p class="text-4xl font-bold text-red-500">{{ totalJoueurs }}</p>
+            </div>
+            <div class="bg-white shadow rounded-lg p-5 text-center">
+                <p class="text-lg font-semibold text-gray-600">Feuilles de match créées ce mois</p>
+                <p class="text-4xl font-bold text-purple-500">{{ matchesThisMonth }}</p>
+            </div>
+        </div>
 
-		<!-- Dernières activités -->
-		<div class="mt-10 bg-white shadow rounded-lg p-6">
-			<h2 class="text-2xl font-bold mb-4 text-gray-700">Dernières activités</h2>
-			<ul class="divide-y divide-gray-300">
-				<li class="py-4 flex justify-between">
-					<span class="text-gray-600">Nouvel utilisateur : Jean Dupont</span>
-					<span class="text-sm text-gray-500">il y a 2 heures</span>
-				</li>
-				<li class="py-4 flex justify-between">
-					<span class="text-gray-600">Tournoi créé : Championnat régional</span>
-					<span class="text-sm text-gray-500">il y a 1 jour</span>
-				</li>
-				<li class="py-4 flex justify-between">
-					<span class="text-gray-600">Partie terminée : Alice vs Bob</span>
-					<span class="text-sm text-gray-500">il y a 3 jours</span>
-				</li>
-			</ul>
-		</div>
-	</div>
+        <!-- Actions principales -->
+        {# Grille divisée en 1 col sur mobile, 2 col sur md, et 4 col sur lg,
+           avec un espacement de 6 (gap-6). #}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {# Chaque lien est un bloc coloré, arrondi, ombré, centré,
+               qui change de couleur au survol (hover). #}
+            <a href="{{ path('admin_manage_users') }}" class="bg-blue-500 text-white rounded-lg shadow p-4 text-center hover:bg-blue-600">
+                <p class="text-xl font-bold">Gérer les utilisateurs</p>
+            </a>
+            <a href="{{ path('admin_manage_competitions') }}" class="bg-green-500 text-white rounded-lg shadow p-4 text-center hover:bg-green-600">
+                <p class="text-xl font-bold">Gérer les tournois</p>
+            </a>
+            <a href="{{ path('admin_active_players') }}" class="bg-yellow-500 text-white rounded-lg shadow p-4 text-center hover:bg-yellow-600">
+                <p class="text-xl font-bold">Joueurs Actif</p>
+            </a>
+            <a href="{{ path('admin_manage_match_sheets') }}" class="bg-purple-500 text-white rounded-lg shadow p-4 text-center hover:bg-purple-600">
+                <p class="text-xl font-bold">Feuilles de match</p>
+            </a>
+            <a href="{{ path('admin_manage_clubs') }}" class="bg-indigo-500 text-white rounded-lg shadow p-4 text-center hover:bg-indigo-600">
+                <p class="text-xl font-bold">Gérer les Clubs</p>
+            </a>
+            <a href="{{ path('admin_manage_contacts') }}" class="bg-gray-800 text-white rounded-lg shadow p-4 text-center hover:bg-gray-900">
+                <p class="text-xl font-bold">Contacts</p>
+            </a>
+        </div>
+
+        <!-- Dernières activités -->
+        {# Un bloc (div) blanc (bg-white), ombré (shadow), arrondi (rounded-lg),
+           padding (p-6), marge en haut (mt-10). #}
+        <div class="mt-10 bg-white shadow rounded-lg p-6">
+            <h2 class="text-2xl font-bold mb-4 text-gray-700">Dernières activités</h2>
+            {# Liste d’éléments, séparés par un trait (divide-y) #}
+            <ul class="divide-y divide-gray-300">
+                <li class="py-4 flex justify-between">
+                    <span class="text-gray-600">Nouvel utilisateur : Jean Dupont</span>
+                    <span class="text-sm text-gray-500">il y a 2 heures</span>
+                </li>
+                <li class="py-4 flex justify-between">
+                    <span class="text-gray-600">Tournoi créé : Championnat régional</span>
+                    <span class="text-sm text-gray-500">il y a 1 jour</span>
+                </li>
+                <li class="py-4 flex justify-between">
+                    <span class="text-gray-600">Partie terminée : Alice vs Bob</span>
+                    <span class="text-sm text-gray-500">il y a 3 jours</span>
+                </li>
+            </ul>
+        </div>
+    </div>
 {% endblock %}

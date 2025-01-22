@@ -4,185 +4,299 @@
     <meta charset="UTF-8">
     <title>Feuille de Match - {{ feuilleMatch.id }}</title>
     <style>
-        /* Styles Tailwind adaptés pour Dompdf */
+        /*
+         * Je reproduis en CSS manuel les styles Tailwind de show.html.twig
+         * pour que Dompdf affiche un rendu cohérent, 
+         * tout en ajoutant un media query pour petits écrans.
+         */
+
+        /* 
+         * Je définis un style de base pour le body :
+         * - Pas de margin/padding global
+         * - Fond gris clair (bg-gray-100)
+         * - Police Arial, taille ~14px (0.875rem)
+         * - Couleur de texte gris foncé (#374151)
+         */
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
+            background-color: #f3f4f6;
+            font-family: Arial, sans-serif;
+            font-size: 0.875rem;
+            color: #374151;
         }
+
+        /*
+         * Je crée une classe .container qui limite la largeur à 1024px,
+         * centre horizontalement (margin: 0 auto),
+         * ajoute 1rem de padding,
+         * et un fond gris clair.
+         */
         .container {
-            width: 100%;
-            max-width: 800px;
+            max-width: 1024px;
             margin: 0 auto;
-            padding: 16px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-        .text-center {
-            text-align: center;
-        }
-        .font-bold {
-            font-weight: bold;
-        }
-        .text-lg {
-            font-size: 1.125rem;
-        }
-        .text-xl {
-            font-size: 1.25rem;
-        }
-        .text-2xl {
-            font-size: 1.5rem;
-        }
-        .bg-gray-100 {
+            padding: 1rem;
             background-color: #f3f4f6;
         }
-        .border {
-            border: 1px solid #ddd;
+
+        /*
+         * Je mets en forme une box blanche :
+         * - Fond blanc (bg-white)
+         * - Padding 1rem
+         * - Bords arrondis (border-radius: 0.25rem)
+         * - Ombre légère
+         * - 1rem de marge en bas
+         * - Petite taille de police
+         */
+        .box {
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
         }
-        .rounded {
-            border-radius: 4px;
+
+        /*
+         * Je fais un label block, avec marge en haut et en bas,
+         * et texte gris foncé
+         */
+        label {
+            display: block;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: #374151;
         }
-        .rounded-lg {
-            border-radius: 8px;
-        }
-        .p-4 {
-            padding: 16px;
-        }
-        .p-6 {
-            padding: 24px;
-        }
-        .mb-4 {
-            margin-bottom: 16px;
-        }
-        .mt-4 {
-            margin-top: 16px;
-        }
-        .w-full {
+
+        /*
+         * Je définis un style pour les champs en lecture seule :
+         * - Largeur 100%
+         * - Bordure grise claire
+         * - Angles arrondis
+         * - Petit padding
+         * - Fond gris très clair
+         */
+        input[readonly] {
             width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            background-color: #f3f4f6;
         }
-        .table-auto {
+
+        /*
+         * Je définis une barre de titre orange (bg-orange-500),
+         * texte blanc, centré, en gras, avec padding vertical 0.5rem,
+         * marge-basse 0.5rem et police à 0.875rem.
+         */
+        .title-bar {
+            background-color: #f97316;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+            padding: 0.5rem 0;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        /*
+         * Je prévois le conteneur de table (.table-container)
+         * avec overflow-x:auto pour permettre un défilement horizontal
+         * si le tableau est trop large.
+         */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        /*
+         * Je définis le style global des tableaux :
+         * - 100% de la largeur
+         * - Collapse des bordures (border-collapse)
+         * - Taille de police petite (14px)
+         */
+        table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 0.875rem;
         }
-        .table-auto th, .table-auto td {
-            padding: 8px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-        .bg-gray-200 {
+
+        /*
+         * Je mets un fond gris clair (#e5e7eb) sur l'en-tête,
+         * et texte gris foncé (#374151).
+         */
+        thead tr {
             background-color: #e5e7eb;
+            color: #374151;
+        }
+
+        /*
+         * Je gère les cellules (th/td) :
+         * - Bordure grise claire (1px)
+         * - Padding 0.25rem
+         * - Texte centré
+         */
+        th, td {
+            border: 1px solid #d1d5db;
+            padding: 0.25rem;
+            text-align: center;
+        }
+
+        /* 
+         * Je définis une classe utilitaire mt-4 pour marge en haut de 1rem.
+         */
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        /*
+         * Je gère un media query pour les petits écrans (max-width: 640px).
+         * Ici, je réduis un peu le padding global,
+         * et je peux éventuellement baisser la taille de police
+         * pour un rendu plus lisible sur mobile.
+         */
+        @media (max-width: 640px) {
+            .container {
+                max-width: 100%;
+                padding: 0.5rem;
+            }
+            body {
+                font-size: 0.75rem; /* je descends la taille de police à ~12px */
+            }
         }
     </style>
 </head>
-<body class="bg-gray-100 p-4">
+<body>
+    {# Je crée un conteneur pour tout le contenu #}
     <div class="container">
-        <!-- Titre principal -->
-        <h1 class="text-2xl font-bold text-center mb-4">Feuille de Match</h1>
-        <h2 class="text-xl font-bold text-center mb-6">ID : {{ feuilleMatch.id }}</h2>
 
-        <!-- Détails de la feuille de match -->
-        <div class="mb-4">
-            <table class="table-auto">
-                <thead class="bg-gray-200">
-                    <tr>
-                        <th colspan="2" class="text-lg">Informations Générales</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="font-bold">Club A</td>
-                        <td>{{ feuilleMatch.clubA ? feuilleMatch.clubA.name : 'Non défini' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="font-bold">Club B</td>
-                        <td>{{ feuilleMatch.clubB ? feuilleMatch.clubB.name : 'Non défini' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="font-bold">Ronde</td>
-                        <td>{{ feuilleMatch.ronde }}</td>
-                    </tr>
-                    <tr>
-                        <td class="font-bold">Date du Match</td>
-                        <td>{{ feuilleMatch.dateMatch|date('d/m/Y') }}</td>
-                    </tr>
-                </tbody>
-            </table>
+        {# J'affiche les infos générales dans une box blanche #}
+        <div class="box">
+            <label>Interclub :</label>
+            <input type="text" readonly value="{{ feuilleMatch.interclub }}">
+
+            <label>Division :</label>
+            <input type="text" readonly value="{{ feuilleMatch.type }}">
+
+            <label>Groupe :</label>
+            <input type="text" readonly value="{{ feuilleMatch.groupe }}">
+
+            <label>Date du Match :</label>
+            <input type="text" readonly value="{{ feuilleMatch.dateMatch|date('d/m/Y') }}">
         </div>
 
-        <!-- Tableau des joueurs -->
-        <div class="mb-4">
-            <table class="table-auto">
-                <thead class="bg-gray-200">
+        {# J'affiche un titre orange indiquant le groupe #}
+        <div class="title-bar">
+            Feuille de Match - Groupe : {{ feuilleMatch.groupe }}
+        </div>
+
+        {# J'affiche le tableau des joueurs, en lecture seule #}
+        <div class="table-container">
+            {# Je détermine si je dois afficher 4 boards (Critérium) ou 10 (autre) #}
+            {% if feuilleMatch.type == 'Critérium' %}
+                {% set maxBoards = 4 %}
+            {% else %}
+                {% set maxBoards = 10 %}
+            {% endif %}
+
+            <table>
+                <thead>
                     <tr>
                         <th>#</th>
-                        <th>Joueur A</th>
+                        <th>Club A</th>
+                        <th>Code FFE / Joueur</th>
                         <th>Résultat</th>
-                        <th>Joueur B</th>
+                        <th>Code FFE / Joueur</th>
+                        <th>Club B</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for i in 0..4 %}
-                        <tr>
-                            <td>{{ i + 1 }}</td>
-                            <td>
-                                {% if joueursSelectionnesA[i] is defined %}
-                                    {{ joueursSelectionnesA[i].codeFFE }} - {{ joueursSelectionnesA[i].lastName }} {{ joueursSelectionnesA[i].firstName }}
-                                {% else %}
-                                    Non défini
-                                {% endif %}
-                            </td>
-                            <td>{{ resultats[i]|default('Non défini') }}</td>
-                            <td>
-                                {% if joueursSelectionnesB[i] is defined %}
-                                    {{ joueursSelectionnesB[i].codeFFE }} - {{ joueursSelectionnesB[i].lastName }} {{ joueursSelectionnesB[i].firstName }}
-                                {% else %}
-                                    Non défini
-                                {% endif %}
-                            </td>
-                        </tr>
+                    {# Je boucle de 0 à maxBoards-1 pour générer les lignes de joueurs #}
+                    {% for i in 0..(maxBoards - 1) %}
+                    <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ clubA ? clubA.name : 'Non défini' }}</td>
+                        <td>
+                            {% if joueursA[i] is defined %}
+                                {{ joueursA[i].codeFFE }} - {{ joueursA[i].lastName }} {{ joueursA[i].firstName }}
+                            {% else %}
+                                Non défini
+                            {% endif %}
+                        </td>
+                        <td>{{ resultats[i]|default('Non défini') }}</td>
+                        <td>
+                            {% if joueursB[i] is defined %}
+                                {{ joueursB[i].codeFFE }} - {{ joueursB[i].lastName }} {{ joueursB[i].firstName }}
+                            {% else %}
+                                Non défini
+                            {% endif %}
+                        </td>
+                        <td>{{ clubB ? clubB.name : 'Non défini' }}</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        <!-- Capitaines et arbitre -->
-        <div>
-            <table class="table-auto">
-                <thead class="bg-gray-200">
+        {# J'affiche le tableau pour Capitaines et Arbitre #}
+        <div class="table-container mt-4">
+            <table>
+                <thead>
                     <tr>
                         <th>Rôle</th>
                         <th>Code FFE</th>
-                        <th>Nom Prénom</th>
+                        <th>Nom complet</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>Capitaine équipe A</td>
-                        <td>{{ capitaineA ? capitaineA.codeFFE : 'Non défini' }}</td>
-                        <td>{{ capitaineA ? capitaineA.lastName ~ ' ' ~ capitaineA.firstName : 'Non défini' }}</td>
+                        <td>
+                            {{ capitainesEtArbitre.capitaineA 
+                                ? capitainesEtArbitre.capitaineA.codeFFE 
+                                : 'Non défini'
+                            }}
+                        </td>
+                        <td>
+                            {{ capitainesEtArbitre.capitaineA 
+                                ? (capitainesEtArbitre.capitaineA.lastName ~ ' ' ~ capitainesEtArbitre.capitaineA.firstName)
+                                : 'Non défini'
+                            }}
+                        </td>
                     </tr>
                     <tr>
                         <td>Capitaine équipe B</td>
-                        <td>{{ capitaineB ? capitaineB.codeFFE : 'Non défini' }}</td>
-                        <td>{{ capitaineB ? capitaineB.lastName ~ ' ' ~ capitaineB.firstName : 'Non défini' }}</td>
+                        <td>
+                            {{ capitainesEtArbitre.capitaineB 
+                                ? capitainesEtArbitre.capitaineB.codeFFE 
+                                : 'Non défini'
+                            }}
+                        </td>
+                        <td>
+                            {{ capitainesEtArbitre.capitaineB 
+                                ? (capitainesEtArbitre.capitaineB.lastName ~ ' ' ~ capitainesEtArbitre.capitaineB.firstName)
+                                : 'Non défini'
+                            }}
+                        </td>
                     </tr>
                     <tr>
                         <td>Arbitre</td>
-                        <td>{{ arbitre ? arbitre.codeFFE : 'Non défini' }}</td>
-                        <td>{{ arbitre ? arbitre.lastName ~ ' ' ~ arbitre.firstName : 'Non défini' }}</td>
+                        <td>
+                            {{ capitainesEtArbitre.arbitre 
+                                ? capitainesEtArbitre.arbitre.codeFFE 
+                                : 'Non défini'
+                            }}
+                        </td>
+                        <td>
+                            {{ capitainesEtArbitre.arbitre 
+                                ? (capitainesEtArbitre.arbitre.lastName ~ ' ' ~ capitainesEtArbitre.arbitre.firstName)
+                                : 'Non défini'
+                            }}
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
-        <!-- Pied de page -->
-        <div class="mt-4 text-center text-gray-500">
-            <p>Document généré automatiquement</p>
-            <p>{{ "now"|date("d/m/Y H:i") }}</p>
-        </div>
+        {# Je n'ajoute aucun bouton car c'est un PDF #}
     </div>
 </body>
 </html>

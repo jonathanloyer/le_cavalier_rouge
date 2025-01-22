@@ -1,43 +1,61 @@
-{# templates/auth/login.html.twig #}
+{# J’indique que ce fichier est un template Twig pour la page de connexion, stocké dans templates/auth/login.html.twig #}
+{# Je commence par hériter de "pages/layout.html.twig" pour la structure globale #}
 {% extends 'pages/layout.html.twig' %}
 
+{# Je définis le bloc "title" comme "Connexion" #}
 {% block title %}Connexion
 {% endblock %}
 
+{# J’ouvre le bloc "body" qui contiendra le contenu principal de cette page #}
 {% block body %}
+	{# Je crée un conteneur flex, centré horizontalement et verticalement (justify-center items-center),
+	   qui remplit la hauteur de l’écran (h-screen), avec un fond gris clair (bg-gray-100). #}
 	<div class="flex justify-center items-center h-screen bg-gray-100">
+		{# Je crée un bloc blanc (bg-white), arrondi (rounded), avec une ombre (shadow-lg),
+		   un padding (p-8), et une largeur max (max-w-md). #}
 		<div class="w-full max-w-md bg-white p-8 rounded shadow-lg">
+			{# Je définis un titre (h2) de taille 2xl, gras (font-semibold), centré (text-center),
+			   avec une marge en bas (mb-6). #}
 			<h2 class="text-2xl font-semibold text-center mb-6">Connexion</h2>
 
+			{# Si une erreur existe, je l’affiche dans un div rouge (text-red-600) #}
 			{% if error %}
 				<div class="text-red-600 mb-4">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 			{% endif %}
 
+			{# Je démarre le formulaire Twig, avec un attribut "class" pour l’espacement vertical (space-y-4). #}
 			{{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
 
-             <div class="mb-4">
+            {# Champ "pseudo", label stylé, widget stylé, et erreurs éventuelles #}
+            <div class="mb-4">
                 {{ form_label(form.pseudo, 'Pseudo', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
                 {{ form_widget(form.pseudo, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
                 {{ form_errors(form.pseudo) }}
             </div>
-            
+
+			{# Champ "email", label stylé, widget stylé (full_name='email'), et erreurs #}
 			<div class="mb-4">
 				{{ form_label(form.email, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
 				{{ form_widget(form.email, {'full_name':'email','attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
 				{{ form_errors(form.email) }}
 			</div>
 
+			{# Champ "password", label stylé, widget stylé (full_name='password'), et erreurs #}
 			<div class="mb-4">
 				{{ form_label(form.password, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
 				{{ form_widget(form.password, {'full_name':'password','attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
 				{{ form_errors(form.password) }}
 			</div>
 
+			{# Bouton submit : stylé en bleu (bg-indigo-600), texte blanc, etc. #}
 			<div>
 				{{ form_widget(form.submit, {'attr': {'class': 'w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'}}) }}
 			</div>
 
+			{# Je termine le formulaire #}
 			{{ form_end(form) }}
+
+			{# J’affiche les éventuels messages flash d’erreur (flash(error)) #}
 			{% for message in app.flashes('error') %}
 				<div class="alert alert-error">
 					{{ message }}

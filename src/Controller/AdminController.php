@@ -461,12 +461,17 @@ public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository
         ]);
     }
 
+    // route pour gérer les messages de contact
     #[Route('/admin/contacts', name: 'admin_manage_contacts')]
     public function manageContacts(Client $mongoClient): Response
 {
+    // Sélectionner la base de données et la collection
     $db = $mongoClient->selectDatabase($_ENV['MONGODB_DB']);
+    
+    // Récupérer tous les messages de contact
     $contacts = $db->contacts->find()->toArray();
 
+    // Retourner la vue pour gérer les messages de contact
     return $this->render('pages/admin/manage_contacts.html.twig', [
         'contacts' => $contacts,
     ]);

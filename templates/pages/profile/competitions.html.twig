@@ -1,27 +1,43 @@
+{# J’étends la mise en page globale (pages/layout.html.twig) pour la structure commune du site #}
 {% extends 'pages/layout.html.twig' %}
 
+{# J’indique le titre « Compétitions » qui sera affiché dans l’onglet #}
 {% block title %}Compétitions{% endblock %}
 
+{# J’ouvre le bloc body pour définir le contenu principal de cette page #}
 {% block body %}
+{# J’utilise un conteneur (container mx-auto) avec padding (p-6),
+   un fond gris clair (bg-gray-100) et une hauteur minimale (min-h-screen). #}
 <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    {# J’affiche un titre (h1) de taille 3xl, gras (font-bold),
+       marge-basse (mb-6), et texte gris (text-gray-700). #}
     <h1 class="text-3xl font-bold mb-6 text-gray-700">Liste des compétitions</h1>
 
-    <!-- Tableau des compétitions -->
+    {# Tableau des compétitions #}
+    {# J’affiche un bloc blanc (bg-white) avec une ombre (shadow),
+       bords arrondis (rounded-lg) et padding (p-6). #}
     <div class="bg-white shadow rounded-lg p-6">
+        {# Je vérifie si la liste « competitions » n’est pas vide #}
         {% if competitions is not empty %}
+            {# J’affiche un tableau responsive (min-w-full table-auto) #}
             <table class="min-w-full table-auto">
                 <thead>
                     <tr class="bg-gray-200">
+                        {# Trois colonnes : Nom, Date, Statut #}
                         <th class="px-4 py-2 text-left text-gray-600">Nom</th>
                         <th class="px-4 py-2 text-left text-gray-600">Date</th>
                         <th class="px-4 py-2 text-left text-gray-600">Statut</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {# Boucle pour afficher chaque compétition #}
                     {% for competition in competitions %}
                         <tr class="border-t">
+                            {# Nom de la compétition #}
                             <td class="px-4 py-2 text-gray-700">{{ competition.name }}</td>
+                            {# Date au format jour/mois/année #}
                             <td class="px-4 py-2 text-gray-700">{{ competition.competitionDate|date('d/m/Y') }}</td>
+                            {# Statut (En attente = À venir, En cours, Terminé) #}
                             <td class="px-4 py-2 text-gray-700">
                                 {% if competition.status == 'En attente' %}
                                     <span class="bg-yellow-500 text-white px-2 py-1 rounded-full">À venir</span>
@@ -35,6 +51,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+        {# Sinon, j’affiche un message s’il n’y a aucune compétition #}
         {% else %}
             <p class="text-gray-600">Aucune compétition enregistrée pour le moment.</p>
         {% endif %}

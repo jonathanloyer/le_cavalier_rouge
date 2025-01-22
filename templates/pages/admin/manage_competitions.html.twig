@@ -1,11 +1,19 @@
+{# J’étends la mise en page globale (pages/layout.html.twig) pour profiter de sa structure #}
 {% extends 'pages/layout.html.twig' %}
 
+{# Je définis la balise <title> comme « Gérer les compétitions » #}
 {% block title %}Gérer les compétitions{% endblock %}
 
+{# J’ouvre le bloc body pour y placer le contenu de la page #}
 {% block body %}
+{# Je crée un conteneur (container mx-auto) avec un padding (p-6),
+   un fond gris clair (bg-gray-100), et une hauteur minimale pleine (min-h-screen). #}
 <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+
+    {# J’affiche un titre h1 de taille 3xl, gras (font-bold), marge-basse (mb-6) et texte gris #}
     <h1 class="text-3xl font-bold mb-6 text-gray-700">Gérer les compétitions</h1>
 
+    {# J’affiche les messages flash "success" si présents #}
     {% for message in app.flashes('success') %}
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
             {{ message }}
@@ -13,19 +21,26 @@
     {% endfor %}
 
     <!-- Formulaire pour ajouter une compétition -->
+    {# Je crée un bloc blanc (bg-white), ombré (shadow), arrondi (rounded-lg),
+       avec du padding (p-6), et une marge-basse (mb-6). #}
     <div class="bg-white shadow rounded-lg p-6 mb-6">
         <h2 class="text-2xl font-bold mb-4 text-gray-700">Ajouter une compétition</h2>
+        
+        {# Je démarre le formulaire Twig pour ajouter une compétition #}
         {{ form_start(form, {'attr': {'class': 'grid grid-cols-1 gap-4'}}) }}
+
             <div>
                 {{ form_label(form.name, 'Nom de la compétition', {'label_attr': {'class': 'block text-sm font-medium text-gray-600'}}) }}
                 {{ form_widget(form.name, {'attr': {'class': 'mt-1 block w-full p-2 border border-gray-300 rounded-md'}}) }}
                 {{ form_errors(form.name) }}
             </div>
+
             <div>
                 {{ form_label(form.competitionDate, 'Date de la compétition', {'label_attr': {'class': 'block text-sm font-medium text-gray-600'}}) }}
                 {{ form_widget(form.competitionDate, {'attr': {'class': 'mt-1 block w-full p-2 border border-gray-300 rounded-md'}}) }}
                 {{ form_errors(form.competitionDate) }}
             </div>
+
             <div class="flex justify-end mt-4">
                 <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                     Ajouter la compétition
@@ -35,9 +50,13 @@
     </div>
 
     <!-- Tableau des compétitions -->
+    {# Un second bloc blanc pour la liste des compétitions, avec une ombre, etc. #}
     <div class="bg-white shadow rounded-lg p-6">
         <h2 class="text-2xl font-bold mb-4 text-gray-700">Liste des compétitions</h2>
+        
+        {# Je vérifie si la liste "competitions" est non vide #}
         {% if competitions is not empty %}
+            {# J’affiche un tableau (min-w-full table-auto) avec une ligne d’en-tête grise (bg-gray-200) #}
             <table class="min-w-full table-auto">
                 <thead>
                     <tr class="bg-gray-200">
@@ -48,10 +67,14 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {# Je boucle sur chaque compétition #}
                     {% for competition in competitions %}
                         <tr class="border-t">
+                            {# Nom de la compétition #}
                             <td class="px-4 py-2 text-gray-700">{{ competition.name }}</td>
+                            {# Date formatée au format "jour/mois/année" #}
                             <td class="px-4 py-2 text-gray-700">{{ competition.competitionDate|date('d/m/Y') }}</td>
+                            {# Statut : En attente, En cours, ou Terminé #}
                             <td class="px-4 py-2 text-gray-700">
                                 {% if competition.status == 'En attente' %}
                                     <span class="bg-yellow-500 text-white px-2 py-1 rounded-full">En attente</span>
@@ -61,15 +84,20 @@
                                     <span class="bg-green-500 text-white px-2 py-1 rounded-full">Terminé</span>
                                 {% endif %}
                             </td>
+                            {# Actions : Modifier et Supprimer #}
                             <td class="px-4 py-2 space-x-2">
                                 <!-- Bouton Modifier -->
-                                <a href="{{ path('admin_modify_competition', {'id': competition.id}) }}" class="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition duration-300">
+                                <a href="{{ path('admin_modify_competition', {'id': competition.id}) }}"
+                                   class="bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition duration-300">
                                     Modifier
                                 </a>
 
                                 <!-- Bouton Supprimer -->
-                                <form action="{{ path('admin_delete_competition', {'id': competition.id}) }}" method="POST" style="display:inline;">
-                                    <button type="submit" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition duration-300" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette compétition ?')">
+                                <form action="{{ path('admin_delete_competition', {'id': competition.id}) }}"
+                                      method="POST" style="display:inline;">
+                                    <button type="submit"
+                                            class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition duration-300"
+                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette compétition ?')">
                                         Supprimer
                                     </button>
                                 </form>
@@ -79,6 +107,7 @@
                 </tbody>
             </table>
         {% else %}
+            {# Sinon, j’affiche un message si aucune compétition n’est enregistrée. #}
             <p class="text-gray-600">Aucune compétition enregistrée pour le moment.</p>
         {% endif %}
     </div>

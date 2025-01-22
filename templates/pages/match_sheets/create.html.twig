@@ -1,26 +1,47 @@
+{# Je précise que j’étends le layout global (pages/layout.html.twig) pour bénéficier de sa structure #}
 {% extends 'pages/layout.html.twig' %}
+
+{# Je définis le bloc title pour la balise <title> de la page #}
 {% block title %}Création d'une Feuille de Match
 {% endblock %}
 
+{# Je débute le bloc body dans lequel j’insère tout le contenu spécifique de cette page #}
 {% block body %}
-	<div class="max-w-screen-lg mx-auto p-4 bg-gray-100">
-		<form
-			method="POST" action="{{ path('app_match_sheets_save') }}">
+	{# Je crée un conteneur de largeur max (max-w-screen-lg), centré (mx-auto),
+	avec un padding (p-4) et un fond gris clair (bg-gray-100). #}
+	<div
+		class="max-w-screen-lg mx-auto p-4 bg-gray-100">
+
+		{# Je crée un formulaire en méthode POST, pour appeler la route "app_match_sheets_save" #}
+		<form method="POST" action="{{ path('app_match_sheets_save') }}">
+
 			<!-- Section des filtres -->
-			<div class="bg-white p-4 rounded shadow mb-4 text-sm">
+			{# Je prépare un bloc blanc (bg-white), arrondi (rounded),
+			avec une ombre (shadow), un padding (p-4),
+			une marge-basse (mb-4) et une petite police (text-sm). #}
+				<div
+				class="bg-white p-4 rounded shadow mb-4 text-sm"> {# Je mets un label et un champ lecture seule pour "Interclub", 
+					qui prend "Interclub Jeune" comme valeur par défaut #}
 				<label class="block mt-4 mb-2 text-gray-700">Interclub :</label>
-				<input type="text" id="interclub" name="interclub" readonly value="Interclub Jeune" class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
+				<input
+				type="text" id="interclub" name="interclub" readonly value="Interclub Jeune" class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
 
+				{# Je mets un label et un champ lecture seule pour "Division",
+				Critérium ou Nationale, selon la variable "type" #}
 				<label class="block mt-4 mb-2 text-gray-700">Division :</label>
-				<input type="text" id="division" name="division" readonly value="{% if type == 'criterium' %}Critérium{% else %}Nationale{% endif %}" class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
+				<input
+				type="text" id="division" name="division" readonly value="{% if type == 'criterium' %}Critérium{% else %}Nationale{% endif %}" class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
 
+				{# Je mets un label et un champ lecture seule pour "Groupe",
+				Groupe 1 si critérium, sinon Groupe 2 #}
 				<label class="block mt-4 mb-2 text-gray-700">Groupe :</label>
 				<input type="text" id="groupe" name="groupe" readonly value="{% if type == 'criterium' %}Groupe 1{% else %}Groupe 2{% endif %}" class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
-
-
 			</div>
 
 			<!-- Titre dynamique -->
+			{# Je crée un bandeau orange (bg-orange-500) avec texte blanc (text-white),
+			centré (text-center), en gras (font-bold), un padding vertical (py-2),
+			marge-basse (mb-2) et une petite police (text-sm). #}
 			<div class="bg-orange-500 text-white text-center font-bold py-2 mb-2 text-sm">
 				Préparation d'un Procès-verbal du groupe :
 				<span>
@@ -30,8 +51,13 @@
 			</div>
 
 			<!-- Table des joueurs -->
+			{# Je détermine "maxLines" : 4 si "type == 'criterium'" sinon 10 #}
 			{% set maxLines = (type == 'criterium') ? 4 : 10 %}
-			<div class="overflow-x-auto">
+
+			{# J’utilise overflow-x-auto pour autoriser un défilement horizontal si nécessaire #}
+			<div
+				class="overflow-x-auto">
+				{# J’affiche un tableau avec 6 colonnes : #, Club A, Joueur A, Résultat, Joueur B, Club B #}
 				<table class="table-auto w-full border-collapse text-sm">
 					<thead>
 						<tr class="bg-gray-200 text-gray-700">
@@ -44,9 +70,14 @@
 						</tr>
 					</thead>
 					<tbody>
+						{# Je boucle de i=1 à i=maxLines, pour afficher soit 4 soit 10 lignes #}
 						{% for i in 1..maxLines %}
-							<tr class="text-center">
+							<tr
+								class="text-center">
+								{# Première colonne : numéro de la ligne (i) #}
 								<td class="border border-gray-300 p-1">{{ i }}</td>
+
+								{# Deuxième colonne : sélecteur pour Club A #}
 								<td class="border border-gray-300 p-1">
 									<select name="clubA" class="w-full border border-gray-300 rounded px-2 py-1">
 										<option value="" disabled selected>Sélectionnez un club</option>
@@ -55,6 +86,8 @@
 										{% endfor %}
 									</select>
 								</td>
+
+								{# Troisième colonne : sélecteur pour Joueur A, groupé par club #}
 								<td class="border border-gray-300 p-1">
 									<select name="joueursA[]" class="w-full border border-gray-300 rounded px-2 py-1">
 										<option value="" disabled selected>Code FFE - joueur de club</option>
@@ -74,6 +107,8 @@
 										{% endfor %}
 									</select>
 								</td>
+
+								{# Quatrième colonne : sélecteur pour le résultat (Gain Blanc / Gain Noir / Nulle) #}
 								<td class="border border-gray-300 p-1">
 									<select name="resultats[]" class="w-full border border-gray-300 rounded px-2 py-1">
 										<option>Sélectionnez le résultat</option>
@@ -82,6 +117,8 @@
 										<option>Nulle</option>
 									</select>
 								</td>
+
+								{# Cinquième colonne : sélecteur pour Joueur B, groupé par club #}
 								<td class="border border-gray-300 p-1">
 									<select name="joueursB[]" class="w-full border border-gray-300 rounded px-2 py-1">
 										<option value="" disabled selected>Code FFE - joueur de club</option>
@@ -101,6 +138,8 @@
 										{% endfor %}
 									</select>
 								</td>
+
+								{# Sixième colonne : sélecteur pour Club B #}
 								<td class="border border-gray-300 p-1">
 									<select name="clubB" class="w-full border border-gray-300 rounded px-2 py-1">
 										<option value="" disabled selected>Sélectionnez un club</option>
@@ -113,6 +152,8 @@
 						{% endfor %}
 
 						<!-- Ligne Capitaine -->
+						{# Je crée une ligne grisée (bg-gray-100), en colspan=6,
+						                        pour choisir les capitaines A et B, dans un style bold + centré. #}
 						<tr class="bg-gray-100">
 							<td colspan="6" class="border border-gray-300 p-2 font-bold text-center">
 								<label for="capitaineA">Capitaine équipe A :</label>
@@ -154,6 +195,8 @@
 						</tr>
 
 						<!-- Ligne Arbitre -->
+						{# Je crée une ligne similaire pour l’Arbitre, colspan=6, fond gris (bg-gray-100),
+						text-center et policé en gras. #}
 						<tr class="bg-gray-100">
 							<td colspan="6" class="border border-gray-300 p-2 font-bold text-center">
 								<label for="arbitre">Arbitre :</label>
@@ -179,10 +222,15 @@
 			</div>
 
 			<!-- Boutons -->
-			<div class="flex justify-between mt-4 text-sm">
+			{# J’utilise un conteneur flex pour aligner deux boutons : Enregistrer et Annuler #}
+			<div
+				class="flex justify-between mt-4 text-sm">
+				{# Bouton bleu (bg-blue-700) en mode submit #}
 				<button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
 					Enregistrer
 				</button>
+
+				{# Lien rouge (bg-red-500) renvoyant à la route "app_match_sheets" #}
 				<a href="{{ path('app_match_sheets') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400 transition">
 					Annuler
 				</a>

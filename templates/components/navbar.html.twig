@@ -1,57 +1,79 @@
-<nav
-	class="navbar bg-gray-800 text-white p-4 flex items-center justify-between">
-	<!-- Logo -->
-	<div class="flex items-center space-x-4">
-		<img src="/img/logo.png" alt="Logo" class="h-8 w-auto">
-		<a href="/" class="text-white text-xl font-bold hidden sm:block">Le Cavalier Rouge</a>
-	</div>
+{# Je crée une barre de navigation avec un fond gris foncé (bg-gray-800),
+   du texte blanc (text-white), un padding de 1rem (p-4), rem veut dire
+   et une disposition en flex pour aligner horizontalement (items-center justify-between). #}
+<nav class="navbar shared-navbar-footer text-white p-4 flex items-center justify-between">
 
-	<!-- Menu Burger -->
-	<div id="navbar-menu-button" class="md:hidden">
-		<svg width="24" height="24" viewbox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-			<line x1="4" x2="20" y1="12" y2="12"/>
-			<line x1="4" x2="20" y1="6" y2="6"/>
-			<line x1="4" x2="20" y1="18" y2="18"/>
-		</svg>
-	</div>
+    <!-- Logo -->
+    {# Je regroupe le logo et le titre dans un flex avec un espacement horizontal (space-x-4). #}
+    <div class="flex items-center space-x-4">
+        {# Logo affiché à une hauteur de 2rem (h-8) #}
+        <img src="/img/logo.png" alt="Logo" class="h-8 w-auto">
+        {# Lien vers l’accueil ("/"), affiché uniquement à partir de la taille sm (hidden sm:block). #}
+        <a href="/" class="text-white text-xl font-bold hidden sm:block">Le Cavalier Rouge</a>
+    </div>
 
-	<!-- Menu -->
-	<ul id="navbar-menu" class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 transition-all duration-300 ease-in-out absolute md:relative top-full md:top-auto bg-gray-800 md:bg-transparent w-full md:w-auto">
-		<li>
-			<a href="/" class="text-lg hover:text-indigo-500 transition-colors duration-200">Accueil</a>
-		</li>
-		{% if app.user %}
-			{% if is_granted('ROLE_ADMIN') %}
-				<li>
-					<a href="{{ path('app_admin') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Tableau de bord</a>
-				</li>
-			{% else %}
-				<li>
-					<a href="{{ path('app_profile') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Profil</a>
-				</li>
-			{% endif %}
-			<li>
-				<a href="{{ path('app_logout') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Se déconnecter</a>
-			</li>
-		{% else %}
-			<li>
-				<a href="{{ path('app_login') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Connexion</a>
-			</li>
-			<li>
-				<a href="/inscription" class="text-lg hover:text-indigo-500 transition-colors duration-200">Inscription</a>
-			</li>
-		{% endif %}
-		<li>
-			<a href="{{ path('contact_form') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Contactez-nous</a>
-		</li>
-	</ul>
+    <!-- Menu Burger -->
+    {# Bouton pour afficher/masquer le menu sur mobile (md:hidden pour le rendre invisible sur moyen écrans et plus). #}
+    <div id="navbar-menu-button" class="md:hidden">
+        <svg width="24" height="24" viewbox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="12" y2="12"/>
+            <line x1="4" x2="20" y1="6" y2="6"/>
+            <line x1="4" x2="20" y1="18" y2="18"/>
+        </svg>
+    </div>
+
+    <!-- Menu -->
+    {# Liste d’éléments de menu (ul), cachée par défaut (hidden), 
+       puis affichée en flex en md (md:flex). 
+       Les classes gèrent la transition et la position absolue sur mobile. #}
+    <ul id="navbar-menu"
+        class="hidden md:flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 transition-all duration-300 ease-in-out absolute md:relative top-full md:top-auto bg-gray-800 md:bg-transparent w-full md:w-auto">
+
+        <li>
+            <a href="/" class="text-lg hover:text-indigo-500 transition-colors duration-200">Accueil</a>
+        </li>
+
+        {# Si l’utilisateur est connecté (app.user), on affiche des liens différents selon ses rôles #}
+        {% if app.user %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <li>
+                    <a href="{{ path('app_admin') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Tableau de bord</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ path('app_profile') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Profil</a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="{{ path('app_logout') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Se déconnecter</a>
+            </li>
+        {% else %}
+            {# Si l’utilisateur n’est pas connecté : Lien de connexion et d’inscription #}
+            <li>
+                <a href="{{ path('app_login') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Connexion</a>
+            </li>
+            <li>
+                <a href="/inscription" class="text-lg hover:text-indigo-500 transition-colors duration-200">Inscription</a>
+            </li>
+        {% endif %}
+
+        {# Le lien "Contactez-nous" est affiché seulement si l’utilisateur n’est pas un admin #}
+        {% if not is_granted('ROLE_ADMIN') %}
+            <li>
+                <a href="{{ path('contact_form') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Contactez-nous</a>
+            </li>
+        {% endif %}
+    </ul>
 </nav>
 
 <script>
-	const menuButton = document.querySelector('#navbar-menu-button');
-const menu = document.querySelector('#navbar-menu');
+    {# Récupération du bouton menu-burger et du menu #}
+    const menuButton = document.querySelector('#navbar-menu-button');
+    const menu = document.querySelector('#navbar-menu');
 
-menuButton.addEventListener('click', () => {
-menu.classList.toggle('hidden');
-});
+    {# Au clic sur le bouton, on ajoute ou on retire la classe "hidden" au menu, 
+       affichant ou masquant la liste sur mobile. #}
+    menuButton.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+    });
 </script>

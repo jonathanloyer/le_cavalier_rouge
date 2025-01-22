@@ -1,13 +1,24 @@
+{# J’étends le layout global (pages/layout.html.twig) pour conserver la structure du site #}
 {% extends 'pages/layout.html.twig' %}
 
+{# J’indique le titre de la page comme « Modifier la compétition » #}
 {% block title %}Modifier la compétition{% endblock %}
 
+{# J’ouvre le bloc body pour y insérer le contenu principal #}
 {% block body %}
+{# Je crée un conteneur (container mx-auto), avec un padding (p-6),
+   un fond gris (bg-gray-100) et une hauteur minimale couvrant tout l’écran (min-h-screen). #}
 <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    {# Titre principal (h1) de taille 3xl, gras (font-bold),
+       marge-basse (mb-6), et texte gris (text-gray-700). #}
     <h1 class="text-3xl font-bold mb-6 text-gray-700">Modifier la compétition</h1>
 
+    {# Je démarre le formulaire, en y ajoutant des attributs ("class" etc.),
+       et j’y insère le bloc "form_widget(form)" pour afficher tous les champs. #}
     {{ form_start(form, { 'attr': { 'class': 'bg-white shadow rounded-lg p-6' } }) }}
         {{ form_widget(form) }}
+        
+        {# Bouton "Enregistrer" aligné à droite (flex justify-end) #}
         <div class="flex justify-end mt-4">
             <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                 Enregistrer

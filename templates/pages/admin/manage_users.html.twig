@@ -1,16 +1,28 @@
+{# Je précise que ce template hérite de pages/layout.html.twig pour conserver la structure globale #}
 {% extends 'pages/layout.html.twig' %}
 
+{# Je définis le bloc "title" pour le titre de la page comme "Gestion des utilisateurs" #}
 {% block title %}Gestion des utilisateurs
 {% endblock %}
 
+{# Je commence le bloc "body" où se trouvera tout le contenu de cette page #}
 {% block body %}
+
+	{# J’affiche un titre (h1) de taille 2xl, avec une police semi-gras (font-semibold),
+	   et une marge-basse (mb-4) #}
 	<h1 class="text-2xl font-semibold mb-4">Gestion des utilisateurs</h1>
 
-	<!-- Tableau des utilisateurs -->
-	<div class="overflow-x-auto bg-white shadow-md rounded-lg">
+	{# Je crée un conteneur (overflow-x-auto) avec un fond blanc (bg-white),
+	   une ombre légère (shadow-md), des bords arrondis (rounded-lg),
+	   dans lequel je place le tableau. #}
+	<div
+		class="overflow-x-auto bg-white shadow-md rounded-lg">
+		{# J’affiche un tableau (table-auto w-full) dont le texte est de taille petite (text-sm)
+			   aligné à gauche (text-left), et de couleur grise (text-gray-600). #}
 		<table class="table-auto w-full text-sm text-left text-gray-600">
 			<thead class="bg-gray-100">
 				<tr>
+					{# 9 colonnes : ID, Email, Pseudo, Nom, Prénom, Club, Actif, Créé le, Actions #}
 					<th class="px-4 py-2">ID</th>
 					<th class="px-4 py-2">Email</th>
 					<th class="px-4 py-2">Pseudo</th>
@@ -23,14 +35,22 @@
 				</tr>
 			</thead>
 			<tbody>
+				{# Je boucle sur la liste "users". #}
 				{% for user in users %}
-					<tr class="border-b">
+					<tr
+						class="border-b">
+						{# J’affiche l’ID de l’utilisateur #}
 						<td class="px-4 py-2">{{ user.id }}</td>
+						{# J’affiche son email #}
 						<td class="px-4 py-2">{{ user.email }}</td>
+						{# J’affiche son pseudo #}
 						<td class="px-4 py-2">{{ user.pseudo }}</td>
+						{# Nom et Prénom #}
 						<td class="px-4 py-2">{{ user.lastName }}</td>
 						<td class="px-4 py-2">{{ user.firstName }}</td>
+						{# Club : j’affiche "Aucun club" si user.club est nul #}
 						<td class="px-4 py-2">{{ user.club ? user.club.name : 'Aucun club' }}</td>
+						{# Actif : je mets un badge vert (Actif) ou rouge (Inactif) #}
 						<td class="px-4 py-2">
 							{% if user.active %}
 								<span class="bg-green-500 text-white px-2 py-1 rounded-full">Actif</span>
@@ -38,7 +58,9 @@
 								<span class="bg-red-500 text-white px-2 py-1 rounded-full">Inactif</span>
 							{% endif %}
 						</td>
+						{# Date de création, formatée en "jour/mois/année heure:minute" #}
 						<td class="px-4 py-2">{{ user.createdAt|date('d/m/Y H:i') }}</td>
+						{# Actions : Modifier, Supprimer, Ajouter/Retirer ROLE_CAPITAINE #}
 						<td
 							class="px-4 py-2 space-x-2">
 							<!-- Bouton Modifier -->
@@ -66,6 +88,7 @@
 						</td>
 					</tr>
 				{% else %}
+					{# Si la boucle ne trouve aucun user, j’affiche une ligne indiquant "Aucun utilisateur trouvé." #}
 					<tr>
 						<td colspan="9" class="px-4 py-2 text-center text-gray-500">
 							Aucun utilisateur trouvé.

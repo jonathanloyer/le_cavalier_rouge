@@ -17,37 +17,46 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // Je construis le formulaire avec les champs nécessaires.
         $builder
+            // J’ajoute un champ pour l’email, avec le type EmailType.
             ->add('email', EmailType::class, [
-                'label' => 'Adresse Email',
+                'label' => 'Adresse Email', // J’affiche un label "Adresse Email".
             ])
+            // J’ajoute un champ pour le pseudo, avec le type TextType.
             ->add('pseudo', TextType::class, [
-                'label' => 'Pseudo',
+                'label' => 'Pseudo', // J’affiche un label "Pseudo".
             ])
+            // J’ajoute un champ pour le nom, avec le type TextType.
             ->add('lastName', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'Nom', // J’affiche un label "Nom".
             ])
+            // J’ajoute un champ pour le prénom, avec le type TextType.
             ->add('firstName', TextType::class, [
-                'label' => 'Prénom',
+                'label' => 'Prénom', // J’affiche un label "Prénom".
             ])
+            // J’ajoute un champ pour sélectionner un club, avec le type EntityType.
             ->add('club', EntityType::class, [
-                'class' => Club::class,
-                'choice_label' => 'name',
-                'label' => 'Club',
+                'class' => Club::class, // Je lie ce champ à l’entité Club.
+                'choice_label' => 'name', // J’utilise le nom du club comme étiquette.
+                'label' => 'Club', // J’affiche un label "Club".
             ])
+            // J’ajoute une case à cocher pour l’état actif, avec le type CheckboxType.
             ->add('active', CheckboxType::class, [
-                'label' => 'Actif',
-                'required' => false,
+                'label' => 'Actif', // J’affiche un label "Actif".
+                'required' => false, // Le champ n’est pas obligatoire.
             ])
+            // J’ajoute un bouton de soumission, avec le type SubmitType.
             ->add('save', SubmitType::class, [
-                'label' => 'Enregistrer',
+                'label' => 'Enregistrer', // J’affiche un label "Enregistrer".
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        // Je configure les options pour ce formulaire.
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => User::class, // Je lie ce formulaire à l’entité User.
         ]);
     }
 }
