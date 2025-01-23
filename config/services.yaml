@@ -19,14 +19,8 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-    
-    # MongoDB Client service
-    MongoDB\Client:
-        factory: ['MongoDB\Client', '__construct']
-        arguments:
-            - '%env(MONGODB_URL)%'
 
-    # Custom MongoDB Client service
+    # Definition for the MongoDBClient service
     App\Service\MongoDBClient:
         arguments:
             $mongodbUrl: '%env(MONGODB_URL)%'

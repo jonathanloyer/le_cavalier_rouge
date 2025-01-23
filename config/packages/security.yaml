@@ -44,6 +44,7 @@ security:
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/profile, roles: ROLE_USER }
     - { path: ^/feuille-de-match, roles:  [ROLE_CAPITAINE, ROLE_ADMIN] }
+    # - { path: ^/contactez-nous, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
 
 when@test:

@@ -60,7 +60,7 @@
         {# Le lien "Contactez-nous" est affiché seulement si l’utilisateur n’est pas un admin #}
         {% if not is_granted('ROLE_ADMIN') %}
             <li>
-                <a href="{{ path('contact_form') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Contactez-nous</a>
+                <a href="{{ path('public_contact_form') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Contactez-nous</a>
             </li>
         {% endif %}
     </ul>

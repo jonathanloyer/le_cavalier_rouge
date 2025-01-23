@@ -38,7 +38,7 @@ body {
 
 /* Style spécifique pour le footer */
 .footer {
-    @apply shared-navbar-footer; /* Applique la classe commune */
+    @apply shared-navbar-footer; 
     text-align: center; /* Centre le contenu */
     padding: 10px; /* Ajoute un peu d'espace interne */
 }

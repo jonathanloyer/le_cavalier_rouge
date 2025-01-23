@@ -36,6 +36,10 @@ class AdminController extends AbstractController
 
     ): Response {
 
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        }
+
         // Vérifier si l'utilisateur est connecté
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
 
@@ -100,6 +104,12 @@ class AdminController extends AbstractController
     #[Route('/admin/utilisateurs', name: 'admin_manage_users')]
     public function manageUsers(UserRepository $userRepository): Response
     {
+
+        // Vérification du rôle ADMIN
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        }
+
         // Récupérer tous les utilisateurs
         $users = $userRepository->findAll();
 
@@ -118,6 +128,10 @@ class AdminController extends AbstractController
         EntityManagerInterface $entityManager // Injection de dépendance pour EntityManagerInterface
 
     ): Response {
+
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        }
 
         // Récupére l'utilisateur à modifier
         $user = $userRepository->find($id);
@@ -158,6 +172,9 @@ class AdminController extends AbstractController
     #[Route('/admin/utilisateur/{id}/supprimer', name: 'admin_delete_user', methods: ['POST'])]
     public function deleteUser(int $id, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        }
         // Je récupère l'utilisateur à supprimer par son ID
         $user = $userRepository->find($id);
 
@@ -185,6 +202,9 @@ class AdminController extends AbstractController
     #[Route('/admin/utilisateur/{id}/ajouter-capitaine', name: 'admin_add_capitaine')]
     public function addCapitaine(int $id, UserRepository $userRepository, ManagerRegistry $doctrine): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        }
         // Je récupère l'utilisateur par son ID
         $user = $userRepository->find($id);
 
@@ -227,6 +247,9 @@ class AdminController extends AbstractController
     #[Route('/admin/utilisateur/{id}/retirer-capitaine', name: 'admin_remove_capitaine')]
     public function removeCapitaine(int $id, UserRepository $userRepository, ManagerRegistry $doctrine): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        }
         // Je récupère l'utilisateur par son ID
         $user = $userRepository->find($id);
 
@@ -263,6 +286,9 @@ class AdminController extends AbstractController
     #[Route('/admin/competitions', name: 'admin_manage_competitions')]
     public function manageCompetitions(CompetitionsRepository $competitionRepository): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        }
         // Je récupère toutes les compétitions
         $competitions = $competitionRepository->findAll();
 
@@ -275,6 +301,9 @@ class AdminController extends AbstractController
     #[Route('/admin/joueurs', name: 'admin_manage_players')]
     public function managePlayers(JoueursRepository $joueursRepository): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        }
         // Je récupère tous les joueurs
         $joueurs = $joueursRepository->findAll();
 
@@ -287,6 +316,11 @@ class AdminController extends AbstractController
     #[Route('/admin/feuilles-de-match', name: 'admin_manage_match_sheets')]
 public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository): Response
 {
+     // Vérification des rôles ADMIN ou CAPITAINE
+     if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_CAPITAINE')) {
+        throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+    }
+
     // Récupérer toutes les feuilles de match
     $feuillesMatch = $feuilleMatchRepository->findAll();
 
@@ -312,6 +346,11 @@ public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository
         Request $request // Injection de dépendance pour Request
 
     ): Response {
+
+        // Vérification du rôle ADMIN
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        }
 
         // Je récupère tous les clubs
         $clubs = $clubRepository->findAll();
@@ -365,6 +404,11 @@ public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository
 
     ): Response {
 
+        // Vérification du rôle ADMIN
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        }
+
         // Je récupère le club à modifier
         $club = $clubRepository->find($id);
 
@@ -411,6 +455,12 @@ public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository
     #[Route('/admin/clubs/{id}/delete', name: 'admin_delete_club', methods: ['POST'])]
     public function deleteClub(int $id, ClubRepository $clubRepository, EntityManagerInterface $entityManager): Response
     {
+
+        // Vérification du rôle ADMIN
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        }
+
         // Je récupère le club à supprimer par son ID
         $club = $clubRepository->find($id);
 
@@ -447,6 +497,12 @@ public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository
     #[Route('/admin/joueurs/actifs', name: 'admin_active_players')]
     public function manageActivePlayers(UserRepository $userRepository): Response
     {
+
+        // Vérification du rôle ADMIN
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        }
+
         // Récupère uniquement les utilisateurs actifs
         $activePlayers = $userRepository->findBy(['active' => true]);
 
@@ -465,6 +521,12 @@ public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository
     #[Route('/admin/contacts', name: 'admin_manage_contacts')]
     public function manageContacts(Client $mongoClient): Response
 {
+
+      // Vérification du rôle ADMIN
+      if (!$this->isGranted('ROLE_ADMIN')) {
+        throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+    }
+
     // Sélectionner la base de données et la collection
     $db = $mongoClient->selectDatabase($_ENV['MONGODB_DB']);
     
@@ -483,6 +545,11 @@ public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository
     #[Route('/admin/contacts/{id}/delete', name: 'admin_delete_contact', methods: ['POST'])]
     public function deleteContact(string $id, Client $mongoClient): Response
     {
+        // Vérification du rôle ADMIN
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        }
+
         try {
             // Sélectionner la base de données et la collection
             $db = $mongoClient->selectDatabase($_ENV['MONGODB_DB']);
