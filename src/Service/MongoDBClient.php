@@ -7,16 +7,16 @@ use MongoDB\Client;
 class MongoDBClient
 {
     private Client $client;
-    private $database;
+    private string $databaseName;
 
     public function __construct(string $mongodbUrl, string $mongodbDb)
     {
         $this->client = new Client($mongodbUrl);
-        $this->database = $this->client->selectDatabase($mongodbDb);
+        $this->databaseName = $mongodbDb;
     }
 
     public function getDatabase()
     {
-        return $this->database;
+        return $this->client->selectDatabase($this->databaseName);
     }
 }
