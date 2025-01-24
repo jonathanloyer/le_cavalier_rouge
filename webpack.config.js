@@ -21,6 +21,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js') // JavaScript principal, importe app.css
+    .addStyleEntry('styles', './assets/styles/app.css') // CSS principal
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -70,7 +71,7 @@ Encore
     //.autoProvidejQuery()
 
     // enables PostCSS (for Tailwind CSS and other plugins)
-    // .enablePostCssLoader()
+    .enablePostCssLoader()
 ;
 
 module.exports = Encore.getWebpackConfig();

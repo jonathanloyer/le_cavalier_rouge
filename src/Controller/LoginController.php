@@ -16,7 +16,7 @@ public function login(Request $request, AuthenticationUtils $authenticationUtils
 {
       // Vérifie si l'utilisateur est déjà authentifié
       if ($this->isGranted('ROLE_ADMIN')) {
-        return $this->redirectToRoute('app_dashboard'); // Redirige les administrateurs vers le tableau de bord
+        return $this->redirectToRoute('app_admin'); // Redirige les administrateurs vers le tableau de bord
     }
 
     if ($this->isGranted('ROLE_USER')) {
