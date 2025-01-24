@@ -69,22 +69,18 @@
         {# Un bloc (div) blanc (bg-white), ombré (shadow), arrondi (rounded-lg),
            padding (p-6), marge en haut (mt-10). #}
         <div class="mt-10 bg-white shadow rounded-lg p-6">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Dernières activités</h2>
-            {# Liste d’éléments, séparés par un trait (divide-y) #}
-            <ul class="divide-y divide-gray-300">
-                <li class="py-4 flex justify-between">
-                    <span class="text-gray-600">Nouvel utilisateur : Jean Dupont</span>
-                    <span class="text-sm text-gray-500">il y a 2 heures</span>
-                </li>
-                <li class="py-4 flex justify-between">
-                    <span class="text-gray-600">Tournoi créé : Championnat régional</span>
-                    <span class="text-sm text-gray-500">il y a 1 jour</span>
-                </li>
-                <li class="py-4 flex justify-between">
-                    <span class="text-gray-600">Partie terminée : Alice vs Bob</span>
-                    <span class="text-sm text-gray-500">il y a 3 jours</span>
-                </li>
-            </ul>
-        </div>
+    <h2 class="text-2xl font-bold mb-4 text-gray-700">Dernières activités</h2>
+
+    <ul class="divide-y divide-gray-300">
+        {% for activity in recentActivities %}
+            <li class="py-4 flex justify-between">
+                <span class="text-gray-600">{{ activity.message }}</span>
+                <span class="text-sm text-gray-500">{{ activity.time }}</span>
+            </li>
+        {% else %}
+            <li class="py-4 text-gray-500">Aucune activité récente.</li>
+        {% endfor %}
+    </ul>
+</div>
     </div>
 {% endblock %}

@@ -83,11 +83,42 @@ class AdminController extends AbstractController
             ->getSingleScalarResult();
 
         // Activités récentes
-        $recentActivities = [
-            ['message' => 'Nouvel utilisateur inscrit', 'time' => 'il y a 2 heures'],
-            ['message' => 'Compétition ajoutée : Open de France', 'time' => 'il y a 1 jour'],
-            ['message' => 'Feuille de match soumise', 'time' => 'il y a 3 jours'],
-        ];
+        $latestUsers = $userRepository->findBy([], ['createdAt' => 'DESC'], 5);
+        $latestCompetitions = $competitionRepository->findBy([], ['id' => 'DESC'], 5);
+
+        $latestMatches = $feuilleMatchRepository->findBy([], ['dateMatch' => 'DESC'], 5);
+
+        // Préparer les activités récentes pour affichage
+        $recentActivities = [];
+
+        foreach ($latestUsers as $user) {
+            $recentActivities[] = [
+                'message' => "Nouvel utilisateur inscrit : {$user->getFirstName()} {$user->getLastName()}",
+                'time' => $user->getCreatedAt()->format('d/m/Y H:i'),
+            ];
+        }
+
+        foreach ($latestCompetitions as $competition) {
+            $recentActivities[] = [
+                'message' => "Compétition ajoutée : {$competition->getName()}",
+                'time' => $competition->getCompetitionDate()->format('d/m/Y H:i'),
+            ];
+        }
+
+        foreach ($latestMatches as $match) {
+            $recentActivities[] = [
+                'message' => "Nouvelle feuille de match créée",
+                'time' => $match->getDateMatch()->format('d/m/Y H:i'),
+            ];
+        }
+
+        // Trier les activités par ordre décroissant de temps (optionnel si nécessaire)
+        usort($recentActivities, function ($a, $b) {
+            return strtotime($b['time']) - strtotime($a['time']);
+        });
+
+        // Limiter à 5 activités récentes
+        $recentActivities = array_slice($recentActivities, 0, 5);
 
         // Retourner la vue de la page d'accueil de l'administrateur
         return $this->render('pages/admin/index.html.twig', [
@@ -314,28 +345,28 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/feuilles-de-match', name: 'admin_manage_match_sheets')]
-public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository): Response
-{
-     // Vérification des rôles ADMIN ou CAPITAINE
-     if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_CAPITAINE')) {
-        throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
-    }
-
-    // Récupérer toutes les feuilles de match
-    $feuillesMatch = $feuilleMatchRepository->findAll();
-
-    // Vérifier et corriger les feuilles avec des données invalides pour `joueurs`
-    foreach ($feuillesMatch as $feuille) {
-        if (!is_array($feuille->getJoueurs())) {
-            $feuille->setJoueurs([]); // Définit un tableau vide par défaut si nécessaire
+    public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository): Response
+    {
+        // Vérification des rôles ADMIN ou CAPITAINE
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_CAPITAINE')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
         }
-    }
 
-    // Retourner la vue pour gérer les feuilles de match
-    return $this->render('pages/admin/manage_match_sheets.html.twig', [
-        'feuillesMatch' => $feuillesMatch,
-    ]);
-}
+        // Récupérer toutes les feuilles de match
+        $feuillesMatch = $feuilleMatchRepository->findAll();
+
+        // Vérifier et corriger les feuilles avec des données invalides pour `joueurs`
+        foreach ($feuillesMatch as $feuille) {
+            if (!is_array($feuille->getJoueurs())) {
+                $feuille->setJoueurs([]); // Définit un tableau vide par défaut si nécessaire
+            }
+        }
+
+        // Retourner la vue pour gérer les feuilles de match
+        return $this->render('pages/admin/manage_match_sheets.html.twig', [
+            'feuillesMatch' => $feuillesMatch,
+        ]);
+    }
 
 
     // Gérer les clubs
@@ -520,24 +551,24 @@ public function manageMatchSheets(FeuilleMatchRepository $feuilleMatchRepository
     // route pour gérer les messages de contact
     #[Route('/admin/contacts', name: 'admin_manage_contacts')]
     public function manageContacts(Client $mongoClient): Response
-{
+    {
 
-      // Vérification du rôle ADMIN
-      if (!$this->isGranted('ROLE_ADMIN')) {
-        throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        // Vérification du rôle ADMIN
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
+        }
+
+        // Sélectionner la base de données et la collection
+        $db = $mongoClient->selectDatabase($_ENV['MONGODB_DB']);
+
+        // Récupérer tous les messages de contact
+        $contacts = $db->contacts->find()->toArray();
+
+        // Retourner la vue pour gérer les messages de contact
+        return $this->render('pages/admin/manage_contacts.html.twig', [
+            'contacts' => $contacts,
+        ]);
     }
-
-    // Sélectionner la base de données et la collection
-    $db = $mongoClient->selectDatabase($_ENV['MONGODB_DB']);
-    
-    // Récupérer tous les messages de contact
-    $contacts = $db->contacts->find()->toArray();
-
-    // Retourner la vue pour gérer les messages de contact
-    return $this->render('pages/admin/manage_contacts.html.twig', [
-        'contacts' => $contacts,
-    ]);
-}
 
 
 

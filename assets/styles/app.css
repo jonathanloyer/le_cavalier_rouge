@@ -9,52 +9,65 @@ body {
 
 /* Classe commune pour navbar et footer */
 .shared-navbar-footer {
-    background-color: rgb(2, 36, 90); /* Même couleur pour navbar et footer */
-    color: white; /* Texte en blanc */
+    background-color: rgb(2, 36, 90); /* Couleur commune */
+    color: white; /* Texte blanc */
+    height: 50px; /* Hauteur commune */
 }
 
 /* Style spécifique pour la navbar */
 .navbar {
     @apply shared-navbar-footer; /* Applique la classe commune */
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
+    align-items: center; /* Aligne verticalement */
+    justify-content: space-between; /* Espace entre logo et menu */
+    padding: 0 20px; /* Ajoute de l'espace horizontal */
 }
 
-/* Style spécifique pour le menu navbar */
+/* Menu dans la navbar */
 #navbar-menu {
     display: flex;
-    padding-right: 10px;
-    gap: 10px;
-    color: white;
-    transition: all 0.2s ease-in-out;
+    align-items: center; /* Aligne verticalement */
+    gap: 20px; /* Espacement entre les éléments */
+    padding-right: 20px; /* Espace à droite */
+    transition: all 0.2s ease-in-out; /* Animation fluide */
+    color: white; /* Texte blanc */
 }
 
-/* Bouton du menu navbar */
+/* Bouton menu burger pour mobiles */
 #navbar-menu-button {
-    display: none;
+    display: none; /* Caché par défaut */
+    cursor: pointer;
 }
 
-/* Style spécifique pour le footer */
+/* Footer */
 .footer {
-    @apply shared-navbar-footer; 
-    text-align: center; /* Centre le contenu */
-    padding: 10px; /* Ajoute un peu d'espace interne */
+    @apply shared-navbar-footer;
+    text-align: center; /* Centre le texte */
+    padding: 10px; /* Plus d'espace interne */
+    height: 40px; /* Hauteur augmentée */
+    font-size: 1rem; /* Taille de texte agrandie */
 }
 
-/* Responsive : Styles pour les petits écrans */
+/* Responsive pour petits écrans */
 @media (max-width: 750px) {
     #navbar-menu-button {
-        display: flex;
+        display: flex; /* Affiche le menu burger */
     }
+
     #navbar-menu {
-        flex-direction: column;
+        display: none; /* Masque le menu par défaut */
+        flex-direction: column; /* Vertical */
         position: absolute;
-        left: 0;
-        top: 45px;
-        min-width: 50vw;
-        min-height: 50vh;
-        padding: 10px;
+        top: 80px; /* En dessous de la navbar */
+        right: 0; /* Aligné à droite */
+        background-color: rgb(2, 36, 90);
+        min-width: 50vw; /* Largeur minimale */
+        min-height: 50vh; /* Hauteur minimale */
+        padding: 20px;
+        z-index: 10; /* Toujours visible */
+    }
+
+    #navbar-menu.open {
+        display: flex; /* Affiche le menu lorsqu'il est ouvert */
     }
 }
