@@ -1,13 +1,13 @@
 {# Barre de navigation #}
-<nav class="navbar shared-navbar-footer text-white p-4 flex items-center justify-between">
+<nav class="navbar shared-navbar-footer text-white p-4 flex items-center justify-between" role="navigation">
     <!-- Logo -->
     <div class="flex items-center space-x-4">
-        <img src="/img/logo.png" alt="Logo" class="h-8 w-auto">
+        <img src="/img/logo.png" alt="Logo de l'association Le Cavalier Rouge" class="h-8 w-auto">
         <a href="/" class="text-white text-xl font-bold hidden sm:block">Le Cavalier Rouge</a>
     </div>
 
     <!-- Menu Burger -->
-    <button id="navbar-menu-button" class="md:hidden focus:outline-none">
+    <button id="navbar-menu-button" aria-label="Ouvrir le menu" aria-expanded="false" class="md:hidden focus:outline-none">
         <svg width="24" height="24" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="4" x2="20" y1="12" y2="12"/>
             <line x1="4" x2="20" y1="6" y2="6"/>
@@ -35,11 +35,8 @@
     </ul>
 </nav>
 
-
-
-
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const menuButton = document.querySelector('#navbar-menu-button');
     const menu = document.querySelector('#navbar-menu');
 
@@ -48,19 +45,17 @@
         return;
     }
 
-    // Gestion de l'ouverture/fermeture
     menuButton.addEventListener('click', () => {
-        menu.classList.toggle('open'); // Ajoute ou retire la classe "open"
+        const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+        menuButton.setAttribute('aria-expanded', !isExpanded);
+        menu.classList.toggle('open');
     });
 
-    // Fermer le menu si on clique en dehors
     document.addEventListener('click', (event) => {
         if (!menu.contains(event.target) && !menuButton.contains(event.target)) {
+            menuButton.setAttribute('aria-expanded', false);
             menu.classList.remove('open');
         }
     });
 });
-
-
-
 </script>

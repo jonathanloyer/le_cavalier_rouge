@@ -1,101 +1,116 @@
-{# J’indique que cette page hérite du layout global (pages/layout.html.twig). #}
 {% extends 'pages/layout.html.twig' %}
 
-{# Je définis le contenu de la balise <title> comme "Inscription". #}
-{% block title %}Inscription
+{# SEO - Title #}
+{% block title %}Inscription - Le Cavalier Rouge
 {% endblock %}
 
-{# Je commence le bloc "body" qui contiendra tout le contenu principal de la page. #}
+{# SEO - Meta Description #}
+{% block meta_description %}Inscrivez-vous au club d'échecs Le Cavalier Rouge à Clamart. Rejoignez-nous pour des cours, des tournois et des événements pour tous niveaux d'échecs.
+{% endblock %}
+
+{# SEO - Open Graph Meta Tags (utilisé par Facebook et autres réseaux sociaux) #}
+{% block og_title %}Inscription - Le Cavalier Rouge
+{% endblock %}
+{% block og_description %}Rejoignez le Club d'échecs Le Cavalier Rouge à Clamart et participez à des activités adaptées à tous les niveaux de joueurs d'échecs.
+{% endblock %}
+{% block og_image %}
+	{{ asset('img/logo.png') }}
+{% endblock %}
+
+{# SEO - Twitter Meta Tags (utilisé par Twitter) #}
+{% block twitter_title %}Inscription - Le Cavalier Rouge
+{% endblock %}
+{% block twitter_description %}Participez aux événements du Club d'échecs Le Cavalier Rouge à Clamart. Inscrivez-vous dès maintenant et rejoignez notre communauté !
+{% endblock %}
+{% block twitter_image %}
+	{{ asset('img/logo.png') }}
+{% endblock %}
+
 {% block body %}
-	{# Je crée un conteneur (div) avec un fond gris clair (bg-gray-100)
-	   et une hauteur minimale pour couvrir tout l’écran (min-h-screen). #}
 	<div class="bg-gray-100 min-h-screen">
-		
-		{# J’ajoute un div flex pour centrer (justify-center items-center)
-		   le formulaire horizontalement et verticalement, avec un padding top (pt-16). #}
 		<div class="flex justify-center items-center pt-16">
-			
-			{# Je crée un bloc blanc (bg-white), arrondi (rounded), ombré (shadow-lg),
-			   avec un padding (p-8), une largeur max de type md (max-w-md). #}
 			<div class="w-full max-w-md bg-white p-8 rounded shadow-lg">
-				
-				{# Je définis un titre (h2) de taille 2xl, gras (font-semibold),
-				   centré (text-center) et avec une marge en bas (mb-6). #}
-				<h2 class="text-2xl font-semibold text-center mb-6">Inscription</h2>
+				<h1 class="text-2xl font-semibold text-center mb-6">Inscription</h1>
 
-				{# J’ouvre le formulaire Twig, en POST, avec un attribut "class" (space-y-4). #}
-				{{ form_start(form, {'attr': {'class': 'space-y-4'}, 'method': 'POST'}) }}
+				<!-- Affichage des messages flash -->
+				{% for type, messages in app.flashes %}
+					{% for message in messages %}
+						<div class="mb-4 {% if type == 'success' %}bg-green-100 border-green-500 text-green-700{% else %}bg-red-100 border-red-500 text-red-700{% endif %} border-l-4 p-4" data-test="flash-message">
+							<p>{{ message }}</p>
+						</div>
+					{% endfor %}
+				{% endfor %}
 
-				{# Champ "email" #}
-				<div class="mb-4">
+				<!-- Début du formulaire -->
+				{{ form_start(form, {'attr': {'class': 'space-y-4', 'id': 'form-inscription'}, 'method': 'POST'}) }}
+
+				<!-- Affichage des erreurs globales -->
+				{% if form.vars.errors|length > 0 %}
+					<div class="form-errors mb-4" data-test="form-errors">
+						<ul class="text-red-500 text-sm">
+							{% for error in form.vars.errors %}
+								<li>{{ error.message }}</li>
+							{% endfor %}
+						</ul>
+					</div>
+				{% endif %}
+
+				<!-- Champs du formulaire -->
+				<div class="mb-4" data-test="form-email">
 					{{ form_label(form.email, 'Adresse Email', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
 					{{ form_widget(form.email, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
 					{{ form_errors(form.email) }}
 				</div>
 
-				{# Champ "lastName" #}
-				<div class="mb-4">
+				<div class="mb-4" data-test="form-lastname">
 					{{ form_label(form.lastName, 'Nom', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
 					{{ form_widget(form.lastName, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
 					{{ form_errors(form.lastName) }}
 				</div>
 
-				{# Champ "firstName" #}
-				<div class="mb-4">
+				<div class="mb-4" data-test="form-firstname">
 					{{ form_label(form.firstName, 'Prénom', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
 					{{ form_widget(form.firstName, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
 					{{ form_errors(form.firstName) }}
 				</div>
 
-				{# Champ "pseudo" #}
-				<div class="mb-4">
+				<div class="mb-4" data-test="form-pseudo">
 					{{ form_label(form.pseudo, 'Pseudo', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
 					{{ form_widget(form.pseudo, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
 					{{ form_errors(form.pseudo) }}
 				</div>
 
-				{# Champ "codeFFE" #}
-				<div class="mb-4">
+				<div class="mb-4" data-test="form-codeFFE">
 					{{ form_label(form.codeFFE, 'Code FFE', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
 					{{ form_widget(form.codeFFE, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm', 'placeholder': 'Entrez votre code FFE'}}) }}
 					{{ form_errors(form.codeFFE) }}
 				</div>
 
-				{# Champ "club" #}
-				<div class="mb-4">
+				<div class="mb-4" data-test="form-club">
 					{{ form_label(form.club, 'Club', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
 					{{ form_widget(form.club, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
 					{{ form_errors(form.club) }}
 				</div>
 
-				{# Champ "password.first" #}
-				<div class="mb-4">
+				<div class="mb-4" data-test="form-password-first">
 					{{ form_label(form.password.first, 'Mot de passe', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
 					{{ form_widget(form.password.first, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
 					{{ form_errors(form.password.first) }}
 				</div>
 
-				{# Champ "password.second" (confirmation) #}
-				<div class="mb-4">
+				<div class="mb-4" data-test="form-password-second">
 					{{ form_label(form.password.second, 'Confirmez le mot de passe', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
 					{{ form_widget(form.password.second, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
 					{{ form_errors(form.password.second) }}
 				</div>
 
-				{# Bouton "envoyer" #}
-				<div>
-					{{ form_widget(form.envoyer, {'attr': {'class': 'w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'}}) }}
+
+				<!-- Bouton d'envoi -->
+				<div data-test="form-submit">
+					{{ form_widget(form.envoyer, {'attr': {'class': 'w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500', 'id': 'submit-inscription'}}) }}
 				</div>
 
-				{# Je termine le formulaire #}
 				{{ form_end(form) }}
-
-				{# J’affiche les messages flash (erreur) si présents #}
-				{% for message in app.flashes('error') %}
-					<div class="alert alert-error">
-						{{ message }}
-					</div>
-				{% endfor %}
 			</div>
 		</div>
 	</div>

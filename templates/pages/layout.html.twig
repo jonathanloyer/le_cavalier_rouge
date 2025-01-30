@@ -2,19 +2,54 @@
 <html class="h-full">
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="{% block meta_description %}Club d'échecs Le Cavalier Rouge - Clamart et Meudon : cours, tournois et activités pour les passionnés d'échecs.{% endblock %}">
+		<meta name="author" content="Le Cavalier Rouge">
+		<meta name="robots" content="index, follow">
+
+		<!-- Open Graph -->
+		<meta property="og:title" content="{% block og_title %}Le Cavalier Rouge - Club d'échecs{% endblock %}">
+		<meta property="og:description" content="{% block og_description %}Rejoignez notre club d'échecs à Clamart et Meudon. Participez à des cours, tournois et événements pour tous niveaux !{% endblock %}">
+		<meta property="og:image" content="{% block og_image %}{{ asset('img/logo.png') }}{% endblock %}">
+		<meta property="og:url" content="{{ app.request.uri }}">
+		<meta property="og:type" content="website">
+
+		<!-- Twitter Cards -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="{% block twitter_title %}Le Cavalier Rouge - Club d'échecs{% endblock %}">
+		<meta name="twitter:description" content="{% block twitter_description %}Découvrez Le Cavalier Rouge : le club d'échecs à Clamart et Meudon. Des cours et tournois pour tous !{% endblock %}">
+		<meta name="twitter:image" content="{% block twitter_image %}{{ asset('img/logo.png') }}{% endblock %}">
+
+		{# <!-- Canonical URL -->
+		<link rel="canonical" href="{{ app.request.uri }}"> #}
+		<!-- Canonical URL (Position correcte pour le SEO) -->
+		{% if app.request is defined and app.request is not null %}
+			<meta property="og:url" content="{{ app.request.uri }}">
+			<link rel="canonical" href="{{ app.request.uri }}">
+		{% else %}
+			<meta property="og:url" content="https://lecavalierrouge.fr">
+			<link rel="canonical" href="https://lecavalierrouge.fr">
+		{% endif %}
+
+
+    <!-- Ajouter le favicon -->
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+
 		<title>
 			{% block title %}
 				Le Cavalier Rouge
 			{% endblock %}
 		</title>
+
 		{% block stylesheets %}
 			<!-- Lien vers le fichier CSS généré par Webpack Encore -->
 			<link rel="stylesheet" href="{{ asset('build/assets_styles_app_css.css') }}">
 		{% endblock %}
 		{% block javascripts %}
-			<!-- Suppression du bloc importmap si Stimulus n'est pas utilisé -->
 			<script src="{{ asset('build/runtime.js') }}" defer></script>
 			<script src="{{ asset('build/app.js') }}" defer></script>
+			<script src="{{ asset('js/cookies.js') }}" defer></script>
+
 		{% endblock %}
 	</head>
 	<body class="flex flex-col min-h-screen bg-gray-100" data-turbo="false">
@@ -28,5 +63,13 @@
 
 		<!-- Footer -->
 		{% include "components/footer.html.twig" %}
+
+		<div id="cookie-banner" class="fixed bottom-0 w-full bg-gray-800 text-white p-4 flex justify-between items-center">
+    <p class="text-sm">Nous utilisons des cookies pour améliorer votre expérience. <a href="/rgpd" class="text-blue-400 hover:underline">En savoir plus</a>.</p>
+    <button id="accept-cookies" class="bg-blue-500 text-white px-4 py-2 rounded">Accepter</button>
+</div>
+
 	</body>
 </html>
+
+

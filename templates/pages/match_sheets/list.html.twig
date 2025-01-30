@@ -2,86 +2,95 @@
 {% extends 'pages/layout.html.twig' %}
 
 {# J’indique le titre « Liste des Feuilles de Match » #}
-{% block title %}Liste des Feuilles de Match{% endblock %}
+{% block title %}Liste des Feuilles de Match
+{% endblock %}
 
 {# J’ouvre le bloc body pour mon contenu principal #}
 {% block body %}
-{# J’utilise un conteneur Tailwind "container mx-auto p-8"
-   pour centrer, donner un padding de 2rem (8) et une largeur max. #}
-<div class="container mx-auto p-8">
+	{# J’utilise un conteneur Tailwind "container mx-auto p-8"
+	   pour centrer, donner un padding de 2rem (8) et une largeur max. #}
+	<div
+		class="container mx-auto p-8">
+		{# Afficher les messages flash #}
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success bg-green-200 text-green-800 p-2 rounded-md mb-4">
+				{{ message }}
+			</div>
+		{% endfor %}
 
-    {# J’affiche un titre de taille 2xl, gras (font-bold), avec une marge-basse (mb-6) #}
-    <h1 class="text-2xl font-bold mb-6">Liste des Feuilles de Match</h1>
+		{% for message in app.flashes('error') %}
+			<div class="alert alert-danger bg-red-200 text-red-800 p-2 rounded-md mb-4">
+				{{ message }}
+			</div>
+		{% endfor %}
 
-    {# J’affiche un message si la liste « feuilles » est vide #}
-    {% if feuilles is empty %}
-        <p>Aucune feuille de match n'a été trouvée.</p>
-    {% else %}
-        {# J’utilise un tableau HTML basique (table-auto w-full border-collapse)
-           avec des bordures (border border-gray-300) #}
-        <table class="table-auto w-full border-collapse border border-gray-300">
-            <thead class="bg-gray-200">
-                <tr>
-                    {# J’utilise des cellules d’en-tête avec bordure, padding et alignement à gauche #}
-                    <th class="border border-gray-300 p-2 text-left">ID</th>
-                    <th class="border border-gray-300 p-2 text-left">Club A</th>
-                    <th class="border border-gray-300 p-2 text-left">Club B</th>
-                    <th class="border border-gray-300 p-2 text-left">Date</th>
-                    <th class="border border-gray-300 p-2 text-left">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {# J’effectue une boucle sur « feuilles » pour afficher chaque feuille de match #}
-                {% for feuille in feuilles %}
-                    <tr>
-                        {# J’affiche l’ID de la feuille #}
-                        <td class="border border-gray-300 p-2">{{ feuille.id }}</td>
+		{# J’affiche un titre de taille 2xl, gras (font-bold), avec une marge-basse (mb-6) #}
+		<h1 class="text-2xl font-bold mb-6">Liste des Feuilles de Match</h1>
 
-                        {# J’affiche le nom du Club A ou « Non défini » #}
-                        <td class="border border-gray-300 p-2">
-                            {{ feuille.clubA ? feuille.clubA.name : 'Non défini' }}
-                        </td>
+		{# J’affiche un message si la liste « feuilles » est vide #}
+		{% if feuilles is empty %}
+			<p>Aucune feuille de match n'a été trouvée.</p>
+		{% else %}
+			{# J’utilise un tableau HTML basique (table-auto w-full border-collapse)
+			           avec des bordures (border border-gray-300) #}
+			<table class="table-auto w-full border-collapse border border-gray-300">
+				<thead class="bg-gray-200">
+					<tr>
+						{# J’utilise des cellules d’en-tête avec bordure, padding et alignement à gauche #}
+						<th class="border border-gray-300 p-2 text-left">ID</th>
+						<th class="border border-gray-300 p-2 text-left">Club A</th>
+						<th class="border border-gray-300 p-2 text-left">Club B</th>
+						<th class="border border-gray-300 p-2 text-left">Date</th>
+						<th class="border border-gray-300 p-2 text-left">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{# J’effectue une boucle sur « feuilles » pour afficher chaque feuille de match #}
+					{% for feuille in feuilles %}
+						<tr>
+							{# J’affiche l’ID de la feuille #}
+							<td class="border border-gray-300 p-2">{{ feuille.id }}</td>
 
-                        {# J’affiche le nom du Club B ou « Non défini » #}
-                        <td class="border border-gray-300 p-2">
-                            {{ feuille.clubB ? feuille.clubB.name : 'Non défini' }}
-                        </td>
+							{# J’affiche le nom du Club A ou « Non défini » #}
+							<td class="border border-gray-300 p-2">
+								{{ feuille.clubA ? feuille.clubA.name : 'Non défini' }}
+							</td>
 
-                        {# J’affiche la date en format jj/mm/aaaa #}
-                        <td class="border border-gray-300 p-2">
-                            {{ feuille.dateMatch|date('d/m/Y') }}
-                        </td>
+							{# J’affiche le nom du Club B ou « Non défini » #}
+							<td class="border border-gray-300 p-2">
+								{{ feuille.clubB ? feuille.clubB.name : 'Non défini' }}
+							</td>
 
-                        {# J’affiche une colonne Actions : Voir, Modifier, Supprimer #}
-                        <td class="border border-gray-300 p-2">
-                            {# J’ajoute un lien pour voir la feuille #}
-                            <a href="{{ path('app_match_sheets_show', {'id': feuille.id}) }}"
-                               class="text-blue-600 hover:underline">
-                                Voir
-                            </a>
-                            |
-                            {# J’ajoute un lien pour modifier la feuille #}
-                            <a href="{{ path('app_match_sheets_edit', {'id': feuille.id}) }}"
-                               class="text-yellow-600 hover:underline">
-                                Modifier
-                            </a>
-                            |
-                            {# J’utilise un formulaire en POST pour supprimer,
-                               en confirmant par un prompt JS #}
-                            <form method="POST"
-                                  action="{{ path('app_match_sheets_delete', {'id': feuille.id}) }}"
-                                  style="display:inline;">
-                                <button type="submit"
-                                        class="text-red-600 hover:underline"
-                                        onclick="return confirm('Confirmez-vous la suppression ?')">
-                                    Supprimer
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
-</div>
+							{# J’affiche la date en format jj/mm/aaaa #}
+							<td class="border border-gray-300 p-2">
+								{{ feuille.dateMatch|date('d/m/Y') }}
+							</td>
+
+							{# J’affiche une colonne Actions : Voir, Modifier, Supprimer #}
+							<td
+								class="border border-gray-300 p-2">
+								{# J’ajoute un lien pour voir la feuille #}
+								<a href="{{ path('app_match_sheets_show', {'id': feuille.id}) }}" class="text-blue-600 hover:underline">
+									Voir
+								</a>
+								|
+								{# J’ajoute un lien pour modifier la feuille #}
+								<a href="{{ path('app_match_sheets_edit', {'id': feuille.id}) }}" class="text-yellow-600 hover:underline">
+									Modifier
+								</a>
+								|
+								{# J’utilise un formulaire en POST pour supprimer,
+								en confirmant par un prompt JS #}
+								<form method="POST" action="{{ path('app_match_sheets_delete', {'id': feuille.id}) }}" style="display:inline;">
+									<button type="submit" class="text-red-600 hover:underline" onclick="return confirm('Confirmez-vous la suppression ?')">
+										Supprimer
+									</button>
+								</form>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+	</div>
 {% endblock %}
