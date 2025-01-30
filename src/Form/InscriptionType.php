@@ -91,7 +91,7 @@ class InscriptionType extends AbstractType
 
             ->add('club', EntityType::class, [
                 'class' => Club::class,
-                'choice_label' => 'name', // Assurez-vous que l'entité Club a une propriété `name`
+                'choice_label' => 'name', // j'afffiche le nom du club
                 'label' => 'Club',
                 'required' => false,
                 'placeholder' => 'Sélectionnez un club',
@@ -125,9 +125,10 @@ class InscriptionType extends AbstractType
                 ],
             ])
             ->add('envoyer', SubmitType::class, [
-                'label' => 'S\'inscrire',
+                'label' => 'S’inscrire', // Le texte du bouton
                 'attr' => [
                     'class' => 'btn btn-primary',
+                    'id' => 'submit-inscription', // J'ajoute un identifiant unique pour cibler le bouton avec du JavaScript
                 ],
             ]);
     }

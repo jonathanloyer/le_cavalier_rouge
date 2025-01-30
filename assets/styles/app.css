@@ -2,16 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Style global pour le body */
 body {
     background-color: rgb(241, 241, 241);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Assure que la page prend toute la hauteur de l'écran */
+    margin: 0; /* Supprime les marges par défaut */
+}
+
+/* Ajustement de la hauteur du contenu principal */
+main {
+    flex-grow: 1; /* Prend tout l'espace disponible restant */
 }
 
 /* Classe commune pour navbar et footer */
 .shared-navbar-footer {
     background-color: rgb(2, 36, 90); /* Couleur commune */
     color: white; /* Texte blanc */
-    height: 50px; /* Hauteur commune */
+    /* height: 100px;  */
 }
 
 /* Style spécifique pour la navbar */
@@ -43,9 +51,15 @@ body {
 .footer {
     @apply shared-navbar-footer;
     text-align: center; /* Centre le texte */
-    padding: 10px; /* Plus d'espace interne */
-    height: 40px; /* Hauteur augmentée */
-    font-size: 1rem; /* Taille de texte agrandie */
+    padding: 20px 0; /* Augmente l'espace interne dans le footer */
+    font-size: 1rem; /* Taille de texte de base */
+    width: 100%;
+    margin-top: auto; /* Pousse le footer vers le bas de l'écran */
+}
+
+/* Assure que le footer reste en bas même si le contenu est court */
+footer {
+    margin-top: auto; /* Ceci permet de pousser le footer en bas de l'écran */
 }
 
 /* Responsive pour petits écrans */

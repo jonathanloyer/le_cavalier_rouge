@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="" tests="26" assertions="31" errors="0" warnings="0" failures="0" skipped="0" time="0.008018">
+    <testsuite name="Project Test Suite" tests="26" assertions="31" errors="0" warnings="0" failures="0" skipped="0" time="0.008018">
+      <testsuite name="App\Tests\Entity\ClubTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\ClubTest.php" tests="3" assertions="5" errors="0" warnings="0" failures="0" skipped="0" time="0.006176">
+        <testcase name="testNameGetterAndSetter" class="App\Tests\Entity\ClubTest" classname="App.Tests.Entity.ClubTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\ClubTest.php" line="11" assertions="1" time="0.004369"/>
+        <testcase name="testAddAndGetJoueurs" class="App\Tests\Entity\ClubTest" classname="App.Tests.Entity.ClubTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\ClubTest.php" line="18" assertions="2" time="0.001042"/>
+        <testcase name="testAddAndGetUsers" class="App\Tests\Entity\ClubTest" classname="App.Tests.Entity.ClubTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\ClubTest.php" line="28" assertions="2" time="0.000765"/>
+      </testsuite>
+      <testsuite name="App\Tests\Entity\CompetitionsTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\CompetitionsTest.php" tests="3" assertions="3" errors="0" warnings="0" failures="0" skipped="0" time="0.000253">
+        <testcase name="testNameGetterAndSetter" class="App\Tests\Entity\CompetitionsTest" classname="App.Tests.Entity.CompetitionsTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\CompetitionsTest.php" line="9" assertions="1" time="0.000213"/>
+        <testcase name="testStatusGetterAndSetter" class="App\Tests\Entity\CompetitionsTest" classname="App.Tests.Entity.CompetitionsTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\CompetitionsTest.php" line="16" assertions="1" time="0.000020"/>
+        <testcase name="testCompetitionDateGetterAndSetter" class="App\Tests\Entity\CompetitionsTest" classname="App.Tests.Entity.CompetitionsTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\CompetitionsTest.php" line="23" assertions="1" time="0.000021"/>
+      </testsuite>
+      <testsuite name="App\Tests\Entity\FeuilleMatchTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\FeuilleMatchTest.php" tests="4" assertions="5" errors="0" warnings="0" failures="0" skipped="0" time="0.000446">
+        <testcase name="testClubAGetterAndSetter" class="App\Tests\Entity\FeuilleMatchTest" classname="App.Tests.Entity.FeuilleMatchTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\FeuilleMatchTest.php" line="10" assertions="1" time="0.000371"/>
+        <testcase name="testClubBGetterAndSetter" class="App\Tests\Entity\FeuilleMatchTest" classname="App.Tests.Entity.FeuilleMatchTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\FeuilleMatchTest.php" line="18" assertions="1" time="0.000029"/>
+        <testcase name="testDateMatchGetterAndSetter" class="App\Tests\Entity\FeuilleMatchTest" classname="App.Tests.Entity.FeuilleMatchTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\FeuilleMatchTest.php" line="26" assertions="1" time="0.000022"/>
+        <testcase name="testJoueursSetterAndGetter" class="App\Tests\Entity\FeuilleMatchTest" classname="App.Tests.Entity.FeuilleMatchTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\FeuilleMatchTest.php" line="34" assertions="2" time="0.000023"/>
+      </testsuite>
+      <testsuite name="App\Tests\Entity\JoueursTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\JoueursTest.php" tests="2" assertions="2" errors="0" warnings="0" failures="0" skipped="0" time="0.000040">
+        <testcase name="testNameGetterAndSetter" class="App\Tests\Entity\JoueursTest" classname="App.Tests.Entity.JoueursTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\JoueursTest.php" line="10" assertions="1" time="0.000021"/>
+        <testcase name="testClubGetterAndSetter" class="App\Tests\Entity\JoueursTest" classname="App.Tests.Entity.JoueursTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\JoueursTest.php" line="17" assertions="1" time="0.000020"/>
+      </testsuite>
+      <testsuite name="App\Tests\Entity\PlayerRoleTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\PlayerRoleTest.php" tests="2" assertions="2" errors="0" warnings="0" failures="0" skipped="0" time="0.000200">
+        <testcase name="testRoleNameGetterAndSetter" class="App\Tests\Entity\PlayerRoleTest" classname="App.Tests.Entity.PlayerRoleTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\PlayerRoleTest.php" line="10" assertions="1" time="0.000180"/>
+        <testcase name="testUserGetterAndSetter" class="App\Tests\Entity\PlayerRoleTest" classname="App.Tests.Entity.PlayerRoleTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\PlayerRoleTest.php" line="17" assertions="1" time="0.000020"/>
+      </testsuite>
+      <testsuite name="App\Tests\Entity\UserTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\UserTest.php" tests="12" assertions="14" errors="0" warnings="0" failures="0" skipped="0" time="0.000902">
+        <testcase name="testPseudoGetterAndSetter" class="App\Tests\Entity\UserTest" classname="App.Tests.Entity.UserTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\UserTest.php" line="19" assertions="1" time="0.000017"/>
+        <testcase name="testSetRolesAutomaticallyAddsRoleUser" class="App\Tests\Entity\UserTest" classname="App.Tests.Entity.UserTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\UserTest.php" line="29" assertions="2" time="0.000354"/>
+        <testcase name="testCreatedAtIsSetInConstructor" class="App\Tests\Entity\UserTest" classname="App.Tests.Entity.UserTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\UserTest.php" line="40" assertions="1" time="0.000219"/>
+        <testcase name="testSetAndGetActive" class="App\Tests\Entity\UserTest" classname="App.Tests.Entity.UserTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\UserTest.php" line="49" assertions="1" time="0.000186"/>
+        <testcase name="testEmailGetterAndSetter" class="App\Tests\Entity\UserTest" classname="App.Tests.Entity.UserTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\UserTest.php" line="59" assertions="1" time="0.000022"/>
+        <testcase name="testLastNameGetterAndSetter" class="App\Tests\Entity\UserTest" classname="App.Tests.Entity.UserTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\UserTest.php" line="69" assertions="1" time="0.000017"/>
+        <testcase name="testFirstNameGetterAndSetter" class="App\Tests\Entity\UserTest" classname="App.Tests.Entity.UserTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\UserTest.php" line="79" assertions="1" time="0.000014"/>
+        <testcase name="testAvatarGetterAndSetter" class="App\Tests\Entity\UserTest" classname="App.Tests.Entity.UserTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\UserTest.php" line="89" assertions="1" time="0.000014"/>
+        <testcase name="testCodeFFEGetterAndSetter" class="App\Tests\Entity\UserTest" classname="App.Tests.Entity.UserTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\UserTest.php" line="99" assertions="1" time="0.000015"/>
+        <testcase name="testClubGetterAndSetter" class="App\Tests\Entity\UserTest" classname="App.Tests.Entity.UserTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\UserTest.php" line="109" assertions="1" time="0.000015"/>
+        <testcase name="testAddAndGetPlayerRoles" class="App\Tests\Entity\UserTest" classname="App.Tests.Entity.UserTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\UserTest.php" line="120" assertions="2" time="0.000017"/>
+        <testcase name="testGetUserIdentifier" class="App\Tests\Entity\UserTest" classname="App.Tests.Entity.UserTest" file="D:\EXAMEN ROUGE\le_cavalier_rouge\tests\Entity\UserTest.php" line="133" assertions="1" time="0.000013"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

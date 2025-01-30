@@ -16,7 +16,7 @@ class Joueurs
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'club')]
+    #[ORM\ManyToOne(inversedBy: 'joueurs')]
     private ?Club $club = null;
 
     public function getId(): ?int

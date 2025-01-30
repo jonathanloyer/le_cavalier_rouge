@@ -1,0 +1,29 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Mentions Légales{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6 bg-white shadow-md rounded-lg">
+    <p class="text-sm text-gray-500 mb-2">Dernière mise à jour : {{ "now"|date("d/m/Y") }}</p>
+
+    <h1 class="text-xl font-bold text-gray-800 mb-4">Mentions Légales</h1>
+
+    <div class="space-y-4">
+        <div>
+            <h2 class="text-lg font-semibold text-gray-700">Éditeur du site</h2>
+            <p class="text-gray-600">Le site est édité par Les Cavaliers Rouges.</p>
+        </div>
+
+        <div>
+            <h2 class="text-lg font-semibold text-gray-700">Hébergement</h2>
+            <p class="text-gray-600">Le site est hébergé par IONOS.</p>
+        </div>
+
+        <div>
+            <h2 class="text-lg font-semibold text-gray-700">Contact</h2>
+            <p class="text-gray-600"><strong>Email :</strong> <a href="mailto:riou.luc@cavalier-rouge.fr" class="text-blue-500 hover:underline">riou.luc@cavalier-rouge.fr</a></p>
+            <p class="text-gray-600"><strong>Téléphone :</strong> 06 10 78 55 12</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

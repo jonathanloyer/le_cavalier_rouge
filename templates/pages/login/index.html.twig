@@ -1,37 +1,65 @@
 {# J’indique que ce fichier est un template Twig pour la page de connexion, stocké dans templates/auth/login.html.twig #}
 {# Je commence par hériter de "pages/layout.html.twig" pour la structure globale #}
 {% extends 'pages/layout.html.twig' %}
-
-{# Je définis le bloc "title" comme "Connexion" #}
-{% block title %}Connexion
+	{% block title %}
+Connexion - Club d'Échecs Le Cavalier Rouge
+{% endblock %}
+	{% block meta_description %}
+Connectez-vous à votre compte pour accéder aux fonctionnalités du Club d'Échecs Le Cavalier Rouge à Clamart.
+{% endblock %}
+	{% block og_title %}
+Connexion - Club d'Échecs Le Cavalier Rouge
+{% endblock %}
+	{% block og_description %}
+Identifiez-vous pour accéder à votre espace et participer aux tournois et événements d'échecs à Clamart et Meudon.
+{% endblock %}
+	{% block og_image %}
+{{ asset('img/login.jpg') }}
+{% endblock %}
+	{% block twitter_title %}
+Connexion - Club d'Échecs Le Cavalier Rouge
+{% endblock %}
+	{% block twitter_description %}
+Connectez-vous à votre compte et rejoignez notre communauté d’échecs !
+{% endblock %}
+	{% block twitter_image %}
+{{ asset('img/login.jpg') }}
 {% endblock %}
 
 {# J’ouvre le bloc "body" qui contiendra le contenu principal de cette page #}
-{% block body %}
+	{% block body %}
 	{# Je crée un conteneur flex, centré horizontalement et verticalement (justify-center items-center),
-	   qui remplit la hauteur de l’écran (h-screen), avec un fond gris clair (bg-gray-100). #}
-	<div class="flex justify-center items-center h-screen bg-gray-100">
-		{# Je crée un bloc blanc (bg-white), arrondi (rounded), avec une ombre (shadow-lg),
-		   un padding (p-8), et une largeur max (max-w-md). #}
-		<div class="w-full max-w-md bg-white p-8 rounded shadow-lg">
-			{# Je définis un titre (h2) de taille 2xl, gras (font-semibold), centré (text-center),
-			   avec une marge en bas (mb-6). #}
-			<h2 class="text-2xl font-semibold text-center mb-6">Connexion</h2>
+	qui remplit la hauteur de l’écran (h-screen), avec un fond gris clair (bg-gray-100). #}
+		<div
+		class="flex justify-center items-center h-screen bg-gray-100"> {# Je crée un bloc blanc (bg-white), arrondi (rounded), avec une ombre (shadow-lg), un padding (p-8), et une largeur max (max-w-md). #}
+		<div
+			class="w-full max-w-md bg-white p-8 rounded shadow-lg">
+			{# Je définis un titre (h1) de taille 2xl, gras (font-semibold), centré (text-center),
+			avec une marge en bas (mb-6). #}
+			<h1 class="text-2xl font-semibold text-center mb-6">Connexion</h1>
 
 			{# Si une erreur existe, je l’affiche dans un div rouge (text-red-600) #}
 			{% if error %}
 				<div class="text-red-600 mb-4">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 			{% endif %}
 
-			{# Je démarre le formulaire Twig, avec un attribut "class" pour l’espacement vertical (space-y-4). #}
-			{{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+			{# Si le formulaire a des erreurs globales, je les affiche dans un conteneur dédié #}
+			{% if form_errors(form) %}
+				<div data-test="form-errors" class="text-red-600 mb-4">
+					{{ form_errors(form) }}
+				</div>
+			{% endif %}
 
-            {# Champ "pseudo", label stylé, widget stylé, et erreurs éventuelles #}
-            <div class="mb-4">
-                {{ form_label(form.pseudo, 'Pseudo', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
-                {{ form_widget(form.pseudo, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
-                {{ form_errors(form.pseudo) }}
-            </div>
+			{# Je démarre le formulaire Twig, avec un attribut "class" pour l’espacement vertical (space-y-4),
+												   et un attribut "data-test" pour les tests. #}
+			{{ form_start(form, {'attr': {'class': 'space-y-4', 'data-test': 'login-form'}}) }}
+
+			{# Champ "pseudo", label stylé, widget stylé, et erreurs éventuelles #}
+			<div class="mb-4">
+				{{ form_label(form.pseudo, 'Pseudo', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+				{{ form_widget(form.pseudo, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+				{{ form_errors(form.pseudo) }}
+			</div>
 
 			{# Champ "email", label stylé, widget stylé (full_name='email'), et erreurs #}
 			<div class="mb-4">
@@ -46,6 +74,7 @@
 				{{ form_widget(form.password, {'full_name':'password','attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
 				{{ form_errors(form.password) }}
 			</div>
+
 
 			{# Bouton submit : stylé en bleu (bg-indigo-600), texte blanc, etc. #}
 			<div>

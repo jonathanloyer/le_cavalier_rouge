@@ -1,0 +1,36 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Règlement Général sur la Protection des Données{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6 bg-white shadow-md rounded-lg">
+    <p class="text-sm text-gray-500 mb-2">Dernière mise à jour : {{ "now"|date("d/m/Y") }}</p>
+
+    <h1 class="text-xl font-bold text-gray-800 mb-4">Politique de confidentialité</h1>
+
+    <div class="space-y-4">
+        <div>
+            <h2 class="text-lg font-semibold text-gray-700">Données collectées</h2>
+            <p class="text-gray-600">Nous collectons les données suivantes : nom, prénom, email, club d’échecs, adresse IP.</p>
+        </div>
+
+        <div>
+            <h2 class="text-lg font-semibold text-gray-700">Finalité des données</h2>
+            <p class="text-gray-600">Les données sont utilisées pour gérer les inscriptions, les compétitions et assurer la sécurité du site.</p>
+        </div>
+
+        <div>
+            <h2 class="text-lg font-semibold text-gray-700">Cookies</h2>
+            <p class="text-gray-600">Nous utilisons des cookies pour améliorer l’expérience utilisateur, personnaliser le contenu et analyser l’audience de notre site. Les cookies sont de petits fichiers stockés sur votre appareil.</p>
+            
+            <h3 class="text-md font-semibold text-gray-700">Types de cookies utilisés</h3>
+            <ul class="list-disc pl-6">
+                <li><strong>Cookies nécessaires</strong> : Ces cookies sont indispensables pour la navigation et le bon fonctionnement du site.</li>
+                <li><strong>Cookies de performance</strong> : Ces cookies permettent d'analyser la façon dont les utilisateurs interagissent avec le site, afin d'améliorer l'expérience.</li>
+                <li><strong>Cookies de fonctionnalité</strong> : Ces cookies permettent de se souvenir des préférences de l'utilisateur (par exemple, la langue ou la région) pour améliorer l'expérience.</li>
+            </ul>
+            <p class="text-gray-600 mt-2">Vous pouvez gérer vos préférences en matière de cookies directement dans les paramètres de votre navigateur. Vous pouvez choisir d’accepter ou de refuser les cookies à tout moment.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

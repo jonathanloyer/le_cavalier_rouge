@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html class="h-full">
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			Inscription		</title>
+					<!-- Lien vers le fichier CSS généré par Webpack Encore -->
+			<link rel="stylesheet" href="/build/assets_styles_app_css.css">
+							<!-- Suppression du bloc importmap si Stimulus n'est pas utilisé -->
+			<script src="/build/runtime.js" defer></script>
+			<script src="/build/app.js" defer></script>
+			</head>
+	<body class="flex flex-col min-h-screen bg-gray-100" data-turbo="false">
+		<!-- Navbar -->
+		<nav class="navbar shared-navbar-footer text-white p-4 flex items-center justify-between">
+    <!-- Logo -->
+    <div class="flex items-center space-x-4">
+        <img src="/img/logo.png" alt="Logo" class="h-8 w-auto">
+        <a href="/" class="text-white text-xl font-bold hidden sm:block">Le Cavalier Rouge</a>
+    </div>
+
+    <!-- Menu Burger -->
+    <button id="navbar-menu-button" class="md:hidden focus:outline-none">
+        <svg width="24" height="24" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="12" y2="12"/>
+            <line x1="4" x2="20" y1="6" y2="6"/>
+            <line x1="4" x2="20" y1="18" y2="18"/>
+        </svg>
+    </button>
+
+    <!-- Menu -->
+    <ul id="navbar-menu" class="hidden md:flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
+        <li><a href="/" class="text-lg hover:text-indigo-500 transition-colors duration-200">Accueil</a></li>
+                    <li><a href="/login" class="text-lg hover:text-indigo-500 transition-colors duration-200">Connexion</a></li>
+            <li><a href="/inscription" class="text-lg hover:text-indigo-500 transition-colors duration-200">Inscription</a></li>
+                            <li><a href="/contactez-nous" class="text-lg hover:text-indigo-500 transition-colors duration-200">Contactez-nous</a></li>
+            </ul>
+</nav>
+
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuButton = document.querySelector('#navbar-menu-button');
+    const menu = document.querySelector('#navbar-menu');
+
+    if (!menuButton || !menu) {
+        console.error('Menu button or menu not found');
+        return;
+    }
+
+    // Gestion de l'ouverture/fermeture
+    menuButton.addEventListener('click', () => {
+        menu.classList.toggle('open'); // Ajoute ou retire la classe "open"
+    });
+
+    // Fermer le menu si on clique en dehors
+    document.addEventListener('click', (event) => {
+        if (!menu.contains(event.target) && !menuButton.contains(event.target)) {
+            menu.classList.remove('open');
+        }
+    });
+});
+
+
+
+</script>
+
+		<!-- Contenu principal -->
+		<main class="flex-grow container mx-auto p-6">
+			<div class="bg-gray-100 min-h-screen">
+    <div class="flex justify-center items-center pt-16">
+        <div class="w-full max-w-md bg-white p-8 rounded shadow-lg">
+            <h2 class="text-2xl font-semibold text-center mb-6">Inscription</h2>
+
+                                                <div class="mb-4 bg-red-100 border-red-500 text-red-700 border-l-4 p-4" data-test="flash-message">
+                        <p>L&#039;email est obligatoire</p>
+                    </div>
+                                    <div class="mb-4 bg-red-100 border-red-500 text-red-700 border-l-4 p-4" data-test="flash-message">
+                        <p>Votre nom est obligatoire.</p>
+                    </div>
+                                    <div class="mb-4 bg-red-100 border-red-500 text-red-700 border-l-4 p-4" data-test="flash-message">
+                        <p>Votre nom est obligatoire</p>
+                    </div>
+                                    <div class="mb-4 bg-red-100 border-red-500 text-red-700 border-l-4 p-4" data-test="flash-message">
+                        <p>Le nom est obligatoire.</p>
+                    </div>
+                                    <div class="mb-4 bg-red-100 border-red-500 text-red-700 border-l-4 p-4" data-test="flash-message">
+                        <p>Votre prénom est obligatoire.</p>
+                    </div>
+                                    <div class="mb-4 bg-red-100 border-red-500 text-red-700 border-l-4 p-4" data-test="flash-message">
+                        <p>Le prénom est obligatoire</p>
+                    </div>
+                                    <div class="mb-4 bg-red-100 border-red-500 text-red-700 border-l-4 p-4" data-test="flash-message">
+                        <p>Le prénom est obligatoire.</p>
+                    </div>
+                                    <div class="mb-4 bg-red-100 border-red-500 text-red-700 border-l-4 p-4" data-test="flash-message">
+                        <p>Le pseudo est obligatoire</p>
+                    </div>
+                                    <div class="mb-4 bg-red-100 border-red-500 text-red-700 border-l-4 p-4" data-test="flash-message">
+                        <p>Le mot de passe est obligatoire</p>
+                    </div>
+                            
+            <form name="inscription" method="post" class="space-y-4" id="form-inscription">
+
+            
+            <div class="mb-4" data-test="form-email">
+                <label class="block text-sm font-medium text-gray-700 required" for="inscription_email">Adresse Email</label>
+                <input type="email" id="inscription_email" name="inscription[email]" required="required" placeholder="Entrez votre adresse email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                <ul><li>L&#039;email est obligatoire</li></ul>
+            </div>
+
+            <div class="mb-4" data-test="form-lastname">
+                <label class="block text-sm font-medium text-gray-700 required" for="inscription_lastName">Nom</label>
+                <input type="text" id="inscription_lastName" name="inscription[lastName]" required="required" placeholder="Entrez votre nom" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                <ul><li>Votre nom est obligatoire.</li><li>Votre nom est obligatoire</li><li>Le nom est obligatoire.</li></ul>
+            </div>
+
+            <div class="mb-4" data-test="form-firstname">
+                <label class="block text-sm font-medium text-gray-700 required" for="inscription_firstName">Prénom</label>
+                <input type="text" id="inscription_firstName" name="inscription[firstName]" required="required" placeholder="Entrez votre prénom" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                <ul><li>Votre prénom est obligatoire.</li><li>Le prénom est obligatoire</li><li>Le prénom est obligatoire.</li></ul>
+            </div>
+
+            <div class="mb-4" data-test="form-pseudo">
+                <label class="block text-sm font-medium text-gray-700 required" for="inscription_pseudo">Pseudo</label>
+                <input type="text" id="inscription_pseudo" name="inscription[pseudo]" required="required" placeholder="Choisissez un pseudo" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                <ul><li>Le pseudo est obligatoire</li></ul>
+            </div>
+
+            <div class="mb-4" data-test="form-codeFFE">
+                <label class="block text-sm font-medium text-gray-700" for="inscription_codeFFE">Code FFE</label>
+                <input type="text" id="inscription_codeFFE" name="inscription[codeFFE]" placeholder="Entrez votre code FFE" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                
+            </div>
+
+            <div class="mb-4" data-test="form-club">
+                <label class="block text-sm font-medium text-gray-700" for="inscription_club">Club</label>
+                <select id="inscription_club" name="inscription[club]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"><option value="">Sélectionnez un club</option></select>
+                
+            </div>
+
+            <div class="mb-4" data-test="form-password-first">
+                <label class="block text-sm font-medium text-gray-700 required" for="inscription_password_first">Mot de passe</label>
+                <input type="password" id="inscription_password_first" name="inscription[password][first]" required="required" placeholder="Entrez votre mot de passe" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                <ul><li>Le mot de passe est obligatoire</li></ul>
+            </div>
+
+            <div class="mb-4" data-test="form-password-second">
+                <label class="block text-sm font-medium text-gray-700 required" for="inscription_password_second">Confirmez le mot de passe</label>
+                <input type="password" id="inscription_password_second" name="inscription[password][second]" required="required" placeholder="Confirmez votre mot de passe" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                
+            </div>
+
+            <div data-test="form-submit">
+                <button type="submit" id="inscription_envoyer" name="inscription[envoyer]" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" id="submit-inscription">S’inscrire</button>
+            </div>
+
+            <input type="hidden" id="inscription__token" name="inscription[_token]" value="ab.YQhZuWHDguMKoNSMwgyKuhDIiqahZEODZMkRStyS3Rk.FVI34ACu0IJt9fneoTu6gl2H7ePQJySxSZxUDp79h0ACJSPOJ7vOvDzG5A" /></form>
+        </div>
+    </div>
+</div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="footer shared-navbar-footer bg-gray-800 text-white p-4">
+    <div class="container mx-auto text-center">
+        <p>&copy; 2025 - Le Cavalier Rouge</p>
+    </div>
+</footer>
+	</body>
+</html>

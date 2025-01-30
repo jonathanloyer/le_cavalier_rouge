@@ -6,7 +6,7 @@
 
 {# Je débute le bloc "body" où je place le contenu spécifique de cette page #}
 {% block body %}
-    {# Titre principal h1, taille 3xl, gras (font-semibold), 
+    {# Titre principal h3, taille 3xl, gras (font-semibold), 
        marge-basse (mb-6), texte gris foncé (text-gray-800). #}
     <h1 class="text-3xl font-semibold mb-6 text-gray-800">Modifier l'utilisateur</h1>
 
@@ -51,6 +51,6 @@
             </button>
         </div>
 
-    {# Je termine le formulaire #}
-    {{ form_end(form) }}
+    {# Je termine le formulaire sans bouton supplémentaire #}
+    {{ form_end(form, {'render_rest': false}) }}
 {% endblock %}

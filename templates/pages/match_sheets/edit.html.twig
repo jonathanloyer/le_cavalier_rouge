@@ -10,18 +10,18 @@
 {% block body %}
 
 	{# J’affiche un conteneur d’une largeur max (max-w-screen-lg),
-		   centré horizontalement (mx-auto), avec un padding (p-4) et un fond gris clair (bg-gray-100). #}
+	centré horizontalement (mx-auto), avec un padding (p-4) et un fond gris clair (bg-gray-100). #}
 	<div
 		class="max-w-screen-lg mx-auto p-4 bg-gray-100">
 
 		{# J’utilise un formulaire en méthode POST, pointant vers la route "app_match_sheets_edit"
-				       et l’ID de la feuille de match #}
+		et l’ID de la feuille de match #}
 		<form method="POST" action="{{ path('app_match_sheets_edit', {id: feuilleMatch.id}) }}">
 
 			<!-- Section des informations générales -->
 			{# J’affiche un bloc blanc (bg-white), avec du padding (p-4),
-						           des bords arrondis (rounded), une ombre (shadow),
-						           une marge-basse (mb-4) et une petite taille de police (text-sm). #}
+				des bords arrondis (rounded), une ombre (shadow),
+				une marge-basse (mb-4) et une petite taille de police (text-sm). #}
 				<div class="bg-white p-4 rounded shadow mb-4 text-sm"> <label class="block mt-4 mb-2 text-gray-700">Interclub :</label>
 				<input type="text" id="interclub" name="interclub" readonly value="{{ interclub }}" class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
 
@@ -34,8 +34,8 @@
 
 			<!-- Titre -->
 			{# J’affiche un bandeau orange (bg-orange-500), texte blanc (text-white),
-						           texte centré (text-center), gras (font-bold), un padding vertical (py-2),
-						           une marge en bas (mb-2) et une petite taille de police (text-sm). #}
+			texte centré (text-center), gras (font-bold), un padding vertical (py-2),
+			une marge en bas (mb-2) et une petite taille de police (text-sm). #}
 			<div class="bg-orange-500 text-white text-center font-bold py-2 mb-2 text-sm">
 				Modification de la Feuille de Match - Groupe :
 				<span>{{ feuilleMatch.groupe }}</span>

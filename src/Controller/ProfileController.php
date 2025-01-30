@@ -23,6 +23,10 @@ class ProfileController extends AbstractController
         #[Autowire('%kernel.project_dir%/public/uploads/avatar')] string $avatarDirectory
     ): Response {
         $user = $repo->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+        if (!$user) {
+            throw $this->createNotFoundException('Utilisateur non trouvé.');
+        }
+
         $form = $this->createForm(ProfileType::class, $user);
         $form->handleRequest($request);
 
@@ -36,18 +40,27 @@ class ProfileController extends AbstractController
 
                 try {
                     $avatarFile->move($avatarDirectory, $newFileName);
+
+                    // Supprimer l'ancien avatar s'il existe
+                    if ($user->getAvatar()) {
+                        $oldAvatarPath = $avatarDirectory . '/' . $user->getAvatar();
+                        if (file_exists($oldAvatarPath)) {
+                            unlink($oldAvatarPath);
+                        }
+                    }
+
+                    // Mettre à jour l'avatar de l'utilisateur
+                    $user->setAvatar($newFileName);
                 } catch (FileException $e) {
-                    $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de votre avatar');
+                    $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de votre avatar.');
                     return $this->redirectToRoute('app_profile');
                 }
-
-                // Mettre à jour le chemin du nouvel avatar dans l'utilisateur
-                $user->setAvatar($newFileName);
             }
 
-            // Sauvegarder l'utilisateur
+            // Sauvegarder les modifications
             $repo->save($user, true);
 
+            $this->addFlash('success', 'Votre profil a bien été mis à jour.');
             return $this->redirectToRoute('app_profile');
         }
 
@@ -57,7 +70,6 @@ class ProfileController extends AbstractController
         ]);
     }
 
-    // Fonction permettant de modifier le profil de l'utilisateur
     #[Route('/profile/update', name: 'app_profile_update')]
     public function updateProfile(
         Request $request,
@@ -66,36 +78,36 @@ class ProfileController extends AbstractController
         #[Autowire('%kernel.project_dir%/public/uploads/avatar')] string $avatarDirectory
     ): Response {
         $user = $repo->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+        if (!$user) {
+            throw $this->createNotFoundException('Utilisateur non trouvé.');
+        }
+
         $form = $this->createForm(ProfileType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Récupérer le fichier de l'avatar
             $avatarFile = $form->get('avatar')->getData();
 
             if ($avatarFile) {
-                // Générer un nom de fichier sécurisé
                 $originalFilename = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFileName = $slugger->slug($originalFilename);
                 $newFileName = $safeFileName . '-' . uniqid() . '.' . $avatarFile->guessExtension();
 
-                // Déplacer le fichier dans le répertoire des avatars
                 try {
                     $avatarFile->move($avatarDirectory, $newFileName);
 
-                    // Supprimer l'ancien avatar si nécessaire
+                    // Supprimer l'ancien avatar s'il existe
                     if ($user->getAvatar()) {
                         $oldAvatarPath = $avatarDirectory . '/' . $user->getAvatar();
                         if (file_exists($oldAvatarPath)) {
-                            unlink($oldAvatarPath);  // Supprime l'ancien avatar
+                            unlink($oldAvatarPath);
                         }
                     }
 
-                    // Mettre à jour l'avatar dans l'entité User
+                    // Mettre à jour l'avatar de l'utilisateur
                     $user->setAvatar($newFileName);
                 } catch (FileException $e) {
-                    // Gérer les erreurs de fichier
-                    $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de votre avatar');
+                    $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de votre avatar.');
                     return $this->redirectToRoute('app_profile_update');
                 }
             }
@@ -103,17 +115,13 @@ class ProfileController extends AbstractController
             // Sauvegarder les modifications
             $repo->save($user, true);
 
-            // Ajouter un message de succès
-            $this->addFlash('success', 'Votre profil a bien été mis à jour');
-
-            // Rediriger l'utilisateur vers la page de profil
+            $this->addFlash('success', 'Votre profil a bien été mis à jour.');
             return $this->redirectToRoute('app_profile');
         }
 
-        // Afficher le formulaire de mise à jour
         return $this->render('pages/profile/update_profile.html.twig', [
-            'form' => $form->createView(),
             'user' => $user,
+            'form' => $form->createView(),
         ]);
     }
 }

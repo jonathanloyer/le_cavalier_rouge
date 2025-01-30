@@ -1,0 +1,28 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Conditions Générales d'Utilisation{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6 bg-white shadow-md rounded-lg">
+    <p class="text-sm text-gray-500 mb-2">Dernière mise à jour : {{ "now"|date("d/m/Y") }}</p>
+    
+    <h1 class="text-xl font-bold text-gray-800 mb-4">Conditions Générales d’Utilisation</h1>
+
+    <div class="space-y-4">
+        <div>
+            <h2 class="text-lg font-semibold text-gray-700">Présentation du site</h2>
+            <p class="text-gray-600">Le site permet aux adhérents de l’association et aux membres d’autres clubs d’échecs de gérer leurs compétitions et de générer des feuilles de match.</p>
+        </div>
+
+        <div>
+            <h2 class="text-lg font-semibold text-gray-700">Inscription et accès</h2>
+            <p class="text-gray-600">L’inscription est obligatoire pour accéder aux fonctionnalités avancées.</p>
+        </div>
+
+        <div>
+            <h2 class="text-lg font-semibold text-gray-700">Sécurité des comptes</h2>
+            <p class="text-gray-600">Les utilisateurs doivent protéger leurs identifiants et ne pas les partager.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

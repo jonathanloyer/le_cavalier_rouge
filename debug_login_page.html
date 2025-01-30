@@ -1,0 +1,151 @@
+<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Club d'échecs Le Cavalier Rouge - Clamart et Meudon : cours, tournois et activités pour les passionnés d'échecs.">
+		<meta name="author" content="Le Cavalier Rouge">
+		<meta name="robots" content="index, follow">
+
+		<!-- Open Graph -->
+		<meta property="og:title" content="Le Cavalier Rouge - Club d'échecs">
+		<meta property="og:description" content="Rejoignez notre club d'échecs à Clamart et Meudon. Participez à des cours, tournois et événements pour tous niveaux !">
+		<meta property="og:image" content="/img/logo.png">
+		<meta property="og:url" content="http://localhost/login">
+		<meta property="og:type" content="website">
+
+		<!-- Twitter Cards -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="Le Cavalier Rouge - Club d'échecs">
+		<meta name="twitter:description" content="Découvrez Le Cavalier Rouge : le club d'échecs à Clamart et Meudon. Des cours et tournois pour tous !">
+		<meta name="twitter:image" content="/img/logo.png">
+
+		<!-- Canonical URL -->
+		<link rel="canonical" href="http://localhost/login">
+
+		<title>
+			Connexion
+		</title>
+
+					<!-- Lien vers le fichier CSS généré par Webpack Encore -->
+			<link rel="stylesheet" href="/build/assets_styles_app_css.css">
+							<script src="/build/runtime.js" defer></script>
+			<script src="/build/app.js" defer></script>
+			</head>
+	<body class="flex flex-col min-h-screen bg-gray-100" data-turbo="false">
+		<!-- Navbar -->
+		<nav class="navbar shared-navbar-footer text-white p-4 flex items-center justify-between" role="navigation">
+    <!-- Logo -->
+    <div class="flex items-center space-x-4">
+        <img src="/img/logo.png" alt="Logo de l'association Le Cavalier Rouge" class="h-8 w-auto">
+        <a href="/" class="text-white text-xl font-bold hidden sm:block">Le Cavalier Rouge</a>
+    </div>
+
+    <!-- Menu Burger -->
+    <button id="navbar-menu-button" aria-label="Ouvrir le menu" aria-expanded="false" class="md:hidden focus:outline-none">
+        <svg width="24" height="24" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="12" y2="12" />
+            <line x1="4" x2="20" y1="6" y2="6" />
+            <line x1="4" x2="20" y1="18" y2="18" />
+        </svg>
+    </button>
+
+    <!-- Menu -->
+    <ul id="navbar-menu" class="hidden md:flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
+        <li><a href="/" class="text-lg hover:text-indigo-500 transition-colors duration-200">Accueil</a></li>
+                    <li><a href="/login" class="text-lg hover:text-indigo-500 transition-colors duration-200">Connexion</a></li>
+            <li><a href="/inscription" class="text-lg hover:text-indigo-500 transition-colors duration-200">Inscription</a></li>
+                            <li><a href="/contactez-nous" class="text-lg hover:text-indigo-500 transition-colors duration-200">Contactez-nous</a></li>
+            </ul>
+</nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const menuButton = document.querySelector('#navbar-menu-button');
+    const menu = document.querySelector('#navbar-menu');
+
+    if (!menuButton || !menu) {
+        console.error('Menu button or menu not found');
+        return;
+    }
+
+    menuButton.addEventListener('click', () => {
+        const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+        menuButton.setAttribute('aria-expanded', !isExpanded);
+        menu.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!menu.contains(event.target) && !menuButton.contains(event.target)) {
+            menuButton.setAttribute('aria-expanded', false);
+            menu.classList.remove('open');
+        }
+    });
+});
+</script>
+
+		<!-- Contenu principal -->
+		<main class="flex-grow container mx-auto p-6">
+						<div class="flex justify-center items-center h-screen bg-gray-100"> 		<div class="w-full max-w-md bg-white p-8 rounded shadow-lg">
+						<h2 class="text-2xl font-semibold text-center mb-6">Connexion</h2>
+
+						
+						
+						<form name="login" method="post" class="space-y-4" data-test="login-form">
+
+						<div class="mb-4">
+				<label class="block text-sm font-medium text-gray-700 required" for="login_pseudo">Pseudo</label>
+				<input type="text" id="login_pseudo" name="login[pseudo]" required="required" placeholder="Entrez votre pseudo" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+				
+			</div>
+
+						<div class="mb-4">
+				<label class="block text-sm font-medium text-gray-700 required" for="login_email">Adresse email</label>
+				<input type="email" id="login_email" name="email" required="required" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+				
+			</div>
+
+						<div class="mb-4">
+				<label class="block text-sm font-medium text-gray-700 required" for="login_password">Mot de passe</label>
+				<input type="password" id="login_password" name="password" required="required" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+				
+			</div>
+
+
+						<div>
+				<button type="submit" id="login_submit" name="login[submit]" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Se connecter</button>
+			</div>
+
+						<input type="hidden" id="login__token" name="login[_token]" value="4d66d117f43b196e661933.dZhwKgs3MxTNnpwlEFcFClXIVf9OXCeM1eVaLDVcMTk.Jak2ZzhFeE2s1PAUUgVmTiGGFsk6F23duNxqZmwWeVAB9DRlSV93ZL7c2Q"></form>
+
+								</div>
+
+	</div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="footer shared-navbar-footer bg-gray-800 text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+        <!-- Texte à gauche -->
+        <p>© 2025 Le Cavalier Rouge - Club D'Echecs - Clamart Meudon Plessis-Robinson</p>
+
+        <!-- Icônes des réseaux sociaux à droite -->
+        <div class="flex space-x-4">
+            <!-- Lien Facebook -->
+            <a href="https://www.facebook.com/profile.php?id=100089010302413" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700 transition duration-200" aria-label="Visitez notre page Facebook">
+                <svg viewBox="0 0 50 50" class="w-6 h-6" role="img">
+                    <circle cx="25" cy="25" r="25" fill="#000" />
+                    <path d="M33.5 25.5h-5v15h-6v-15h-3v-5h3v-3c0-2.8 1.2-7 7-7h5v5h-3c-0.5 0-1.5 0.3-1.5 1.7v3.3h5l-1 5z" fill="#fff" />
+                </svg>
+            </a>
+
+            <!-- Lien X -->
+            <a href="https://x.com/lecavalierrouge" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-600 transition duration-200" aria-label="Visitez notre page X">
+                <svg shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 512" class="w-6 h-6" role="img">
+                    <path d="M256 0c141.385 0 256 114.615 256 256S397.385 512 256 512 0 397.385 0 256 114.615 0 256 0z" />
+                    <path fill="#fff" fill-rule="nonzero" d="M318.64 157.549h33.401l-72.973 83.407 85.85 113.495h-67.222l-52.647-68.836-60.242 68.836h-33.423l78.052-89.212-82.354-107.69h68.924l47.59 62.917 55.044-62.917zm-11.724 176.908h18.51L205.95 176.493h-19.86l120.826 157.964z" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</footer>
+	</body>
+
