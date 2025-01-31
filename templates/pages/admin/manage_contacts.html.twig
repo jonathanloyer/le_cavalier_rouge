@@ -27,8 +27,8 @@
                         <p class="text-sm text-gray-500 mb-4"><strong>Date :</strong> {{ contact.createdAt|date('d/m/Y H:i') }}</p>
 
                         {# Bouton pour supprimer le contact #}
-                        <form method="POST" action="{{ path('admin_delete_contact', {id: contact._id}) }}" class="mt-4">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete_contact' ~ contact._id) }}">
+                        <form method="POST" action="{{ path('admin_delete_contact', {id: contact.id}) }}" class="mt-4">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete_contact' ~ contact.id) }}">
                             <button type="submit" class="w-full bg-red-500 text-white font-semibold py-2 px-4 rounded hover:bg-red-600">
                                 Supprimer
                             </button>
