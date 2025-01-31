@@ -19,6 +19,11 @@ class Contact
     #[ODM\Field(type: "string")]
     private $message;
 
+    #[ODM\Field(type: "date")]
+    private $createdAt;
+
+    // Getters et Setters...
+
     public function getId(): ?string
     {
         return $this->id;
@@ -54,6 +59,17 @@ class Contact
     public function setMessage(string $message): self
     {
         $this->message = $message;
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
         return $this;
     }
 }
