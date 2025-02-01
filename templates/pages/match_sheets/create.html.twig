@@ -1,9 +1,12 @@
 {# Je précise que j’étends le layout global (pages/layout.html.twig) pour bénéficier de sa structure #}
 {% extends 'pages/layout.html.twig' %}
 
-{# Je définis le bloc title pour la balise <title> de la page #}
-{% block title %}Création d'une Feuille de Match
+{% block title %}Créer une Feuille de Match - {{ type == 'criterium' ? 'Critérium' : 'Nationale' }} - Le Cavalier Rouge{% endblock %}
+
+{% block meta_description %}
+    Créez une feuille de match pour la compétition d'échecs {{ type == 'criterium' ? 'Critérium' : 'Nationale' }} au club Le Cavalier Rouge.
 {% endblock %}
+
 
 {# Je débute le bloc body dans lequel j’insère tout le contenu spécifique de cette page #}
 {% block body %}

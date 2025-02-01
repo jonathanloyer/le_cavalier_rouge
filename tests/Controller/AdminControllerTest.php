@@ -36,8 +36,8 @@ class AdminControllerTest extends WebTestCase
         // Vérifie que la réponse HTTP est réussie (code 200)
         $this->assertResponseIsSuccessful();
 
-        // Vérifie que la balise <h3> contient le texte attendu
-        $this->assertSelectorTextContains('h3', 'Tableau de bord - Administration');
+        // Vérifie que la balise <h1> contient le texte attendu
+        $this->assertSelectorTextContains('h1', 'Tableau de bord - Administration');
 
         // Vérifie qu'un élément avec la classe CSS `.grid` est présent sur la page
         $this->assertSelectorExists('.grid', 'Le tableau de bord doit contenir un résumé.');

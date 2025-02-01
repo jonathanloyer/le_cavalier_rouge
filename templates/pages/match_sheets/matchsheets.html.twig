@@ -1,115 +1,136 @@
 {# J’étends la mise en page globale (pages/layout.html.twig) pour la structure commune du site #}
 {% extends 'pages/layout.html.twig' %}
 
-{# J’indique que le titre affichera "Feuille de Match" #}
-{% block title %}Feuille de Match{% endblock %}
+
+{# Titre de la page optimisé pour le SEO #}
+{% block title %}Feuille de Match | Gérer vos Compétitions - Le Cavalier Rouge{% endblock %}
+
+{# Meta description optimisée pour le référencement #}
+{% block meta_description %}
+    Gérez et suivez vos feuilles de match d'échecs en ligne avec Le Cavalier Rouge. Créez, modifiez et archivez vos compétitions interclubs.
+{% endblock %}
+
+{# Open Graph pour le partage sur les réseaux sociaux #}
+{% block og_title %}Feuille de Match | Gérer vos Compétitions - Le Cavalier Rouge{% endblock %}
+{% block og_description %}
+    Consultez, modifiez et archivez vos feuilles de match d'échecs avec Le Cavalier Rouge. Suivez vos performances en temps réel.
+{% endblock %}
+{% block og_image %}{{ asset('img/logo.png') }}{% endblock %}
+{% block og_type %}website{% endblock %}
+
+{# Twitter Cards pour l'optimisation sur Twitter #}
+{% block twitter_title %}Feuille de Match | Gérer vos Compétitions - Le Cavalier Rouge{% endblock %}
+{% block twitter_description %}
+    Consultez, modifiez et archivez vos feuilles de match d'échecs avec Le Cavalier Rouge. Suivez vos performances en temps réel.
+{% endblock %}
+{% block twitter_image %}{{ asset('img/logo.png') }}{% endblock %}
+
 
 {# J’ouvre le bloc "body" qui contiendra le contenu de cette page #}
 {% block body %}
-    {# J’utilise une div "container" pour centrer et espacer le contenu,
-       avec un padding (p-8) #}
-    <div class="container mx-auto p-8">
-        
-        {# J’ajoute un conteneur flex pour le logo à gauche et des infos à droite #}
-        <div class="flex justify-between items-center mb-8">
-            {# J’affiche l’image du logo, hauteur fixée à 4rem (h-16) #}
-            <img src="/img/logo.png" alt="Logo Cavalier Rouge" class="h-16">
+	{# J’utilise une div "container" pour centrer et espacer le contenu,
+	       avec un padding (p-8) #}
+	<div
+		class="container mx-auto p-8">
 
-            {# J’affiche un bloc à droite, qui varie selon les rôles #}
-            <div>
-                {% if is_granted('ROLE_ADMIN') %}
-                    {# J’indique le statut Admin en texte gris #}
-                    <span class="text-gray-600">Admin</span>
-                    {# J’ajoute un bouton pour basculer vers un autre espace (app_admin) #}
-                    <button class="ml-4 px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700"
-                            onclick="window.location.href='{{ path('app_admin') }}'">
-                        Basculer
-                    </button>
-                {% elseif is_granted('ROLE_CAPITAINE') %}
-                    {# J’affiche le statut Capitaine si l’utilisateur a ce rôle #}
-                    <span class="text-gray-600">Capitaine</span>
-                {% endif %}
-            </div>
-        </div>
+		{# J’ajoute un conteneur flex pour le logo à gauche et des infos à droite #}
+		<div
+			class="flex justify-between items-center mb-8">
+			{# J’affiche l’image du logo, hauteur fixée à 4rem (h-16) #}
+			<img
+			src="/img/logo.png" alt="Logo Cavalier Rouge" class="h-16">
 
-        {# J’affiche un titre principal (h1) de taille 2xl, gras, centré, avec une marge-basse (mb-8) #}
-        <h1 class="text-2xl font-bold text-center mb-8">
-            Bonjour
-            {# J’affiche le nom de l’utilisateur si connecté, sinon "Visiteur" #}
-            {% if app.user %}
-                {{ app.user.lastName }}
-                {{ app.user.firstName }}
-            {% else %}
-                Visiteur
-            {% endif %}
-        </h1>
+			{# J’affiche un bloc à droite, qui varie selon les rôles #}
+			<div>
+				{% if is_granted('ROLE_ADMIN') %}
+					{# J’indique le statut Admin en texte gris #}
+					<span class="text-gray-600">Admin</span>
+					{# J’ajoute un bouton pour basculer vers un autre espace (app_admin) #}
+					<button class="ml-4 px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700" onclick="window.location.href='{{ path('app_admin') }}'">
+						Basculer
+					</button>
+				{% elseif is_granted('ROLE_CAPITAINE') %}
+					{# J’affiche le statut Capitaine si l’utilisateur a ce rôle #}
+					<span class="text-gray-600">Capitaine</span>
+				{% endif %}
+			</div>
+		</div>
 
-        {# J’affiche un sous-titre (h2) centré, texte gris, marge-basse (mb-8) #}
-        <h2 class="text-center text-lg text-gray-600 mb-8">
-            Que souhaitez-vous faire ?
-        </h2>
+		{# J’affiche un titre principal  de taille 2xl, gras, centré, avec une marge-basse (mb-8) #}
+		<h1 class="text-2xl font-bold text-center mb-8">
+			Bonjour
+			{# J’affiche le nom de l’utilisateur si connecté, sinon "Visiteur" #}
+			{% if app.user %}
+				{{ app.user.lastName }}
+				{{ app.user.firstName }}
+			{% else %}
+				Visiteur
+			{% endif %}
+		</h1>
 
-        {# J’affiche un bloc blanc (bg-white), ombré (shadow-md),
-           arrondi (rounded-lg), avec du padding (p-6) et une marge-basse (mb-8) #}
-        <div class="bg-white shadow-md rounded-lg p-6 mb-8">
-            {# J’affiche un titre (h3) indiquant la consultation/modification #}
-            <h3 class="text-lg font-semibold mb-4">
-                Consulter ou modifier une feuille de match
-            </h3>
+		{# J’affiche un sous-titre (h2) centré, texte gris, marge-basse (mb-8) #}
+		<h2 class="text-center text-lg text-gray-600 mb-8">
+			Que souhaitez-vous faire ?
+		</h2>
 
-            {# J’ajoute un premier formulaire GET pour consulter une feuille de match #}
-            <form method="GET" action="{{ path('app_match_sheets_show', {'id': 0}) }}">
-                {# J’affiche un label et un input type="number" pour saisir l’ID #}
-                <label for="id" class="block text-gray-700 mb-2">
-                    Saisissez l'ID de la feuille de match
-                </label>
-                <input type="number" id="id" name="id"
-                       placeholder="ID de la feuille de match"
-                       class="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring focus:border-blue-300"
-                       required>
-                {# J’affiche un bouton bleu pour valider la consultation #}
-                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition">
-                    Consulter
-                </button>
-            </form>
+		{# J’affiche un bloc blanc (bg-white), ombré (shadow-md), arrondi (rounded-lg), avec du padding (p-6) et une marge-basse (mb-8) #}
+		<div
+			class="bg-white shadow-md rounded-lg p-6 mb-8">
+			{# J’affiche un titre (h3) indiquant la consultation/modification #}
+			<h3 class="text-lg font-semibold mb-4">
+				Consulter ou modifier une feuille de match
+			</h3>
 
-            {# J’ajoute un second formulaire POST pour modifier une feuille de match #}
-            <form method="POST" action="{{ path('app_match_sheets_edit', {'id': 0}) }}">
-                {# J’affiche un label et un input type="number" pour saisir l’ID à modifier #}
-                <label for="idEdit" class="block text-gray-700 mb-2">
-                    Saisissez l'ID pour modifier une feuille de match
-                </label>
-                <input type="number" id="idEdit" name="idEdit"
-                       placeholder="ID de la feuille de match"
-                       class="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring focus:border-blue-300"
-                       required>
-                {# J’affiche un bouton jaune pour valider la modification #}
-                <button type="submit" class="px-6 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-500 transition">
-                    Modifier
-                </button>
-            </form>
+			{# J’ajoute un premier formulaire GET pour consulter une feuille de match #}
+			<form
+				method="GET" action="{{ path('app_match_sheets_show', {'id': 0}) }}">
+				{# J’affiche un label et un input type="number" pour saisir l’ID #}
+				<label for="id" class="block text-gray-700 mb-2">
+					Saisissez l'ID de la feuille de match
+				</label>
+				<input
+				type="number" id="id" name="id" placeholder="ID de la feuille de match" class="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring focus:border-blue-300" required>
+				{# J’affiche un bouton bleu pour valider la consultation #}
+				<button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition">
+					Consulter
+				</button>
+			</form>
 
-        </div>
+			{# J’ajoute un second formulaire POST pour modifier une feuille de match #}
+			<form
+				method="POST" action="{{ path('app_match_sheets_edit', {'id': 0}) }}">
+				{# J’affiche un label et un input type="number" pour saisir l’ID à modifier #}
+				<label for="idEdit" class="block text-gray-700 mb-2">
+					Saisissez l'ID pour modifier une feuille de match
+				</label>
+				<input
+				type="number" id="idEdit" name="idEdit" placeholder="ID de la feuille de match" class="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring focus:border-blue-300" required>
+				{# J’affiche un bouton jaune pour valider la modification #}
+				<button type="submit" class="px-6 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-500 transition">
+					Modifier
+				</button>
+			</form>
 
-        {# J’affiche un deuxième bloc blanc (bg-white) pour la création d’une nouvelle feuille #}
-        <div class="bg-white shadow-md rounded-lg p-6">
-            <h3 class="text-lg font-semibold mb-4">
-                Créer une feuille de match
-            </h3>
+		</div>
 
-            {# J’ajoute un conteneur flex avec un espacement horizontal (space-x-4) #}
-            <div class="flex space-x-4">
-                {# J’affiche un lien pour créer une feuille en mode Critérium #}
-                <a href="{{ path('app_match_sheets_create', {'type': 'criterium'}) }}"
-                   class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-center">
-                    Critérium
-                </a>
-                {# J’affiche un lien pour créer une feuille en mode Nationale 2/3 #}
-                <a href="{{ path('app_match_sheets_create', {'type': 'national'}) }}"
-                   class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-center">
-                    Nationale 2/3
-                </a>
-            </div>
-        </div>
-    </div>
+		{# J’affiche un deuxième bloc blanc (bg-white) pour la création d’une nouvelle feuille #}
+		<div class="bg-white shadow-md rounded-lg p-6">
+			<h3 class="text-lg font-semibold mb-4">
+				Créer une feuille de match
+			</h3>
+
+			{# J’ajoute un conteneur flex avec un espacement horizontal (space-x-4) #}
+			<div
+				class="flex space-x-4">
+				{# J’affiche un lien pour créer une feuille en mode Critérium #}
+				<a href="{{ path('app_match_sheets_create', {'type': 'criterium'}) }}" class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-center">
+					Critérium
+				</a>
+				{# J’affiche un lien pour créer une feuille en mode Nationale 2/3 #}
+				<a href="{{ path('app_match_sheets_create', {'type': 'national'}) }}" class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-center">
+					Nationale 2/3
+				</a>
+			</div>
+		</div>
+	</div>
 {% endblock %}

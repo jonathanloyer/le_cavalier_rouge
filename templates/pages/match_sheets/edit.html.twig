@@ -1,10 +1,12 @@
 {# J’étends la mise en page globale pour conserver la structure du site #}
 {% extends 'pages/layout.html.twig' %}
 
-{# J’indique le titre « Modifier la Feuille de Match - {id} » dans l’onglet #}
-{% block title %}Modifier la Feuille de Match -
-	{{ feuilleMatch.id }}
+{% block title %}Modifier la Feuille de Match {{ feuilleMatch.id }} - {{ feuilleMatch.interclub }} - Le Cavalier Rouge{% endblock %}
+
+{% block meta_description %}
+    Modifiez la feuille de match n°{{ feuilleMatch.id }} du tournoi {{ feuilleMatch.interclub }} au club d'échecs Le Cavalier Rouge.
 {% endblock %}
+
 
 {# J’ouvre le bloc body pour définir le contenu principal de cette page #}
 {% block body %}

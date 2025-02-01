@@ -33,7 +33,10 @@
 
 {% block body %}
 	<div class="max-w-lg mx-auto mt-10 p-6 bg-white shadow-md rounded">
-		<h1 class="text-2xl font-bold mb-5 text-center">Modifier votre Profil</h1>
+		<h1 class="text-2xl font-bold mb-5 text-center">
+			Modifier le profil de
+			{{ app.user ? app.user.pseudo : 'Utilisateur' }}
+		</h1>
 
 		{{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
 
@@ -98,18 +101,18 @@
 		</div>
 
 		{# Champ pour le mot de passe
-		
-		    <div class="form-group">
-		
-		        {{ form_label(form.password, 'Mot de passe', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
-		
-		        {{ form_widget(form.password, { 'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'} }) }}
-		
-		        {{ form_errors(form.password) }}
-		
-		    </div>
-		
-		           #}
+				
+				    <div class="form-group">
+				
+				        {{ form_label(form.password, 'Mot de passe', {'label_attr': {'class': 'block text-gray-700 font-bold mb-2'}}) }}
+				
+				        {{ form_widget(form.password, { 'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'} }) }}
+				
+				        {{ form_errors(form.password) }}
+				
+				    </div>
+				
+				           #}
 
 		{# Bouton de soumission #}
 		<div class="flex items-center justify-between">

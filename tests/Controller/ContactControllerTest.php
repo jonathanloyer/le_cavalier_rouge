@@ -21,7 +21,7 @@ class ContactControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         
         // Vérifie que le titre <h1> de la page est bien "Contactez-nous"
-        $this->assertSelectorTextContains('h3', 'Contactez-nous');
+        $this->assertSelectorTextContains('h1', 'Contactez-nous');
     }
 
     /**

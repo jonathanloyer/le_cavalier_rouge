@@ -1,60 +1,82 @@
 {# J’étends la mise en page globale (pages/layout.html.twig) pour la structure et le style #}
 {% extends 'pages/layout.html.twig' %}
 
-{# J’indique le titre « Contactez-nous » pour la balise <title> #}
-{% block title %}Contactez-nous{% endblock %}
+{# SEO - Titre de la page #}
+{% block title %}Contactez-nous - Club d'Échecs Le Cavalier Rouge{% endblock %}
 
-{# J’ouvre le bloc body pour définir le contenu principal de cette page #}
+{# SEO - Meta Description #}
+{% block meta_description %}
+Contactez le Club d'Échecs Le Cavalier Rouge à Clamart pour toute question sur les tournois, les cours et les adhésions.
+{% endblock %}
+
+{# SEO - Open Graph Meta Tags (utilisé par Facebook et autres réseaux sociaux) #}
+{% block og_title %}Contactez-nous - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block og_description %}
+Besoin d'informations sur nos compétitions et événements ? Contactez le Club d'Échecs Le Cavalier Rouge dès maintenant.
+{% endblock %}
+{% block og_image %}{{ asset('img/contact.jpg') }}{% endblock %}
+
+{# SEO - Twitter Meta Tags (utilisé par Twitter) #}
+{% block twitter_title %}Contactez-nous - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block twitter_description %}
+Rejoignez la communauté du Club d'Échecs Le Cavalier Rouge. Contactez-nous pour en savoir plus sur nos activités.
+{% endblock %}
+{% block twitter_image %}{{ asset('img/contact.jpg') }}{% endblock %}
+
+{# Contenu principal de la page #}
 {% block body %}
-{# Je crée un conteneur (container mx-auto) avec un padding de 1.5rem (p-6) #}
-<div class="container mx-auto p-6">
-    {# J’affiche un titre (h3) de taille 2xl, gras (font-bold), marge-basse (mb-4) #}
-    <h1 class="text-2xl font-bold mb-4">Contactez-nous</h1>
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Contactez-nous</h1>
+    <p class="text-gray-600 text-center mb-6">Nous sommes à votre écoute pour toute question sur nos tournois, nos cours ou votre adhésion.</p>
 
-    {# J’affiche les éventuels messages flash de type « error » #}
+    {# Affichage des messages flash #}
     {% for message in app.flashes('error') %}
-        <div class="flash-error bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+        <div class="flash-error bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-center">
             {{ message }}
         </div>
     {% endfor %}
 
-    {# J’affiche les éventuels messages flash de type « success » #}
     {% for message in app.flashes('success') %}
-        <div class="flash-success bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+        <div class="flash-success bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 text-center">
             {{ message }}
         </div>
     {% endfor %}
 
-    {# Je crée un formulaire POST vers la route « contact_form »,
-       dans un bloc blanc (bg-white), ombré (shadow), arrondi (rounded-lg),
-       avec un padding (p-6). #}
-    <form method="POST" action="{{ path('public_contact_form') }}" class="bg-white shadow rounded-lg p-6">
-        {# Champ "Nom" #}
-        <div class="mb-4">
-            <label for="name" class="block text-sm font-medium text-gray-700">Nom :</label>
-            <input type="text" id="name" name="name" required
-                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300">
-        </div>
+    {# Formulaire de contact #}
+    <div class="max-w-lg mx-auto bg-white shadow rounded-lg p-6">
+        <form method="POST" action="{{ path('public_contact_form') }}">
+            {# Champ "Nom" #}
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">Nom :</label>
+                <input type="text" id="name" name="name" required
+                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300"
+                       placeholder="Entrez votre nom">
+            </div>
 
-        {# Champ "Email" #}
-        <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">Email :</label>
-            <input type="email" id="email" name="email" required
-                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300">
-        </div>
+            {# Champ "Email" #}
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700">Email :</label>
+                <input type="email" id="email" name="email" required
+                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300"
+                       placeholder="Votre adresse email">
+            </div>
 
-        {# Champ "Message" (textarea) #}
-        <div class="mb-4">
-            <label for="message" class="block text-sm font-medium text-gray-700">Message :</label>
-            <textarea id="message" name="message" required
-                      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300"></textarea>
-        </div>
+            {# Champ "Message" (textarea) #}
+            <div class="mb-4">
+                <label for="message" class="block text-sm font-medium text-gray-700">Message :</label>
+                <textarea id="message" name="message" required rows="5"
+                          class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300"
+                          placeholder="Votre message ici"></textarea>
+            </div>
 
-        {# Bouton "Envoyer" #}
-        <button type="submit"
-                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-            Envoyer
-        </button>
-    </form>
+            {# Bouton "Envoyer" #}
+            <div class="flex justify-center">
+                <button type="submit"
+                        class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition">
+                    Envoyer
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

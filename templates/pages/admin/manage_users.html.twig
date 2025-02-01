@@ -1,9 +1,29 @@
 {# Je précise que ce template hérite de pages/layout.html.twig pour conserver la structure globale #}
 {% extends 'pages/layout.html.twig' %}
 
-{# Je définis le bloc "title" pour le titre de la page comme "Gestion des utilisateurs" #}
-{% block title %}Gestion des utilisateurs
+{# SEO - Titre de la page #}
+{% block title %}Gestion des utilisateurs - Club d'Échecs Le Cavalier Rouge{% endblock %}
+
+{# SEO - Meta Description #}
+{% block meta_description %}
+Gérez les utilisateurs du Club d'Échecs Le Cavalier Rouge : modification, suppression et attribution des rôles (administrateur, capitaine).
 {% endblock %}
+
+{# SEO - Open Graph Meta Tags (Facebook, LinkedIn) #}
+{% block og_title %}Gestion des utilisateurs - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block og_description %}
+Gérez les utilisateurs du Club d'Échecs Le Cavalier Rouge : modification, suppression et attribution des rôles.
+{% endblock %}
+{% block og_image %}{{ asset('img/admin-users.jpg') }}{% endblock %}
+{% block og_type %}website{% endblock %}
+
+{# SEO - Twitter Meta Tags (Twitter Cards) #}
+{% block twitter_title %}Gestion des utilisateurs - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block twitter_description %}
+Ajoutez ou supprimez des utilisateurs et attribuez les rôles dans le Club d'Échecs Le Cavalier Rouge.
+{% endblock %}
+{% block twitter_image %}{{ asset('img/admin-users.jpg') }}{% endblock %}
+{% block twitter_card %}summary_large_image{% endblock %}
 
 {# Je commence le bloc "body" où se trouvera tout le contenu de cette page #}
 {% block body %}

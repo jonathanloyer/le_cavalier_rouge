@@ -25,4 +25,11 @@ class LegalController extends AbstractController
     {
         return $this->render('pages/legal/mentions_legales.html.twig');
     }
+
+    #[Route('/cookies', name: 'cookies')]
+public function cookies(): Response
+{
+    return $this->render('pages/legal/cookies.html.twig');
+}
+
 }

@@ -18,17 +18,17 @@
     <!-- Menu -->
     <ul id="navbar-menu" class="hidden md:flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
         <li><a href="/" class="text-lg hover:text-indigo-500 transition-colors duration-200">Accueil</a></li>
-        {% if app.user %}
+           {% if app.user %}
+            <li><a href="{{ path('app_profile') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Profile</a></li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li><a href="{{ path('app_admin') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Tableau de bord</a></li>
-            {% else %}
-                <li><a href="{{ path('app_profile') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Profil</a></li>
             {% endif %}
             <li><a href="{{ path('app_logout') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Se déconnecter</a></li>
         {% else %}
             <li><a href="{{ path('app_login') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Connexion</a></li>
             <li><a href="/inscription" class="text-lg hover:text-indigo-500 transition-colors duration-200">Inscription</a></li>
         {% endif %}
+        
         {% if not is_granted('ROLE_ADMIN') %}
             <li><a href="{{ path('public_contact_form') }}" class="text-lg hover:text-indigo-500 transition-colors duration-200">Contactez-nous</a></li>
         {% endif %}

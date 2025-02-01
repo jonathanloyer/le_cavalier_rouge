@@ -2,17 +2,17 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\FeuilleMatch;
-use App\Repository\FeuilleMatchRepository;
-use App\Repository\ClubRepository;
-use App\Repository\UserRepository;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use App\Entity\FeuilleMatch;
+use App\Repository\ClubRepository;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\FeuilleMatchRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MatchSheetsController extends AbstractController
 {
@@ -51,26 +51,25 @@ class MatchSheetsController extends AbstractController
     #[Route('/feuille-de-match/save', name: 'app_match_sheets_save', methods: ['POST'])]
     public function save(Request $request, EntityManagerInterface $em, ClubRepository $clubRepo, UserRepository $userRepo): Response
     {
-        $formData = $request->request->all();
 
-        // Ajoutez dd ici pour inspecter les données du formulaire
-        // dd($formData); je test afin de savoir ce qui est envoyé dans mon formulaire dans la base de données
+        $formData = $request->request->all(); // Récupération des données du formulaire
+
 
         // Récupération des clubs
         $clubA = $clubRepo->find($formData['clubA']);
         $clubB = $clubRepo->find($formData['clubB']);
 
-        if (!$clubA || !$clubB) {
-            throw $this->createNotFoundException('Clubs invalides.');
+        if (!$clubA || !$clubB) { // Vérification de l'existence des clubs
+            throw $this->createNotFoundException('Clubs invalides.'); // Erreur 404
         }
 
         // Récupération des capitaines et de l'arbitre
-        $capitaineA = $userRepo->find($formData['capitaineA']);
-        $capitaineB = $userRepo->find($formData['capitaineB']);
-        $arbitre = $userRepo->find($formData['arbitre']);
+        $capitaineA = $userRepo->find($formData['capitaineA']); // Récupération du capitaine A
+        $capitaineB = $userRepo->find($formData['capitaineB']); // Récupération du capitaine B
+        $arbitre = $userRepo->find($formData['arbitre']); // Récupération de l'arbitre
 
-        if (!$capitaineA || !$capitaineB || !$arbitre) {
-            throw $this->createNotFoundException('Capitaines ou arbitre invalides.');
+        if (!$capitaineA || !$capitaineB || !$arbitre) {   // Vérification de l'existence des capitaines et de l'arbitre
+            throw $this->createNotFoundException('Capitaines ou arbitre invalides.'); // sinon je retourn une erreur 404
         }
 
         // Création de la feuille de match
@@ -214,13 +213,21 @@ class MatchSheetsController extends AbstractController
     // Route pour modifier une feuille de match
     #[Route('/feuille-de-match/{id}/modifier', name: 'app_match_sheets_edit', methods: ['GET', 'POST'])]
     public function edit(
-        int $id,
-        Request $request,
-        FeuilleMatchRepository $feuilleMatchRepo,
-        EntityManagerInterface $em,
-        ClubRepository $clubRepository,
-        UserRepository $userRepo
+
+        int $id, // Identifiant de la feuille de match
+        Request $request, // Requête HTTP
+        FeuilleMatchRepository $feuilleMatchRepo, // Repository des feuilles de match
+        EntityManagerInterface $em, // EntityManager pour la base de données
+        ClubRepository $clubRepository, // Repository des clubs
+        UserRepository $userRepo // Repository des utilisateurs
+
     ): Response {
+
+        // Vérification des rôles : seuls les administrateurs et capitaines peuvent accéder
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_CAPITAINE')) {
+            throw $this->createAccessDeniedException('Accès refusé.');
+        }
+
         // Je récupère la feuille de match
         $feuilleMatch = $feuilleMatchRepo->find($id);
 
@@ -245,20 +252,25 @@ class MatchSheetsController extends AbstractController
             }
 
             // Mise à jour des autres champs
-            $feuilleMatch->setType($formData['division'] ?? $feuilleMatch->getType());
-            $feuilleMatch->setGroupe($formData['groupe'] ?? $feuilleMatch->getGroupe());
-            $feuilleMatch->setInterclub($formData['interclub'] ?? $feuilleMatch->getInterclub());
-            $feuilleMatch->setDateMatch(new \DateTimeImmutable($formData['dateMatch'] ?? $feuilleMatch->getDateMatch()->format('Y-m-d')));
+            $feuilleMatch->setType($formData['division'] ?? $feuilleMatch->getType()); // Utilise le choix ou 'criterium' par défaut
+
+            $feuilleMatch->setGroupe($formData['groupe'] ?? $feuilleMatch->getGroupe()); // "Groupe 1" ou "Groupe 2"
+
+            $feuilleMatch->setInterclub($formData['interclub'] ?? $feuilleMatch->getInterclub()); // "Interclub Jeune"
+
+            $feuilleMatch->setDateMatch(new \DateTimeImmutable($formData['dateMatch'] ?? $feuilleMatch->getDateMatch()->format('Y-m-d'))); // Date du match
 
             // Mise à jour des joueurs
             $joueurs = [];
 
             // Je boucle sur les joueurs A pour les ajouter à la feuille de match
             foreach ($formData['joueursA'] as $index => $joueurA) {
+
                 $joueurs[] = [
-                    'joueurA' => $joueurA,
-                    'resultat' => $formData['resultats'][$index] ?? null,
-                    'joueurB' => $formData['joueursB'][$index] ?? null,
+
+                    'joueurA' => $joueurA, // Récupération des joueurs A
+                    'resultat' => $formData['resultats'][$index] ?? null, // Récupération des résultats
+                    'joueurB' => $formData['joueursB'][$index] ?? null, // Récupération des joueurs B
                 ];
             }
 
@@ -289,7 +301,7 @@ class MatchSheetsController extends AbstractController
         }
 
         // Préparation des données pour le formulaire d'édition
-        $joueursSelectionnesA = [];
+        $joueursSelectionnesA = []; 
         $joueursSelectionnesB = [];
         $resultats = [];
 
@@ -306,26 +318,39 @@ class MatchSheetsController extends AbstractController
             }
         }
 
+        // Récupération des capitaines et de l'arbitre
         $capitainesEtArbitre = [
             'capitaineA' => null,
             'capitaineB' => null,
             'arbitre' => null,
         ];
 
+        // je récupère les capitaines et l'arbitre grace à leur role
         foreach ($feuilleMatch->getJoueurs() as $joueur) {
+
             if (isset($joueur['role']) && $joueur['role'] === 'capitaineA') {
+
                 $capitainesEtArbitre['capitaineA'] = $userRepo->find($joueur['id']);
+
             } elseif (isset($joueur['role']) && $joueur['role'] === 'capitaineB') {
+
                 $capitainesEtArbitre['capitaineB'] = $userRepo->find($joueur['id']);
+
             } elseif (isset($joueur['role']) && $joueur['role'] === 'arbitre') {
+
                 $capitainesEtArbitre['arbitre'] = $userRepo->find($joueur['id']);
             }
         }
 
+        // Récupération des clubs
         $clubs = $clubRepository->findAll();
+
         $joueursA = $feuilleMatch->getClubA() ? $feuilleMatch->getClubA()->getUsers() : [];
+
         $joueursB = $feuilleMatch->getClubB() ? $feuilleMatch->getClubB()->getUsers() : [];
 
+
+        // Rendu de la vue pour modifier la feuille de match
         return $this->render('pages/match_sheets/edit.html.twig', [
             'feuilleMatch' => $feuilleMatch,
             'clubs' => $clubs,
@@ -354,8 +379,8 @@ class MatchSheetsController extends AbstractController
 
         // Suppression si elle existe
         if ($feuilleMatch) {
-            $em->remove($feuilleMatch);
-            $em->flush();
+            $em->remove($feuilleMatch); // Suppression de la feuille de match
+            $em->flush(); // Sauvegarde en base de données
         }
 
         // Redirection vers la liste

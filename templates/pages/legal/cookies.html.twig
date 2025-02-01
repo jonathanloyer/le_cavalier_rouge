@@ -1,0 +1,27 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Gestion des Cookies - Club d'Échecs Le Cavalier Rouge{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6 bg-white shadow-md rounded-lg">
+    <h1 class="text-xl font-bold text-gray-800 mb-4">Gestion des Cookies</h1>
+    <p class="text-gray-600">Vous pouvez modifier vos préférences en matière de cookies ici.</p>
+
+    <div class="mt-4">
+        <button id="clear-cookies" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">
+            Effacer les cookies
+        </button>
+        <a href="/" class="ml-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+            Retour à l'accueil
+        </a>
+    </div>
+</div>
+
+<script>
+document.getElementById('clear-cookies').addEventListener('click', function() {
+    localStorage.removeItem('cookies_accepted');
+    alert("Les préférences de cookies ont été réinitialisées !");
+    location.reload();
+});
+</script>
+{% endblock %}

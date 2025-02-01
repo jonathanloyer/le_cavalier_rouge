@@ -1,8 +1,11 @@
 {# Je précise que j'étends le layout global (pages/layout.html.twig) pour la structure commune du site #}
 {% extends 'pages/layout.html.twig' %}
 
-{# Je définis la section "title" à afficher dans la balise <title> du layout #}
-{% block title %}Feuille de Match - {{ feuilleMatch.id }}{% endblock %}
+{% block title %}Feuille de Match {{ feuilleMatch.id }} - {{ feuilleMatch.interclub }} - Le Cavalier Rouge{% endblock %}
+
+{% block meta_description %}
+    Consultez la feuille de match n°{{ feuilleMatch.id }} pour l'interclub {{ feuilleMatch.interclub }} du club d'échecs Le Cavalier Rouge.
+{% endblock %}
 
 {# Je commence le bloc "body" où je place tout le contenu spécifique de la page #}
 {% block body %}
