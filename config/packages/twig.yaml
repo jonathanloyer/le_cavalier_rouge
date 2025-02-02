@@ -1,5 +1,12 @@
 twig:
+    default_path: '%kernel.project_dir%/templates'
     file_name_pattern: '*.twig'
+
+    # Ajoute le thème personnalisé pour les formulaires Symfony
+    form_themes: ['form_layout.html.twig']
+
+    # Active la gestion stricte des variables (utile pour éviter les erreurs)
+    strict_variables: false
 
 when@test:
     twig:

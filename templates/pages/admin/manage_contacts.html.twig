@@ -1,8 +1,29 @@
 {# J’étends la mise en page globale (pages/layout.html.twig) pour conserver la structure générale du site #}
 {% extends 'pages/layout.html.twig' %}
 
-{# J’indique le titre de la page comme « Gérer les contacts » #}
-{% block title %}Gérer les contacts{% endblock %}
+{# SEO - Titre de la page #}
+{% block title %}Gestion des contacts - Club d'Échecs Le Cavalier Rouge{% endblock %}
+
+{# SEO - Meta Description #}
+{% block meta_description %}
+Consultez et gérez les messages envoyés par les membres du Club d'Échecs Le Cavalier Rouge. Supprimez les contacts non pertinents.
+{% endblock %}
+
+{# SEO - Open Graph Meta Tags (Facebook, LinkedIn) #}
+{% block og_title %}Gestion des contacts - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block og_description %}
+Visualisez et administrez les messages envoyés par les membres du Club d'Échecs Le Cavalier Rouge.
+{% endblock %}
+{% block og_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block og_type %}website{% endblock %}
+
+{# SEO - Twitter Meta Tags (Twitter Cards) #}
+{% block twitter_title %}Gestion des contacts - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block twitter_description %}
+Gérez les messages envoyés par les membres et visiteurs du Club d'Échecs Le Cavalier Rouge.
+{% endblock %}
+{% block twitter_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block twitter_card %}summary_large_image{% endblock %}
 
 {# J’ouvre le bloc "body" pour définir le contenu principal de cette page #}
 {% block body %}

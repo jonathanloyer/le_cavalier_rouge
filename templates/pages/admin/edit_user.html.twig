@@ -1,8 +1,29 @@
 {# J’indique que ce template hérite de "pages/layout.html.twig" pour la structure générale #}
 {% extends 'pages/layout.html.twig' %}
 
-{# Je définis la balise <title> comme "Modifier l'utilisateur" #}
+{# SEO - Titre de la page #}
 {% block title %}Modifier l'utilisateur{% endblock %}
+
+{# SEO - Meta Description #}
+{% block meta_description %}
+Modifier les informations d'un utilisateur dans le Club d'Échecs Le Cavalier Rouge.
+{% endblock %}
+
+{# SEO - Open Graph Meta Tags (Facebook, LinkedIn) #}
+{% block og_title %}Modifier l'utilisateur - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block og_description %}
+Modifiez les informations d'un utilisateur dans le Club d'Échecs Le Cavalier Rouge.
+{% endblock %}
+{% block og_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block og_type %}website{% endblock %}
+
+{# SEO - Twitter Meta Tags (Twitter Cards) #}
+{% block twitter_title %}Modifier l'utilisateur - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block twitter_description %}
+Modifiez les informations d'un utilisateur dans le Club d'Échecs Le Cavalier Rouge.
+{% endblock %}
+{% block twitter_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block twitter_card %}summary_large_image{% endblock %}
 
 {# Je débute le bloc "body" où je place le contenu spécifique de cette page #}
 {% block body %}

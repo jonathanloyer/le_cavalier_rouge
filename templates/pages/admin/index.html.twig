@@ -1,9 +1,30 @@
 {# J’étends le layout global (pages/layout.html.twig) pour conserver la structure du site #}
 {% extends 'pages/layout.html.twig' %}
 
-{# J’indique le titre de la page dans la balise <title> #}
-{% block title %}Tableau de bord - Administration
+{# SEO - Titre de la page #}
+{% block title %}Tableau de bord - Administration{% endblock %}
+
+{# SEO - Meta Description #}
+{% block meta_description %}
+Gérez les utilisateurs, tournois, feuilles de match et clubs du Club d'Échecs Le Cavalier Rouge.
 {% endblock %}
+
+{# SEO - Open Graph Meta Tags (Facebook, LinkedIn) #}
+{% set default_image = asset('img/c.JPEG') %}
+{% block og_title %}Tableau de bord - Administration{% endblock %}
+{% block og_description %}
+Gérez les utilisateurs, tournois, feuilles de match et clubs du Club d'Échecs Le Cavalier Rouge.
+{% endblock %}
+{% block og_image %}{{ asset('img/c.JPEG') ?: default_image }}{% endblock %}
+{% block og_type %}website{% endblock %}
+
+{# SEO - Twitter Meta Tags (Twitter Cards) #}
+{% block twitter_title %}Tableau de bord - Administration{% endblock %}
+{% block twitter_description %}
+Gérez efficacement le Club d'Échecs Le Cavalier Rouge avec ce tableau de bord administrateur.
+{% endblock %}
+{% block twitter_image %}{{ asset('img/c.JPEG') ?: default_image }}{% endblock %}
+{% block twitter_card %}summary_large_image{% endblock %}
 
 {# J’ouvre le bloc "body" qui contiendra tout le contenu de cette page #}
 {% block body %}

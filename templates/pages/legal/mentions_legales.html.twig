@@ -2,6 +2,22 @@
 
 {% block title %}Mentions Légales{% endblock %}
 
+{% block meta_description %}
+Consultez les mentions légales du site du Club d'Échecs Le Cavalier Rouge pour plus d'informations sur l'éditeur, l'hébergement et le contact.
+{% endblock %}
+
+{% block og_title %}
+Mentions Légales - Club d'Échecs Le Cavalier Rouge
+{% endblock %}
+
+{% block og_description %}
+Découvrez les mentions légales du site du Club d'Échecs Le Cavalier Rouge, incluant les informations sur l'éditeur, l'hébergement et le contact.
+{% endblock %}
+
+{% block og_image %}
+{{ asset('img/c.JPEG') }}
+{% endblock %}
+
 {% block body %}
 <div class="container mx-auto p-6 bg-white shadow-md rounded-lg">
     <p class="text-sm text-gray-500 mb-2">Dernière mise à jour : {{ "now"|date("d/m/Y") }}</p>

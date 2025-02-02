@@ -1,9 +1,29 @@
 {# J’étends la mise en page globale (pages/layout.html.twig) pour bénéficier de sa structure #}
 {% extends 'pages/layout.html.twig' %}
 
-{# Je définis le contenu de la balise <title> comme « Gérer les Clubs » #}
-{% block title %}Gérer les Clubs
+{# SEO - Titre de la page #}
+{% block title %}Gestion des clubs - Club d'Échecs Le Cavalier Rouge{% endblock %}
+
+{# SEO - Meta Description #}
+{% block meta_description %}
+Gérez les clubs d'échecs du Club Le Cavalier Rouge. Ajoutez, modifiez ou supprimez des clubs affiliés et gérez leur administration.
 {% endblock %}
+
+{# SEO - Open Graph Meta Tags (Facebook, LinkedIn) #}
+{% block og_title %}Gestion des clubs - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block og_description %}
+Administrez les clubs affiliés du Club d'Échecs Le Cavalier Rouge. Organisez, modifiez et gérez les clubs partenaires.
+{% endblock %}
+{% block og_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block og_type %}website{% endblock %}
+
+{# SEO - Twitter Meta Tags (Twitter Cards) #}
+{% block twitter_title %}Gestion des clubs - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block twitter_description %}
+Ajoutez, modifiez et supprimez les clubs affiliés au Club d'Échecs Le Cavalier Rouge. Gérez facilement leur organisation.
+{% endblock %}
+{% block twitter_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block twitter_card %}summary_large_image{% endblock %}
 
 {# J’ouvre le bloc "body" pour y insérer le contenu principal de cette page #}
 {% block body %}
@@ -12,7 +32,7 @@
 
 	<!-- Formulaire pour ajouter un club -->
 	{# Je crée un bloc blanc (bg-white), ombré (shadow-md), arrondi (rounded-lg),
-	       avec un padding (p-4) et une marge-basse (mb-6). #}
+	avec un padding (p-4) et une marge-basse (mb-6). #}
 	<div
 		class="bg-white shadow-md rounded-lg p-4 mb-6">
 		{# Titre secondaire (h2) plus petit (text-xl), gras (font-bold), marge-basse (mb-4), texte gris #}

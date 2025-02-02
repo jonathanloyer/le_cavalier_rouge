@@ -29,6 +29,7 @@ main {
     align-items: center; /* Aligne verticalement */
     justify-content: space-between; /* Espace entre logo et menu */
     padding: 0 20px; /* Ajoute de l'espace horizontal */
+    
 }
 
 /* Menu dans la navbar */
@@ -51,7 +52,6 @@ main {
 .footer {
     @apply shared-navbar-footer;
     text-align: center; /* Centre le texte */
-    padding: 20px 0; /* Augmente l'espace interne dans le footer */
     font-size: 1rem; /* Taille de texte de base */
     width: 100%;
     margin-top: auto; /* Pousse le footer vers le bas de l'écran */

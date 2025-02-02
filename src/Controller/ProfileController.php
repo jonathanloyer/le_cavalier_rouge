@@ -124,4 +124,32 @@ class ProfileController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    #[Route('/delete-account', name: 'app_delete_account', methods: ['POST'])]
+    public function deleteAccount(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            $this->addFlash('error', 'Vous devez être connecté pour supprimer votre compte.');
+            return $this->redirectToRoute('app_login');
+        }
+
+        // Vérifier le token CSRF
+        if (!$this->isCsrfTokenValid('delete_account', $request->request->get('_token'))) {
+            $this->addFlash('error', 'Token CSRF invalide.');
+            return $this->redirectToRoute('app_profile');
+        }
+
+        // Supprimer l'utilisateur de la base de données
+        $entityManager->remove($user);
+        $entityManager->flush();
+
+        // Déconnecter l'utilisateur après la suppression
+        $this->container->get('security.token_storage')->setToken(null);
+        $request->getSession()->invalidate();
+
+        $this->addFlash('success', 'Votre compte a été supprimé avec succès.');
+
+        return $this->redirectToRoute('app_home'); // Redirection vers la page d'accueil
+    }
 }

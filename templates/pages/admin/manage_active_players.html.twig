@@ -1,8 +1,29 @@
 {# J’indique que ce template hérite de "pages/layout.html.twig" pour la structure globale #}
 {% extends 'pages/layout.html.twig' %}
 
-{# Je définis la balise <title> de la page comme « Liste des joueurs actifs » #}
-{% block title %}Liste des joueurs actifs{% endblock %}
+{# SEO - Titre de la page #}
+{% block title %}Joueurs actifs - Club d'Échecs Le Cavalier Rouge{% endblock %}
+
+{# SEO - Meta Description #}
+{% block meta_description %}
+Découvrez la liste des joueurs actifs du Club d'Échecs Le Cavalier Rouge. Consultez les clubs et membres en activité.
+{% endblock %}
+
+{# SEO - Open Graph Meta Tags (Facebook, LinkedIn) #}
+{% block og_title %}Joueurs actifs - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block og_description %}
+Liste des joueurs actifs du Club d'Échecs Le Cavalier Rouge. Découvrez les membres et leur club affilié.
+{% endblock %}
+{% block og_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block og_type %}website{% endblock %}
+
+{# SEO - Twitter Meta Tags (Twitter Cards) #}
+{% block twitter_title %}Joueurs actifs - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block twitter_description %}
+Consultez la liste des joueurs actifs du Club d'Échecs Le Cavalier Rouge et découvrez leur club d'affiliation.
+{% endblock %}
+{% block twitter_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block twitter_card %}summary_large_image{% endblock %}
 
 {# J’ouvre le bloc body pour y insérer le contenu principal #}
 {% block body %}

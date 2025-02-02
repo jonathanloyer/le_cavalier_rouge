@@ -14,7 +14,7 @@ Gérez les utilisateurs du Club d'Échecs Le Cavalier Rouge : modification, supp
 {% block og_description %}
 Gérez les utilisateurs du Club d'Échecs Le Cavalier Rouge : modification, suppression et attribution des rôles.
 {% endblock %}
-{% block og_image %}{{ asset('img/admin-users.jpg') }}{% endblock %}
+{% block og_image %}{{ asset('img/c.JPEG') }}{% endblock %}
 {% block og_type %}website{% endblock %}
 
 {# SEO - Twitter Meta Tags (Twitter Cards) #}
@@ -22,23 +22,23 @@ Gérez les utilisateurs du Club d'Échecs Le Cavalier Rouge : modification, supp
 {% block twitter_description %}
 Ajoutez ou supprimez des utilisateurs et attribuez les rôles dans le Club d'Échecs Le Cavalier Rouge.
 {% endblock %}
-{% block twitter_image %}{{ asset('img/admin-users.jpg') }}{% endblock %}
+{% block twitter_image %}{{ asset('img/c.JPEG') }}{% endblock %}
 {% block twitter_card %}summary_large_image{% endblock %}
 
 {# Je commence le bloc "body" où se trouvera tout le contenu de cette page #}
 {% block body %}
 
 	{# J’affiche un titre (h3) de taille 2xl, avec une police semi-gras (font-semibold),
-		   et une marge-basse (mb-4) #}
+		et une marge-basse (mb-4) #}
 	<h1 class="text-2xl font-semibold mb-4">Gestion des utilisateurs</h1>
 
 	{# Je crée un conteneur (overflow-x-auto) avec un fond blanc (bg-white),
-		   une ombre légère (shadow-md), des bords arrondis (rounded-lg),
-		   dans lequel je place le tableau. #}
+		une ombre légère (shadow-md), des bords arrondis (rounded-lg),
+		dans lequel je place le tableau. #}
 	<div
 		class="bg-white shadow-md rounded-lg">
 		{# J’affiche un tableau (table-auto w-full) dont le texte est de taille petite (text-sm)
-				   aligné à gauche (text-left), et de couleur grise (text-gray-600). #}
+				aligné à gauche (text-left), et de couleur grise (text-gray-600). #}
 		<table class="table-auto w-full text-sm text-left text-gray-600">
 			<thead class="bg-gray-100">
 				<tr>

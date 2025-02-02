@@ -1,13 +1,34 @@
 {# J’étends la mise en page globale (pages/layout.html.twig) pour profiter de sa structure #}
 {% extends 'pages/layout.html.twig' %}
 
-{# Je définis la balise <title> comme « Gérer les compétitions » #}
-{% block title %}Gérer les compétitions{% endblock %}
+{# SEO - Titre de la page #}
+{% block title %}Gestion des compétitions - Club d'Échecs Le Cavalier Rouge{% endblock %}
+
+{# SEO - Meta Description #}
+{% block meta_description %}
+Gérez les compétitions d'échecs du Club Le Cavalier Rouge. Ajoutez, modifiez ou supprimez les tournois et suivez leur état en temps réel.
+{% endblock %}
+
+{# SEO - Open Graph Meta Tags (Facebook, LinkedIn) #}
+{% block og_title %}Gestion des compétitions - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block og_description %}
+Administrez les tournois et compétitions du Club d'Échecs Le Cavalier Rouge. Organisez et suivez l'évolution des matchs.
+{% endblock %}
+{% block og_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block og_type %}website{% endblock %}
+
+{# SEO - Twitter Meta Tags (Twitter Cards) #}
+{% block twitter_title %}Gestion des compétitions - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block twitter_description %}
+Ajoutez, modifiez et supprimez les compétitions d'échecs du Club Le Cavalier Rouge. Suivez les résultats en direct.
+{% endblock %}
+{% block twitter_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block twitter_card %}summary_large_image{% endblock %}
 
 {# J’ouvre le bloc body pour y placer le contenu de la page #}
 {% block body %}
 {# Je crée un conteneur (container mx-auto) avec un padding (p-6),
-   un fond gris clair (bg-gray-100), et une hauteur minimale pleine (min-h-screen). #}
+un fond gris clair (bg-gray-100), et une hauteur minimale pleine (min-h-screen). #}
 <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
 
     {# J’affiche un titre h3 de taille 3xl, gras (font-bold), marge-basse (mb-6) et texte gris #}
@@ -22,7 +43,7 @@
 
     <!-- Formulaire pour ajouter une compétition -->
     {# Je crée un bloc blanc (bg-white), ombré (shadow), arrondi (rounded-lg),
-       avec du padding (p-6), et une marge-basse (mb-6). #}
+    avec du padding (p-6), et une marge-basse (mb-6). #}
     <div class="bg-white shadow rounded-lg p-6 mb-6">
         <h2 class="text-2xl font-bold mb-4 text-gray-700">Ajouter une compétition</h2>
         
