@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-full">
+<html lang="fr" class="h-full">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,6 @@
 		<meta property="og:title" content="{% block og_title %}Le Cavalier Rouge - Club d'échecs{% endblock %}">
 		<meta property="og:description" content="{% block og_description %}Rejoignez notre club d'échecs à Clamart et Meudon. Participez à des cours, tournois et événements pour tous niveaux !{% endblock %}">
 		<meta property="og:image" content="{% block og_image %}{{ asset('img/logo.png') }}{% endblock %}">
-		<meta property="og:url" content="{{ app.request.uri }}">
 		<meta property="og:type" content="website">
 
 		<!-- Twitter Cards -->
@@ -20,8 +19,7 @@
 		<meta name="twitter:description" content="{% block twitter_description %}Découvrez Le Cavalier Rouge : le club d'échecs à Clamart et Meudon. Des cours et tournois pour tous !{% endblock %}">
 		<meta name="twitter:image" content="{% block twitter_image %}{{ asset('img/logo.png') }}{% endblock %}">
 
-		{# <!-- Canonical URL -->
-		<link rel="canonical" href="{{ app.request.uri }}"> #}
+		
 		<!-- Canonical URL (Position correcte pour le SEO) -->
 		{% if app.request is defined and app.request is not null %}
 			<meta property="og:url" content="{{ app.request.uri }}">

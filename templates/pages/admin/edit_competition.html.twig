@@ -1,8 +1,29 @@
 {# J’étends le layout global (pages/layout.html.twig) pour conserver la structure du site #}
 {% extends 'pages/layout.html.twig' %}
 
-{# J’indique le titre de la page comme « Modifier la compétition » #}
+{# SEO - Titre de la page #}
 {% block title %}Modifier la compétition{% endblock %}
+
+{# SEO - Meta Description #}
+{% block meta_description %}
+Modifiez les informations relatives à une compétition du Club d'Échecs Le Cavalier Rouge.
+{% endblock %}
+
+{# SEO - Open Graph Meta Tags (Facebook, LinkedIn) #}
+{% block og_title %}Modifier la compétition - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block og_description %}
+Modifiez les informations relatives à une compétition dans le Club d'Échecs Le Cavalier Rouge.
+{% endblock %}
+{% block og_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block og_type %}website{% endblock %}
+
+{# SEO - Twitter Meta Tags (Twitter Cards) #}
+{% block twitter_title %}Modifier la compétition - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block twitter_description %}
+Modifiez les informations relatives à une compétition dans le Club d'Échecs Le Cavalier Rouge.
+{% endblock %}
+{% block twitter_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block twitter_card %}summary_large_image{% endblock %}
 
 {# J’ouvre le bloc body pour y insérer le contenu principal #}
 {% block body %}

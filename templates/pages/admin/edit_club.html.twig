@@ -1,8 +1,21 @@
 {# J’indique que ce template hérite du layout global (pages/layout.html.twig) #}
 {% extends 'pages/layout.html.twig' %}
 
-{# Je définis la balise <title> comme « Modifier le Club » #}
-{% block title %}Modifier le Club{% endblock %}
+{# SEO - Open Graph Meta Tags (Facebook, LinkedIn) #}
+{% block og_title %}Modifier le Club - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block og_description %}
+Modifiez les informations relatives au Club d'Échecs Le Cavalier Rouge.
+{% endblock %}
+{% block og_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block og_type %}website{% endblock %}
+
+{# SEO - Twitter Meta Tags (Twitter Cards) #}
+{% block twitter_title %}Modifier le Club - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block twitter_description %}
+Modifiez les informations du Club d'Échecs Le Cavalier Rouge.
+{% endblock %}
+{% block twitter_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block twitter_card %}summary_large_image{% endblock %}
 
 {# Je débute le bloc "body", où je place le contenu principal de la page #}
 {% block body %}

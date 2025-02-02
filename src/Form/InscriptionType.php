@@ -128,7 +128,6 @@ class InscriptionType extends AbstractType
                 'label' => 'S’inscrire', // Le texte du bouton
                 'attr' => [
                     'class' => 'btn btn-primary',
-                    'id' => 'submit-inscription', // J'ajoute un identifiant unique pour cibler le bouton avec du JavaScript
                 ],
             ]);
     }

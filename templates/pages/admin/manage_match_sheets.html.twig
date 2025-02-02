@@ -1,9 +1,30 @@
 {# J’étends le layout global (pages/layout.html.twig) pour profiter de sa structure générale #}
 {% extends 'pages/layout.html.twig' %}
 
-{# J’affiche le bloc "title" comme "Feuille de Match" #}
-{% block title %}Feuille de Match
+{# SEO - Titre de la page #}
+{% block title %}Feuilles de Match - Club d'Échecs Le Cavalier Rouge{% endblock %}
+
+{# SEO - Meta Description #}
+{% block meta_description %}
+Consultez, modifiez ou créez une feuille de match pour les compétitions du Club d'Échecs Le Cavalier Rouge.
 {% endblock %}
+
+{# SEO - Open Graph Meta Tags (Facebook, LinkedIn) #}
+{% block og_title %}Feuilles de Match - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block og_description %}
+Accédez aux feuilles de match du Club d'Échecs Le Cavalier Rouge : consultez, modifiez et créez des matchs officiels.
+{% endblock %}
+{% block og_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block og_type %}website{% endblock %}
+
+{# SEO - Twitter Meta Tags (Twitter Cards) #}
+{% block twitter_title %}Feuilles de Match - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block twitter_description %}
+Consultez ou créez une feuille de match pour les tournois d’échecs de notre club.
+{% endblock %}
+{% block twitter_image %}{{ asset('img/c.JPEG') }}{% endblock %}
+{% block twitter_card %}summary_large_image{% endblock %}
+
 
 {# J’ouvre le bloc "body" où sera placé tout le contenu principal #}
 {% block body %}
