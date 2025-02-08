@@ -12,8 +12,17 @@
 {% block body %}
 	{# Je crée un conteneur de largeur max (max-w-screen-lg), centré (mx-auto),
 	avec un padding (p-4) et un fond gris clair (bg-gray-100). #}
-	<div
-		class="max-w-screen-lg mx-auto p-4 bg-gray-100">
+	<div class="max-w-screen-lg mx-auto p-4 bg-gray-100">
+
+	 {# --------------- AJOUT : Affichage des messages Flash --------------- #}
+        {% for typeMsg, messages in app.flashes %}
+            {% for msg in messages %}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4" role="alert">
+                    {{ msg }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {# ------------------------------------------------------------------- #}
 
 		{# Je crée un formulaire en méthode POST, pour appeler la route "app_match_sheets_save" #}
 		<form method="POST" action="{{ path('app_match_sheets_save') }}">

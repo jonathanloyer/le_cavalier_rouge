@@ -1,0 +1,37 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Erreur 403 - Accès interdit{% endblock %}
+
+{% block body %}
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
+    <!-- Titre de l'erreur -->
+    <h1 class="text-8xl font-extrabold text-red-600">403</h1>
+    <p class="text-2xl text-gray-700 mt-6">Oups ! Vous n'avez pas accès à cette page.</p>
+    <p class="text-gray-500 mt-2">Vous ne possédez pas les permissions nécessaires pour afficher cette page.</p>
+
+    <!-- Ajout d'une image ou d'un GIF -->
+    <div class="mt-8">
+        <img src="{{ asset('img/access-denied-403.gif') }}" alt="Accès interdit" class="w-64 h-auto">
+    </div>
+
+    <!-- Boutons d'action -->
+    <div class="mt-6">
+        <a href="{{ path('app_home') }}" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300">
+            Retour à l'accueil
+        </a>
+        <a href="javascript:history.back()" class="ml-4 px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all duration-300">
+            Retour à la page précédente
+        </a>
+    </div>
+
+    <!-- Option : Lien pour se connecter si l'utilisateur n'est pas authentifié -->
+    {% if not app.user %}
+    <div class="mt-6">
+     <a href="{{ path('app_login') }}" class="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-all duration-300">
+    Se connecter
+</a>
+
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

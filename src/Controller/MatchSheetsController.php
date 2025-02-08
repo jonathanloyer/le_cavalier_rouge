@@ -53,7 +53,39 @@ class MatchSheetsController extends AbstractController
     {
 
         $formData = $request->request->all(); // Récupération des données du formulaire
+ // ========== AJOUT : vérification des champs obligatoires ==========
+        // Liste des champs obligatoires
+        $requiredFields = [
+            'clubA',
+            'clubB',
+            'capitaineA',
+            'capitaineB',
+            'arbitre',
+            'joueursA',   // On veut s'assurer qu'il y a bien un tableau de joueursA
+            'joueursB',   // Idem pour joueursB
+            'resultats',  // Et un tableau de resultats
+        ];
 
+        $missingFields = [];
+
+        // Vérifier si chaque champ est bien présent et non vide
+        foreach ($requiredFields as $field) {
+            if (!isset($formData[$field]) || empty($formData[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        // S'il manque au moins un champ, on redirige en affichant un message d'erreur
+        if (!empty($missingFields)) {
+            foreach ($missingFields as $field) {
+                $this->addFlash('error', "Le champ '$field' est obligatoire ou vide.");
+            }
+            // Redirection vers la page de création (vous pouvez ajuster 'type')
+            return $this->redirectToRoute('app_match_sheets_create', [
+                'type' => 'criterium'
+            ]);
+        }
+        // ========== FIN AJOUT ==========
 
         // Récupération des clubs
         $clubA = $clubRepo->find($formData['clubA']);

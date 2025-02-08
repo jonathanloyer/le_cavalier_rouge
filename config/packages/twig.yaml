@@ -8,6 +8,9 @@ twig:
     # Active la gestion stricte des variables (utile pour éviter les erreurs)
     strict_variables: false
 
+    # Désactive le contrôleur d'exception par défaut pour utiliser nos templates d'erreur personnalisés
+    exception_controller: null
+
 when@test:
     twig:
         strict_variables: true

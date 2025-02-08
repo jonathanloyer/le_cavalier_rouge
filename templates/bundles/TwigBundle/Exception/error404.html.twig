@@ -1,0 +1,27 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Erreur 404 - Page introuvable{% endblock %}
+
+{% block body %}
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
+    <!-- Titre d'erreur visible en texte -->
+    <h1 class="text-8xl font-extrabold text-red-600">Erreur 404</h1>
+    <p class="text-2xl text-gray-700 mt-6">Oups ! La page que vous cherchez n'existe pas.</p>
+    <p class="text-gray-500 mt-2">Il se peut que vous ayez mal saisi l'URL ou que la page ait été déplacée.</p>
+    
+    <!-- Ajout du GIF -->
+    <div class="mt-8">
+        <img src="{{ asset('img/error-404-page-not-found.gif') }}" alt="Erreur 404" class="w-64 h-auto">
+    </div>
+    
+    <!-- Boutons d'action -->
+    <div class="mt-6">
+        <a href="{{ path('app_home') }}" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300">
+            Retour à l'accueil
+        </a>
+        <a href="javascript:history.back()" class="ml-4 px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all duration-300">
+            Retour à la page précédente
+        </a>
+    </div>
+</div>
+{% endblock %}

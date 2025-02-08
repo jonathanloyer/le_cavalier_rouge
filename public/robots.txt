@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin/  # Bloque l'indexation de l'administration
+Allow: /
+
+Sitemap: https://jonathan-loyer.fr/le_cavalier_rouge/sitemap.xml

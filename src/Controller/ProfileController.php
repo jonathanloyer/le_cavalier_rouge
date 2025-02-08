@@ -72,42 +72,65 @@ class ProfileController extends AbstractController
 
     #[Route('/profile/update', name: 'app_profile_update')]
     public function updateProfile(
-        Request $request,
-        UserRepository $repo,
-        SluggerInterface $slugger,
-        #[Autowire('%kernel.project_dir%/public/uploads/avatar')] string $avatarDirectory
+        Request $request, // la requête HTTP
+        UserRepository $repo, // le dépôt UserRepository
+        SluggerInterface $slugger, // le service SluggerInterface qui sert à générer des slugs pour les noms de fichiers
+        #[Autowire('%kernel.project_dir%/public/uploads/avatar')] string $avatarDirectory // le répertoire où les avatars seront stockés
     ): Response {
+
+        // Récupérer l'utilisateur connecté
         $user = $repo->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+
+        // Vérifier si l'utilisateur existe
         if (!$user) {
+
+            // Si l'utilisateur n'existe pas, on lance une exception
             throw $this->createNotFoundException('Utilisateur non trouvé.');
         }
 
+        // Créer un formulaire pour mettre à jour le profil de l'utilisateur
         $form = $this->createForm(ProfileType::class, $user);
+
+        // Traiter la requête
         $form->handleRequest($request);
 
+        // Vérifier si le formulaire a été soumis et est valide
         if ($form->isSubmitted() && $form->isValid()) {
-            $avatarFile = $form->get('avatar')->getData();
+            $avatarFile = $form->get('avatar')->getData();  // Récupérer le fichier avatar
 
+            // Si un fichier avatar a été envoyé
             if ($avatarFile) {
-                $originalFilename = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFileName = $slugger->slug($originalFilename);
-                $newFileName = $safeFileName . '-' . uniqid() . '.' . $avatarFile->guessExtension();
 
+                // Générer un nom de fichier sécurisé
+                $originalFilename = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME); // Récupérer le nom du fichier le pathinfo sert à récupérer des informations sur le chemin d'accès à un fichier qui est passé en argument le getOriginalName sert à récupérer le nom original du fichier
+
+                $safeFileName = $slugger->slug($originalFilename); // Générer un slug à partir du nom du fichier
+                $newFileName = $safeFileName . '-' . uniqid() . '.' . $avatarFile->guessExtension(); // Générer un nom de fichier unique l'ununiqid() génère un identifiant unique basé sur la date courante en microsecondes et le guessExtension() permet de deviner l'extension du fichier en fonction de son contenu puis je l'ai concaténé avec le nom du fichier car le nom du fichier ne contient pas l'extension
+
+                // Déplacer le fichier avatar vers le répertoire de stockage
                 try {
-                    $avatarFile->move($avatarDirectory, $newFileName);
+
+                    $avatarFile->move($avatarDirectory, $newFileName); // car le fichier est stocké dans le répertoire de stockage
 
                     // Supprimer l'ancien avatar s'il existe
                     if ($user->getAvatar()) {
-                        $oldAvatarPath = $avatarDirectory . '/' . $user->getAvatar();
-                        if (file_exists($oldAvatarPath)) {
-                            unlink($oldAvatarPath);
+                        $oldAvatarPath = $avatarDirectory . '/' . $user->getAvatar(); // Récupérer le chemin de l'ancien avatar
+                        if (file_exists($oldAvatarPath)) { // Vérifier si le fichier existe
+
+                            unlink($oldAvatarPath); // Supprimer l'ancien avatar, le unling() sert à supprimer un fichier
                         }
                     }
 
                     // Mettre à jour l'avatar de l'utilisateur
                     $user->setAvatar($newFileName);
+
+                    // Si une erreur survient lors de l'envoi du fichier
                 } catch (FileException $e) {
+
+                    // Afficher un message d'erreur
                     $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de votre avatar.');
+
+                    // Rediriger l'utilisateur vers la page de mise à jour du profil
                     return $this->redirectToRoute('app_profile_update');
                 }
             }
@@ -119,7 +142,7 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('app_profile');
         }
 
-        return $this->render('pages/profile/update_profile.html.twig', [
+        return $this->render('pages/profile/update_profile.html.twig', [ // Afficher le formulaire de mise à jour du profil
             'user' => $user,
             'form' => $form->createView(),
         ]);

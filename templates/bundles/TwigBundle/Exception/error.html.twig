@@ -1,0 +1,23 @@
+{# Fichier error.html.twig - Test de fallback #}
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Erreur Générique - {{ status_code }}{% endblock %}
+
+{% block body %}
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
+    <h1 class="text-8xl font-extrabold text-red-600">{{ status_code }}</h1>
+    <p class="text-2xl text-gray-700 mt-6">Ceci est la page `error.html.twig`.</p>
+    <p class="text-gray-500 mt-2">Cette page s'affiche quand il n'y a pas de page spécifique pour cette erreur.</p>
+
+    <!-- Test pour voir si le fallback fonctionne -->
+    <div class="mt-8">
+        <img src="{{ asset('img/error-generic-chess.gif') }}" alt="Erreur" class="w-64 h-auto">
+    </div>
+
+    <div class="mt-6">
+        <a href="{{ path('app_home') }}" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300">
+            Retour à l'accueil
+        </a>
+    </div>
+</div>
+{% endblock %}

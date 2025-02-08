@@ -25,6 +25,10 @@ services:
         arguments:
             $mongodbUrl: '%env(MONGODB_URL)%'
             $mongodbDb: '%env(MONGODB_DB)%'
+        # Gestion des erreurs pour afficher les pages Twig personnalisées
+    App\EventListener\ErrorListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
 
     # App\Service\Uploader:
     #     arguments:
