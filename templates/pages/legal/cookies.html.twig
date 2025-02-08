@@ -33,10 +33,16 @@ Modifiez vos préférences de cookies pour améliorer votre expérience sur le s
     </div>
 </div>
 
+{# Script pour gérer le bouton "Effacer les cookies" #}
 <script>
 document.getElementById('clear-cookies').addEventListener('click', function() {
-    localStorage.removeItem('cookies_accepted');
+    // Supprime les préférences de cookies dans localStorage
+    localStorage.removeItem('cookies_consent');
+    
+    // Affiche une alerte pour informer l'utilisateur
     alert("Les préférences de cookies ont été réinitialisées !");
+    
+    // Recharge la page pour refléter les changements
     location.reload();
 });
 </script>
