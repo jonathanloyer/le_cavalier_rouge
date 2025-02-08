@@ -10,5 +10,8 @@
   "scripts": {
     "dev": "encore dev --watch",
     "build": "encore production"
+  },
+  "dependencies": {
+    "core-js": "^3.40.0"
   }
 }
