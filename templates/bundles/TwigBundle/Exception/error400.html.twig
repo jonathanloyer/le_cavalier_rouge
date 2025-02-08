@@ -1,0 +1,13 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Erreur 400 - Requête incorrecte{% endblock %}
+
+{% block body %}
+<div class="text-center mt-10">
+    <h1 class="text-6xl font-bold text-red-500">400</h1>
+    <p class="mt-4 text-gray-700">Votre requête est invalide. Veuillez vérifier l'URL ou réessayer plus tard.</p>
+    <div class="mt-6">
+        <a href="/" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Retour à l'accueil</a>
+    </div>
+</div>
+{% endblock %}

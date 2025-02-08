@@ -37,7 +37,7 @@ class FeuilleMatch
     #[ORM\Column(length: 50)]
     private ?string $interclub = null; // "Interclub Jeune", etc.
 
-    #[ORM\Column(type: 'json')]
+    #[ORM\Column(type: 'json')] // Stocker un tableau JSON pour les joueurs, json est un format de données léger afin de stocker des données structurées 
     private array $joueurs = []; // Liste des joueurs et résultats
 
     // Constructeur pour initialiser les propriétés par défaut

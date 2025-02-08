@@ -21,40 +21,44 @@ class LoginUserFixture extends Fixture
     }
 
     public function load(ObjectManager $manager): void
-    {
-        // Supprimer les utilisateurs fictifs existants avec une requête SQL brute
-        $this->connection->executeStatement('DELETE FROM user WHERE pseudo LIKE :prefix', ['prefix' => 'user%']);
-        echo "Existing fictitious users removed.\n";
+{
+    // Supprimer les utilisateurs fictifs existants avec une requête SQL brute
+    $this->connection->executeStatement('DELETE FROM user WHERE pseudo LIKE :prefix', ['prefix' => 'user%']);
+    echo "Existing fictitious users removed.\n";
 
-        // Vérifier et insérer un utilisateur de test (utilisé pour testSuccessfulLogin)
-        $existingTestUser = $manager->getRepository(User::class)->findOneBy(['pseudo' => 'testuser']);
-        if (!$existingTestUser) {
-            $user = new User();
-            $user->setEmail('testuser@example.com')
-                ->setPseudo('testuser')
-                ->setPassword($this->passwordHasher->hashPassword($user, 'password123')) // Mot de passe haché
-                ->setRoles(['ROLE_USER'])
-                ->setActive(true);
+    // Vérifier et insérer un utilisateur de test (utilisé pour testSuccessfulLogin)
+    $existingTestUser = $manager->getRepository(User::class)->findOneBy(['pseudo' => 'testuser']);
+    if (!$existingTestUser) {
+        $user = new User();
+        $user->setEmail('testuser@example.com')
+            ->setPseudo('testuser')
+            ->setLastName('Test') // 🔴 Ajout du nom de famille obligatoire
+            ->setFirstName('User') // 🔴 (Optionnel) Ajouter un prénom si nécessaire
+            ->setPassword($this->passwordHasher->hashPassword($user, 'password123')) // Mot de passe haché
+            ->setRoles(['ROLE_USER'])
+            ->setActive(true);
 
-            $manager->persist($user);
-            echo "User 'testuser' created.\n";
-        }
-
-        // Vérifier et insérer un utilisateur invalide (utilisé pour testLoginWithInvalidCredentials)
-        $existingInvalidUser = $manager->getRepository(User::class)->findOneBy(['pseudo' => 'wrongpseudo']);
-        if (!$existingInvalidUser) {
-            $invalidUser = new User();
-            $invalidUser->setEmail('wrongemail@example.com')
-                ->setPseudo('wrongpseudo')
-                ->setPassword($this->passwordHasher->hashPassword($invalidUser, 'wrongpassword')) // Mot de passe incorrect
-                ->setRoles(['ROLE_USER'])
-                ->setActive(true);
-
-            $manager->persist($invalidUser);
-            echo "Invalid user 'wrongpseudo' created.\n";
-        }
-
-        // Sauvegarder les utilisateurs dans la base de données
-        $manager->flush();
+        $manager->persist($user);
+        echo "User 'testuser' created.\n";
     }
+
+    // Vérifier et insérer un utilisateur invalide (utilisé pour testLoginWithInvalidCredentials)
+    $existingInvalidUser = $manager->getRepository(User::class)->findOneBy(['pseudo' => 'wrongpseudo']);
+    if (!$existingInvalidUser) {
+        $invalidUser = new User();
+        $invalidUser->setEmail('wrongemail@example.com')
+            ->setPseudo('wrongpseudo')
+            ->setLastName('Invalid') // 🔴 Ajout du nom de famille obligatoire
+            ->setFirstName('User') // 🔴 (Optionnel)
+            ->setPassword($this->passwordHasher->hashPassword($invalidUser, 'wrongpassword')) // Mot de passe incorrect
+            ->setRoles(['ROLE_USER'])
+            ->setActive(true);
+
+        $manager->persist($invalidUser);
+        echo "Invalid user 'wrongpseudo' created.\n";
+    }
+
+    // Sauvegarder les utilisateurs dans la base de données
+    $manager->flush();
+}
 }

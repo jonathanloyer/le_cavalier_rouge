@@ -1,0 +1,17 @@
+{% extends 'pages/layout.html.twig' %}
+
+{% block title %}Erreur 500 - Problème serveur{% endblock %}
+
+{% block body %}
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
+    <h1 class="text-6xl font-bold text-red-600">500</h1>
+    <p class="text-lg text-gray-700 mt-4">Oups ! Un problème interne est survenu.</p>
+    <p class="text-gray-500">Nous travaillons dessus. Veuillez réessayer plus tard.</p>
+    
+    <div class="mt-6">
+        <a href="{{ path('app_home') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Retour à l'accueil
+        </a>
+    </div>
+</div>
+{% endblock %}

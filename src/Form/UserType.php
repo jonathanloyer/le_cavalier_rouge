@@ -22,24 +22,33 @@ class UserType extends AbstractType
             // J’ajoute un champ pour l’email, avec le type EmailType.
             ->add('email', EmailType::class, [
                 'label' => 'Adresse Email', // J’affiche un label "Adresse Email".
+                'disabled' => true, // Le champ est désactivé (non modifiable).
+                
             ])
+
             // J’ajoute un champ pour le pseudo, avec le type TextType.
             ->add('pseudo', TextType::class, [
                 'label' => 'Pseudo', // J’affiche un label "Pseudo".
+                'disabled' => true, // Le champ est désactivé (non modifiable).
             ])
             // J’ajoute un champ pour le nom, avec le type TextType.
             ->add('lastName', TextType::class, [
                 'label' => 'Nom', // J’affiche un label "Nom".
+                'disabled' => true, // Le champ est désactivé (non modifiable).
             ])
+
             // J’ajoute un champ pour le prénom, avec le type TextType.
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom', // J’affiche un label "Prénom".
+                'disabled' => true, // Le champ est désactivé (non modifiable).
             ])
+
             // J’ajoute un champ pour sélectionner un club, avec le type EntityType.
             ->add('club', EntityType::class, [
                 'class' => Club::class, // Je lie ce champ à l’entité Club.
                 'choice_label' => 'name', // J’utilise le nom du club comme étiquette.
                 'label' => 'Club', // J’affiche un label "Club".
+                'disabled' => true, // Le champ est désactivé (non modifiable).
             ])
             // J’ajoute une case à cocher pour l’état actif, avec le type CheckboxType.
             ->add('active', CheckboxType::class, [

@@ -54,18 +54,17 @@
 				<div
 					class="sm:w-1/3 flex flex-col justify-between">
 					<!-- Bloc Avatar avec bouton Modifier positionné en bas à droite de l'image -->
-					<div class="relative">
+					<div class="relative flex flex-col items-center">
 						<img src="{{ app.user.avatar ? asset('uploads/avatar/' ~ app.user.avatar) : asset('images/default-avatar.png') }}" alt="Avatar" class="w-32 h-32 rounded-full border-4 border-gray-300 object-cover" data-test="profile-avatar"/>
-						<a href="{{ path('app_profile_update') }}" class="absolute bottom-0 right-0 bg-blue-500 text-white py-1 px-4 w-32 text-center rounded hover:bg-blue-600 focus:outline-none shadow transition-colors duration-200" data-test="profile-edit-button">
+						<a href="{{ path('app_profile_update') }}" class="mt-3 w-32 text-center bg-blue-500 text-white py-2 rounded hover:bg-blue-600 focus:outline-none shadow transition-colors duration-200" data-test="profile-edit-button">
 							Modifier
 						</a>
 					</div>
-					<!-- Bouton Supprimer aligné en bas de la colonne -->
-					<div class="mt-4 text-right">
+					<div class="mt-4 flex justify-center">
 						<form action="{{ path('app_delete_account') }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.');">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete_account') }}">
-							<button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-1 px-4 w-32 text-center rounded shadow focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors duration-200">
-								Supprimer mon compte
+							<button type="submit" class="w-32 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded shadow focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors duration-200">
+								Supprimer
 							</button>
 						</form>
 					</div>
@@ -107,19 +106,20 @@
 					</div>
 
 					<!-- Boutons d'Actions : Feuilles de match et Compétitions -->
+
 					<div class="text-center mt-6" data-test="profile-buttons">
 						{% if is_granted('ROLE_CAPITAINE') or is_granted('ROLE_ADMIN') %}
-							<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-								<a href="{{ path('app_match_sheets') }}" class="bg-purple-500 text-white rounded-lg shadow py-3 px-6 hover:bg-purple-600 transition-colors duration-200 inline-block" data-test="profile-match-sheets-button">
-									<span class="text-xl font-bold">Feuilles de match</span>
+							<div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+								<a href="{{ path('app_match_sheets') }}" class="w-40 bg-purple-500 text-white rounded-lg shadow py-2 text-center hover:bg-purple-600 transition-colors duration-200 inline-block" data-test="profile-match-sheets-button">
+									Feuilles de match
 								</a>
-								<a href="{{ path('user_competitions_list') }}" class="bg-blue-500 text-white rounded-lg shadow py-3 px-6 hover:bg-blue-600 transition-colors duration-200 inline-block" data-test="profile-competitions-button">
-									<span class="text-xl font-bold">Compétitions</span>
+								<a href="{{ path('user_competitions_list') }}" class="w-40 bg-blue-500 text-white rounded-lg shadow py-2 text-center hover:bg-blue-600 transition-colors duration-200 inline-block" data-test="profile-competitions-button">
+									Compétitions
 								</a>
 							</div>
 						{% else %}
-							<a href="{{ path('user_competitions_list') }}" class="bg-blue-500 text-white rounded-lg shadow py-3 px-6 hover:bg-blue-600 transition-colors duration-200 inline-block" data-test="profile-competitions-button">
-								<span class="text-xl font-bold">Compétitions</span>
+							<a href="{{ path('user_competitions_list') }}" class="w-40 bg-blue-500 text-white rounded-lg shadow py-2 text-center hover:bg-blue-600 transition-colors duration-200 inline-block" data-test="profile-competitions-button">
+								Compétitions
 							</a>
 						{% endif %}
 					</div>

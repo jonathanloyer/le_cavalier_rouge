@@ -25,34 +25,15 @@ use MongoDB\BSON\ObjectId;
 
 class AdminController extends AbstractController
 {
-
-    // Page d'accueil de l'administrateur
     #[Route('/admin', name: 'app_admin')]
     public function index(
-        UserRepository $userRepository,  // Injection de dépendance pour UserRepository
-        ClubRepository $clubRepository, // Injection de dépendance pour ClubRepository
-        CompetitionsRepository $competitionRepository, // Injection de dépendance pour CompetitionsRepository
-        FeuilleMatchRepository $feuilleMatchRepository, // Injection de dépendance pour FeuilleMatchRepository
-
+        UserRepository $userRepository,
+        ClubRepository $clubRepository,
+        CompetitionsRepository $competitionRepository,
+        FeuilleMatchRepository $feuilleMatchRepository
     ): Response {
-
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            throw $this->createAccessDeniedException('Vous n’avez pas la permission d’accéder à cette page.');
-        }
-
-        // Vérifier si l'utilisateur est connecté
-        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
-
-            // Rediriger vers la page de connexion
-            return $this->redirectToRoute('app_login');
-        }
-
-        // Vérifier si l'utilisateur est un administrateur
-        if (!$this->isGranted('ROLE_ADMIN')) {
-
-            // Rediriger vers la page de profil
-            return $this->redirectToRoute('app_profile');
-        }
+        // Vérifier si l'utilisateur est bien un ADMIN
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         // Récupérer le nombre total d'utilisateurs
         $totalUsers = $userRepository->count([]);
@@ -61,9 +42,7 @@ class AdminController extends AbstractController
         $totalJoueurs = $userRepository->createQueryBuilder('u')
             ->select('COUNT(u.id)')
             ->where('u.active = :active')
-            ->andWhere('u.createdAt >= :startOfMonth') // Si vous utilisez createdAt
             ->setParameter('active', true)
-            ->setParameter('startOfMonth', new \DateTime('first day of this month'))
             ->getQuery()
             ->getSingleScalarResult();
 
@@ -73,7 +52,6 @@ class AdminController extends AbstractController
         // Récupérer le nombre total de compétitions
         $totalCompetitions = $competitionRepository->count([]);
 
-
         // Récupérer le nombre de matches ce mois-ci
         $matchesThisMonth = $feuilleMatchRepository->createQueryBuilder('f')
             ->select('count(f.id)')
@@ -82,10 +60,9 @@ class AdminController extends AbstractController
             ->getQuery()
             ->getSingleScalarResult();
 
-        // Activités récentes
+        // Récupération des activités récentes
         $latestUsers = $userRepository->findBy([], ['createdAt' => 'DESC'], 5);
         $latestCompetitions = $competitionRepository->findBy([], ['id' => 'DESC'], 5);
-
         $latestMatches = $feuilleMatchRepository->findBy([], ['dateMatch' => 'DESC'], 5);
 
         // Préparer les activités récentes pour affichage
@@ -112,10 +89,8 @@ class AdminController extends AbstractController
             ];
         }
 
-        // Trier les activités par ordre décroissant de temps (optionnel si nécessaire)
-        usort($recentActivities, function ($a, $b) {
-            return strtotime($b['time']) - strtotime($a['time']);
-        });
+        // Trier les activités par ordre décroissant de temps
+        usort($recentActivities, fn($a, $b) => strtotime($b['time']) - strtotime($a['time']));
 
         // Limiter à 5 activités récentes
         $recentActivities = array_slice($recentActivities, 0, 5);
