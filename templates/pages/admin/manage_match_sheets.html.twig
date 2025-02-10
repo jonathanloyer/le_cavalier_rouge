@@ -2,28 +2,37 @@
 {% extends 'pages/layout.html.twig' %}
 
 {# SEO - Titre de la page #}
-{% block title %}Feuilles de Match - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block title %}Feuilles de Match - Club d'Échecs Le Cavalier Rouge
+{% endblock %}
 
 {# SEO - Meta Description #}
 {% block meta_description %}
-Consultez, modifiez ou créez une feuille de match pour les compétitions du Club d'Échecs Le Cavalier Rouge.
+	Consultez, modifiez ou créez une feuille de match pour les compétitions du Club d'Échecs Le Cavalier Rouge.
 {% endblock %}
 
 {# SEO - Open Graph Meta Tags (Facebook, LinkedIn) #}
-{% block og_title %}Feuilles de Match - Club d'Échecs Le Cavalier Rouge{% endblock %}
-{% block og_description %}
-Accédez aux feuilles de match du Club d'Échecs Le Cavalier Rouge : consultez, modifiez et créez des matchs officiels.
+{% block og_title %}Feuilles de Match - Club d'Échecs Le Cavalier Rouge
 {% endblock %}
-{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
-{% block og_type %}website{% endblock %}
+{% block og_description %}
+	Accédez aux feuilles de match du Club d'Échecs Le Cavalier Rouge : consultez, modifiez et créez des matchs officiels.
+{% endblock %}
+{% block og_image %}
+	{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}
+{% endblock %}
+{% block og_type %}website
+{% endblock %}
 
 {# SEO - Twitter Meta Tags (Twitter Cards) #}
-{% block twitter_title %}Feuilles de Match - Club d'Échecs Le Cavalier Rouge{% endblock %}
-{% block twitter_description %}
-Consultez ou créez une feuille de match pour les tournois d’échecs de notre club.
+{% block twitter_title %}Feuilles de Match - Club d'Échecs Le Cavalier Rouge
 {% endblock %}
-{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
-{% block twitter_card %}summary_large_image{% endblock %}
+{% block twitter_description %}
+	Consultez ou créez une feuille de match pour les tournois d’échecs de notre club.
+{% endblock %}
+{% block twitter_image %}
+	{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}
+{% endblock %}
+{% block twitter_card %}summary_large_image
+{% endblock %}
 
 
 {# J’ouvre le bloc "body" où sera placé tout le contenu principal #}
@@ -56,12 +65,12 @@ Consultez ou créez une feuille de match pour les tournois d’échecs de notre 
 
 		{# Section de consultation #}
 		{# Un bloc blanc (bg-white), ombré (shadow-md), arrondi (rounded-lg),
-		           padding (p-6), marge-basse (mb-8). #}
+				           padding (p-6), marge-basse (mb-8). #}
 		<div class="bg-white shadow-md rounded-lg p-6 mb-8">
 			<h3 class="text-lg font-semibold mb-4">Consulter ou modifier une feuille de match</h3>
 			{# Formulaire GET pointant vers une feuille de match spécifique (id=1 par défaut). #}
 			<form
-				method="GET" action="{{ path('app_match_sheets_show', {'id': 1}) }}">
+				method="GET" action="{{ path('app_match_sheets_show', {'id': 0}) }}">
 				{# Champ texte pour saisir la référence de la feuille #}
 				<label for="reference" class="block text-gray-700 mb-2">Saisissez la référence</label>
 				<input
@@ -85,16 +94,17 @@ Consultez ou créez une feuille de match pour les tournois d’échecs de notre 
 			<h3 class="text-lg font-semibold mb-4">Créer une feuille de match</h3>
 			{# Je crée une flexbox (flex space-x-4) avec deux liens : Critérium ou Nationale 2/3 #}
 			<div
-				class="flex space-x-4">
+				class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
 				{# Lien vers la route de création "criterium" #}
-				<a href="{{ path('app_match_sheets_create', {'type': 'criterium'}) }}" class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-center">
+				<a href="{{ path('app_match_sheets_create', {'type': 'criterium'}) }}" class="w-full md:w-auto lg:w-fit px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-center">
 					Critériums
 				</a>
 				{# Lien vers la route de création "national" #}
-				<a href="{{ path('app_match_sheets_create', {'type': 'national'}) }}" class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-center">
-					Nationale 2/3
+				<a href="{{ path('app_match_sheets_create', {'type': 'national'}) }}" class="w-full md:w-auto lg:w-fit px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-center">
+					Nationale
 				</a>
 			</div>
+
 		</div>
 	</div>
 {% endblock %}
