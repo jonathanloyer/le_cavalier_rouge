@@ -79,20 +79,25 @@ Ajoutez, modifiez et supprimez les clubs affiliés au Club d'Échecs Le Cavalier
 						<td class="px-4 py-2">{{ club.id }}</td>
 						<td class="px-4 py-2">{{ club.name }}</td>
 						{# Colonne des actions : Modifier ou Supprimer #}
-						<td
-							class="px-4 py-2 space-x-2">
-							<!-- Bouton Modifier -->
-							<a href="{{ path('admin_edit_club', {'id': club.id}) }}" class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600 transition duration-300">
-								Modifier
-							</a>
+						<td class="px-4 py-2">
+    <div class="flex items-center space-x-2">
+        <!-- Bouton Modifier -->
+        <a href="{{ path('admin_edit_club', {'id': club.id}) }}"
+           class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600 transition duration-300">
+            Modifier
+        </a>
 
-							<!-- Bouton Supprimer -->
-							<form action="{{ path('admin_delete_club', {'id': club.id}) }}" method="POST" style="display:inline;">
-								<button type="submit" class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition duration-300" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce club ?')">
-									Supprimer
-								</button>
-							</form>
-						</td>
+        <!-- Bouton Supprimer -->
+        <form action="{{ path('admin_delete_club', {'id': club.id}) }}" method="POST">
+            <button type="submit"
+                    class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition duration-300"
+                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce club ?')">
+                Supprimer
+            </button>
+        </form>
+    </div>
+</td>
+
 					</tr>
 				{% else %}
 					{# Si la boucle ne retourne rien, j’affiche un message #}

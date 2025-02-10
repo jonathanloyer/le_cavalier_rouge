@@ -86,7 +86,7 @@
 				method="GET" action="{{ path('app_match_sheets_show', {'id': 0}) }}">
 				{# J’affiche un label et un input type="number" pour saisir l’ID #}
 				<label for="id" class="block text-gray-700 mb-2">
-					Saisissez l'ID de la feuille de match
+					Saisissez l'ID de la feuille de match 
 				</label>
 				<input
 				type="number" id="id" name="id" placeholder="ID de la feuille de match" class="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring focus:border-blue-300" required>
@@ -121,14 +121,14 @@
 
 			{# J’ajoute un conteneur flex avec un espacement horizontal (space-x-4) #}
 			<div
-				class="flex space-x-4">
-				{# J’affiche un lien pour créer une feuille en mode Critérium #}
-				<a href="{{ path('app_match_sheets_create', {'type': 'criterium'}) }}" class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-center">
-					Critérium
+				class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+				{# Lien vers la route de création "criterium" #}
+				<a href="{{ path('app_match_sheets_create', {'type': 'criterium'}) }}" class="w-full md:w-auto lg:w-fit px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-center">
+					Critériums
 				</a>
-				{# J’affiche un lien pour créer une feuille en mode Nationale 2/3 #}
-				<a href="{{ path('app_match_sheets_create', {'type': 'national'}) }}" class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-center">
-					Nationale 2/3
+				{# Lien vers la route de création "national" #}
+				<a href="{{ path('app_match_sheets_create', {'type': 'national'}) }}" class="w-full md:w-auto lg:w-fit px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-center">
+					Nationale
 				</a>
 			</div>
 		</div>
