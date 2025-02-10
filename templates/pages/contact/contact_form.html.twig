@@ -2,81 +2,82 @@
 {% extends 'pages/layout.html.twig' %}
 
 {# SEO - Titre de la page #}
-{% block title %}Contactez-nous - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block title %}Contactez-nous - Club d'Échecs Le Cavalier Rouge
+{% endblock %}
 
 {# SEO - Meta Description #}
 {% block meta_description %}
-Contactez le Club d'Échecs Le Cavalier Rouge à Clamart pour toute question sur les tournois, les cours et les adhésions.
+	Contactez le Club d'Échecs Le Cavalier Rouge à Clamart pour toute question sur les tournois, les cours et les adhésions.
 {% endblock %}
 
 {# SEO - Open Graph Meta Tags (utilisé par Facebook et autres réseaux sociaux) #}
-{% block og_title %}Contactez-nous - Club d'Échecs Le Cavalier Rouge{% endblock %}
-{% block og_description %}
-Besoin d'informations sur nos compétitions et événements ? Contactez le Club d'Échecs Le Cavalier Rouge dès maintenant.
+{% block og_title %}Contactez-nous - Club d'Échecs Le Cavalier Rouge
 {% endblock %}
-{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
+{% block og_description %}
+	Besoin d'informations sur nos compétitions et événements ? Contactez le Club d'Échecs Le Cavalier Rouge dès maintenant.
+{% endblock %}
+{% block og_image %}
+	{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}
+{% endblock %}
 
 {# SEO - Twitter Meta Tags (utilisé par Twitter) #}
-{% block twitter_title %}Contactez-nous - Club d'Échecs Le Cavalier Rouge{% endblock %}
-{% block twitter_description %}
-Rejoignez la communauté du Club d'Échecs Le Cavalier Rouge. Contactez-nous pour en savoir plus sur nos activités.
+{% block twitter_title %}Contactez-nous - Club d'Échecs Le Cavalier Rouge
 {% endblock %}
-{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
+{% block twitter_description %}
+	Rejoignez la communauté du Club d'Échecs Le Cavalier Rouge. Contactez-nous pour en savoir plus sur nos activités.
+{% endblock %}
+{% block twitter_image %}
+	{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}
+{% endblock %}
 
 {# Contenu principal de la page #}
 {% block body %}
-<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
-    <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Contactez-nous</h1>
-    <p class="text-gray-600 text-center mb-6">Nous sommes à votre écoute pour toute question sur nos tournois, nos cours ou votre adhésion.</p>
+	<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+		<h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Contactez-nous</h1>
+		<p class="text-gray-600 text-center mb-6">Nous sommes à votre écoute pour toute question sur nos tournois, nos cours ou votre adhésion.</p>
 
-    {# Affichage des messages flash #}
-    {% for message in app.flashes('error') %}
-        <div class="flash-error bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-center">
-            {{ message }}
-        </div>
-    {% endfor %}
+		{# Affichage des messages flash #}
+		{% for message in app.flashes('error') %}
+			<div class="flash-error bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-center">
+				{{ message }}
+			</div>
+		{% endfor %}
 
-    {% for message in app.flashes('success') %}
-        <div class="flash-success bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 text-center">
-            {{ message }}
-        </div>
-    {% endfor %}
+		{% for message in app.flashes('success') %}
+			<div class="flash-success bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 text-center">
+				{{ message }}
+			</div>
+		{% endfor %}
 
-    {# Formulaire de contact #}
-    <div class="max-w-lg mx-auto bg-white shadow rounded-lg p-6">
-        <form method="POST" action="{{ path('public_contact_form') }}">
-            {# Champ "Nom" #}
-            <div class="mb-4">
-                <label for="name" class="block text-sm font-medium text-gray-700">Nom :</label>
-                <input type="text" id="name" name="name" required
-                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300"
-                       placeholder="Entrez votre nom">
-            </div>
+		{# Formulaire de contact #}
+		<div class="max-w-lg mx-auto bg-white shadow rounded-lg p-6">
+			<form
+				method="POST" action="{{ path('public_contact_form') }}">
+				{# Champ "Nom" #}
+				<div class="mb-4">
+					<label for="name" class="block text-sm font-medium text-gray-700">Nom :</label>
+					<input type="text" id="name" name="name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300" placeholder="Entrez votre nom">
+				</div>
 
-            {# Champ "Email" #}
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email :</label>
-                <input type="email" id="email" name="email" required
-                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300"
-                       placeholder="Votre adresse email">
-            </div>
+				{# Champ "Email" #}
+				<div class="mb-4">
+					<label for="email" class="block text-sm font-medium text-gray-700">Email :</label>
+					<input type="email" id="email" name="email" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300" placeholder="Votre adresse email">
+				</div>
 
-            {# Champ "Message" (textarea) #}
-            <div class="mb-4">
-                <label for="message" class="block text-sm font-medium text-gray-700">Message :</label>
-                <textarea id="message" name="message" required rows="5"
-                          class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300"
-                          placeholder="Votre message ici"></textarea>
-            </div>
+				{# Champ "Message" (textarea) #}
+				<div class="mb-4">
+					<label for="message" class="block text-sm font-medium text-gray-700">Message :</label>
+					<textarea id="message" name="message" required rows="5" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300" placeholder="Votre message ici"></textarea>
+				</div>
 
-            {# Bouton "Envoyer" #}
-            <div class="flex justify-center">
-                <button type="submit"
-                        class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition">
-                    Envoyer
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+				{# Bouton "Envoyer" #}
+				<div class="flex justify-center">
+					<button type="submit" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition">
+						Envoyer
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
 {% endblock %}
