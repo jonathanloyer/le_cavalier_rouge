@@ -36,24 +36,40 @@
 </nav>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const menuButton = document.querySelector('#navbar-menu-button');
-    const menu = document.querySelector('#navbar-menu');
 
-    if (!menuButton || !menu) {
-        console.error('Menu button or menu not found');
+// ici J'ai ajouté le DOMContentLoaded pour que le script ne s'exécute que lorsque le DOM est chargé
+document.addEventListener('DOMContentLoaded', () => { 
+    const menuButton = document.querySelector('#navbar-menu-button'); // ici j'ai ajouté le # pour cibler l'élément par son id
+    const menu = document.querySelector('#navbar-menu'); // ici j'ai ajouté le # pour cibler l'élément par son id
+
+    if (!menuButton || !menu) {// ici j'ai ajouté une condition pour vérifier si le menuButton et le menu existent
+        console.error('Menu button or menu not found'); // ici j'ai ajouté un message d'erreur afin de savoir si le menuButton ou le menu n'existent pas
         return;
     }
 
-    menuButton.addEventListener('click', () => {
-        const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+    menuButton.addEventListener('click', () => { // ici j'ai ajouté un écouteur d'événement pour le clic sur le menuButton
+
+        // ici j'ai ajouté une condition pour vérifier si le menu est ouvert ou fermé
+        const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'; 
+
+        // ici j'ai ajouté un attribut aria-expanded pour indiquer si le menu est ouvert ou fermé
         menuButton.setAttribute('aria-expanded', !isExpanded);
+
+        // ici j'ai ajouté une classe open pour afficher ou masquer le menu
         menu.classList.toggle('open');
     });
 
-    document.addEventListener('click', (event) => {
+
+    // ici j'ai ajouté un écouteur d'événement pour le clic en dehors du menu
+    document.addEventListener('click', (event) => { 
+
+        // ici j'ai ajouté une condition pour vérifier si le clic est en dehors du menu et du menuButton
         if (!menu.contains(event.target) && !menuButton.contains(event.target)) {
+
+            // ici j'ai ajouté un attribut aria-expanded pour indiquer que le menu est fermé
             menuButton.setAttribute('aria-expanded', false);
+
+            // ici j'ai ajouté une classe open pour masquer le menu
             menu.classList.remove('open');
         }
     });

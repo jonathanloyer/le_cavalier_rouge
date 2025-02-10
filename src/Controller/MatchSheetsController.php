@@ -87,7 +87,7 @@ class MatchSheetsController extends AbstractController
         }
         // ========== FIN AJOUT ==========
 
-        // Récupération des clubs
+        // Récupération des clubs par leur id
         $clubA = $clubRepo->find($formData['clubA']);
         $clubB = $clubRepo->find($formData['clubB']);
 
@@ -447,86 +447,88 @@ class MatchSheetsController extends AbstractController
     // Route pour télécharger une feuille de match au format PDF
     #[Route('/feuille-de-match/{id}/pdf', name: 'app_match_sheets_download_pdf')]
     public function downloadPdf(
-        int $id,
-        FeuilleMatchRepository $feuilleMatchRepo,
-        UserRepository $userRepo
+        int $id, // Identifiant de la feuille de match
+        FeuilleMatchRepository $feuilleMatchRepo, // Repository des feuilles de match
+        UserRepository $userRepo // Repository des utilisateurs
     ): Response {
-        // 1. Récupération de la feuille de match
+
+        // 1. je récupère la feuille de match par son id
         $feuilleMatch = $feuilleMatchRepo->find($id);
 
-        if (!$feuilleMatch) {
+        if (!$feuilleMatch) { // je vérifie si la feuille de match existe
             throw $this->createNotFoundException('Feuille de match introuvable');
         }
 
         // 2. Récupération des clubs
-        $clubA = $feuilleMatch->getClubA();
+        $clubA = $feuilleMatch->getClubA(); 
         $clubB = $feuilleMatch->getClubB();
 
         // 3. Préparation des joueurs et résultats (comme dans show)
-        $joueursA = [];
+        $joueursA = []; 
         $joueursB = [];
         $resultats = [];
 
-        foreach ($feuilleMatch->getJoueurs() as $joueur) {
-            if (isset($joueur['joueurA'])) {
+        foreach ($feuilleMatch->getJoueurs() as $joueur) { // je récupère les joueurs et les résultats
+            if (isset($joueur['joueurA'])) {// si le joueur A existe
                 $joueursA[] = $userRepo->find($joueur['joueurA']);
             }
             if (isset($joueur['joueurB'])) {
                 $joueursB[] = $userRepo->find($joueur['joueurB']);
             }
-            if (isset($joueur['resultat'])) {
-                $resultats[] = $joueur['resultat'];
+            if (isset($joueur['resultat'])) { // je vérifie si le résultat existe
+                $resultats[] = $joueur['resultat'];// il se retourne dans le tableau des résultats
             }
         }
 
         // 4. Récupération des capitaines et de l'arbitre
         $capitainesEtArbitre = [
-            'capitaineA' => null,
+            'capitaineA' => null, // je définis les capitaines et l'arbitre à null car ils peuvent ne pas être définis
             'capitaineB' => null,
             'arbitre'    => null,
         ];
 
-        foreach ($feuilleMatch->getJoueurs() as $joueur) {
-            if (isset($joueur['role']) && $joueur['role'] === 'capitaineA') {
-                $capitainesEtArbitre['capitaineA'] = $userRepo->find($joueur['id']);
-            } elseif (isset($joueur['role']) && $joueur['role'] === 'capitaineB') {
-                $capitainesEtArbitre['capitaineB'] = $userRepo->find($joueur['id']);
-            } elseif (isset($joueur['role']) && $joueur['role'] === 'arbitre') {
-                $capitainesEtArbitre['arbitre'] = $userRepo->find($joueur['id']);
+        foreach ($feuilleMatch->getJoueurs() as $joueur) { // je récupère les capitaines et l'arbitre grace à leur role
+            if (isset($joueur['role']) && $joueur['role'] === 'capitaineA') {// je récupère le capitaine A
+                $capitainesEtArbitre['capitaineA'] = $userRepo->find($joueur['id']); // si le role est capitaineA
+            } elseif (isset($joueur['role']) && $joueur['role'] === 'capitaineB') { 
+                $capitainesEtArbitre['capitaineB'] = $userRepo->find($joueur['id']); 
+            } elseif (isset($joueur['role']) && $joueur['role'] === 'arbitre') { //si le role est arbitre
+                $capitainesEtArbitre['arbitre'] = $userRepo->find($joueur['id']); // je récupère l'arbitre
             }
         }
 
         // 5. Génération du contenu HTML pour le PDF
         $html = $this->renderView('pages/match_sheets/pdf.html.twig', [
-            'feuilleMatch'        => $feuilleMatch,
-            'clubA'               => $clubA,
-            'clubB'               => $clubB,
-            'joueursA'            => $joueursA,
+            'feuilleMatch'        => $feuilleMatch, // je passe les données à la vue
+            'clubA'               => $clubA, // je passe les clubs
+            'clubB'               => $clubB, 
+            'joueursA'            => $joueursA, // je passe les joueurs et les résultats
             'joueursB'            => $joueursB,
             'resultats'           => $resultats,
-            'capitainesEtArbitre' => $capitainesEtArbitre,
+            'capitainesEtArbitre' => $capitainesEtArbitre, // je passe les capitaines et l'arbitre
         ]);
 
         // 6. Configuration de Dompdf
-        $options = new Options();
-        $options->set('defaultFont', 'Arial');
+        $options = new Options(); // Création d'une instance de Options
+        $options->set('defaultFont', 'Arial'); // Police par défaut
 
         // Pour autoriser le chargement de ressources externes (CDN) :
         // (ex: tailwind via CDN)
-        $options->set('isRemoteEnabled', true);
+        $options->set('isRemoteEnabled', true); 
 
-        $dompdf = new Dompdf($options);
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
+        $dompdf = new Dompdf($options); // j'ai créé une instance de Dompdf afin de générer le PDF
+        $dompdf->loadHtml($html); // je charge le contenu HTML car Dompdf ne peut pas charger directement une URL
+        $dompdf->setPaper('A4', 'portrait'); // Format et orientation
+        $dompdf->render(); // Génération du PDF
 
         // 7. Retourne le fichier PDF en téléchargement
         return new Response(
-            $dompdf->output(),
-            200,
+            $dompdf->output(), // Contenu du PDF
+            200, // Code de statut HTTP qui sert à indiquer que la requête a abouti
             [
                 'Content-Type'        => 'application/pdf',
                 'Content-Disposition' => 'attachment; filename="feuille_de_match_' . $feuilleMatch->getId() . '.pdf"',
+                // j'ai fais en sorte que le nom du fichier PDF téléchargé contienne l'identifiant de la feuille de match ainsi lorsque l'admin ou le capitaine télécharge le fichier, il saura à quelle feuille de match il correspond
             ]
         );
     }

@@ -27,99 +27,73 @@ Ajoutez ou supprimez des utilisateurs et attribuez les rôles dans le Club d'Éc
 
 {# Je commence le bloc "body" où se trouvera tout le contenu de cette page #}
 {% block body %}
+    <h1 class="text-2xl font-semibold mb-4">Gestion des utilisateurs</h1>
 
-	{# J’affiche un titre (h3) de taille 2xl, avec une police semi-gras (font-semibold),
-		et une marge-basse (mb-4) #}
-	<h1 class="text-2xl font-semibold mb-4">Gestion des utilisateurs</h1>
+    {# Sélecteur d'utilisateur #}
+    <div class="mb-4">
+        <label for="userSelect" class="block text-gray-700 font-medium">Sélectionner un utilisateur :</label>
+        <select id="userSelect" class="w-full p-2 border rounded" onchange="showUserCard(this.value)">
+            <option value="">-- Choisissez un utilisateur --</option>
+            {% for user in users %}
+                <option value="user-{{ user.id }}">{{ user.firstName }} {{ user.lastName }}</option>
+            {% endfor %}
+        </select>
+    </div>
 
-	{# Je crée un conteneur (overflow-x-auto) avec un fond blanc (bg-white),
-		une ombre légère (shadow-md), des bords arrondis (rounded-lg),
-		dans lequel je place le tableau. #}
-	<div
-		class="bg-white shadow-md rounded-lg">
-		{# J’affiche un tableau (table-auto w-full) dont le texte est de taille petite (text-sm)
-				aligné à gauche (text-left), et de couleur grise (text-gray-600). #}
-		<table class="table-auto w-full text-sm text-left text-gray-600">
-			<thead class="bg-gray-100">
-				<tr>
-					{# 9 colonnes : ID, Email, Pseudo, Nom, Prénom, Club, Actif, Créé le, Actions #}
-					<th class="px-4 py-2">ID</th>
-					<th class="px-4 py-2">Email</th>
-					<th class="px-4 py-2">Pseudo</th>
-					<th class="px-4 py-2">Nom</th>
-					<th class="px-4 py-2">Prénom</th>
-					<th class="px-4 py-2">Club</th>
-					<th class="px-4 py-2">Actif</th>
-					<th class="px-4 py-2">Créé le</th>
-					<th class="px-4 py-2">Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				{# Je boucle sur la liste "users". #}
-				{% for user in users %}
-					<tr
-						class="border-b">
-						{# J’affiche l’ID de l’utilisateur #}
-						<td class="px-4 py-2">{{ user.id }}</td>
-						{# J’affiche son email #}
-						<td class="px-4 py-2">{{ user.email }}</td>
-						{# J’affiche son pseudo #}
-						<td class="px-4 py-2">{{ user.pseudo }}</td>
-						{# Nom et Prénom #}
-						<td class="px-4 py-2">{{ user.lastName }}</td>
-						<td class="px-4 py-2">{{ user.firstName }}</td>
-						{# Club : j’affiche "Aucun club" si user.club est nul #}
-						<td class="px-4 py-2">{{ user.club ? user.club.name : 'Aucun club' }}</td>
-						{# Actif : je mets un badge vert (Actif) ou rouge (Inactif) #}
-						<td class="px-4 py-2">
-							{% if user.active %}
-								<span class="bg-green-500 text-white px-2 py-1 rounded-full">Actif</span>
-							{% else %}
-								<span class="bg-red-500 text-white px-2 py-1 rounded-full">Inactif</span>
-							{% endif %}
-						</td>
-						{# Date de création, formatée en "jour/mois/année heure:minute" #}
-						<td class="px-4 py-2">{{ user.createdAt|date('d/m/Y H:i') }}</td>
-						{# Actions : Modifier, Supprimer, Ajouter/Retirer ROLE_CAPITAINE #}
-						<td
-							class="px-4 py-2">
-							{# Conteneur flex pour aligner les boutons horizontalement avec un espace #}
-							<div
-								class="flex items-center gap-2">
-								{# Bouton Modifier : largeur et hauteur fixes #}
-								<a href="{{ path('admin_edit_user', {'id': user.id}) }}" class="bg-green-500 text-white py-1 px-3 w-30 h-8 flex justify-center items-center rounded hover:bg-green-600 transition duration-300">
-									Modifier
-								</a>
+    {# Conteneur des cartes utilisateurs #}
+    <div id="userCardsContainer">
+        {% for user in users %}
+            <div id="user-{{ user.id }}" class="hidden border p-4 rounded-lg shadow-md">
+                <p><strong>ID:</strong> {{ user.id }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Pseudo:</strong> {{ user.pseudo }}</p>
+                <p><strong>Nom:</strong> {{ user.lastName }}</p>
+                <p><strong>Prénom:</strong> {{ user.firstName }}</p>
+                <p><strong>Club:</strong> {{ user.club ? user.club.name : 'Aucun club' }}</p>
+                <p><strong>Actif:</strong> <span class="{{ user.active ? 'text-green-500' : 'text-red-500' }}">{{ user.active ? 'Oui' : 'Non' }}</span></p>
+                <p><strong>Créé le:</strong> {{ user.createdAt|date('d/m/Y H:i') }}</p>
+                <div class="flex flex-wrap gap-2 mt-2 justify-center">
+                    <a href="{{ path('admin_edit_user', {'id': user.id}) }}" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 text-center text-sm">
+                        Modifier
+                    </a>
+                    <form action="{{ path('admin_delete_user', {'id': user.id}) }}" method="POST" class="inline">
+                        <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-300 text-center text-sm">
+                            Supprimer
+                        </button>
+                    </form>
+                    {% if 'ROLE_CAPITAINE' in user.roles %}
+                        <a href="{{ path('admin_remove_capitaine', {'id': user.id}) }}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 transition duration-300 text-center text-sm">
+                            Retirer Capitaine
+                        </a>
+                    {% else %}
+                        <a href="{{ path('admin_add_capitaine', {'id': user.id}) }}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300 text-center text-sm">
+                            Ajouter Capitaine
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
-								{# Bouton Supprimer : largeur et hauteur fixes #}
-								<form action="{{ path('admin_delete_user', {'id': user.id}) }}" method="POST" class="inline">
-									<button type="submit" class="bg-red-500 text-white py-1 px-3 w-30 h-8 flex justify-center items-center rounded hover:bg-red-600 transition duration-300" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
-										Supprimer
-									</button>
-								</form>
+    {# Script JavaScript pour afficher la carte sélectionnée #}
+    <script>
+	//je créee une fonction showUserCard qui prend en paramètre l'identifiant de l'utilisateur
+        function showUserCard(userId) {
 
-								{# Ajouter ou Retirer ROLE_CAPITAINE : largeur et hauteur fixes #}
-								{% if 'ROLE_CAPITAINE' in user.roles %}
-									<a href="{{ path('admin_remove_capitaine', {'id': user.id}) }}" class="bg-yellow-500 text-white py-1 px-3 w-36 h-8 flex justify-center items-center rounded hover:bg-yellow-600 transition duration-300" onclick="return confirm('Retirer le rôle capitaine à cet utilisateur ?')">
-										Retirer Capitaine
-									</a>
-								{% else %}
-									<a href="{{ path('admin_add_capitaine', {'id': user.id}) }}" class="bg-blue-500 text-white py-1 px-3 w-36 h-8 flex justify-center items-center rounded hover:bg-blue-600 transition duration-300" onclick="return confirm('Donner le rôle capitaine à cet utilisateur ?')">
-										Ajouter Capitaine
-									</a>
-								{% endif %}
-							</div>
-						</td>
-					</tr>
-				{% else %}
-					{# Si la boucle ne trouve aucun user, j’affiche une ligne indiquant "Aucun utilisateur trouvé." #}
-					<tr>
-						<td colspan="9" class="px-4 py-2 text-center text-gray-500">
-							Aucun utilisateur trouvé.
-						</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
+			//je récupère tous les éléments div enfants de l'élément ayant l'id userCardsContainer afin de les cacher car ils sont tous cachés par défaut
+            document.querySelectorAll('#userCardsContainer > div').forEach(card => {
+
+				//je rajoute la classe hidden à chaque élément div afin de les cacher
+                card.classList.add('hidden');
+            });
+
+			//je vérifie si l'identifiant de l'utilisateur est défini pour afficher la carte correspondante
+            if (userId) {
+
+				//je retire la classe hidden de l'élément ayant l'identifiant userId pour l'afficher
+                document.getElementById(userId).classList.remove('hidden');
+            }
+        }
+    </script>
 {% endblock %}
+
