@@ -32,69 +32,53 @@
 
 {# Contenu principal de la page #}
 {% block body %}
-    <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
-        <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Contactez-nous</h1>
-        <p class="text-gray-600 text-center mb-6">Nous sommes à votre écoute pour toute question sur nos tournois, nos cours ou votre adhésion.</p>
+	<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+		<h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Contactez-nous</h1>
+		<p class="text-gray-600 text-center mb-6">Nous sommes à votre écoute pour toute question sur nos tournois, nos cours ou votre adhésion.</p>
 
-        {# Messages d'erreur globaux #}
-        {% if errors.global is defined %}
-            <div class="bg-red-100 text-red-700 border border-red-400 px-4 py-3 rounded text-center mb-4">
-                {{ errors.global }}
-            </div>
-        {% endif %}
+		{# Messages Flash (succès et erreurs) #}
+		{% for message in app.flashes('success') %}
+			<div class="flash-success bg-green-100 text-green-700 border border-green-400 px-4 py-3 rounded text-center mb-4">
+				{{ message }}
+			</div>
+		{% endfor %}
 
-        {# Messages de succès #}
-        {% if success %}
-            <div class="bg-green-100 text-green-700 border border-green-400 px-4 py-3 rounded text-center mb-4">
-                Votre message a été envoyé avec succès !
-            </div>
-        {% endif %}
+		{% for message in app.flashes('error') %}
+			<div class="flash-error bg-red-100 text-red-700 border border-red-400 px-4 py-3 rounded text-center mb-4">
+				{{ message }}
+			</div>
+		{% endfor %}
 
-        {# Formulaire de contact #}
-        <div class="max-w-lg mx-auto bg-white shadow rounded-lg p-6">
-            <form method="POST" action="{{ path('public_contact_form') }}">
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+		{# Formulaire de contact #}
+		<div class="max-w-lg mx-auto bg-white shadow rounded-lg p-6">
+			<form method="POST" action="{{ path('public_contact_form') }}">
+				<input
+				type="hidden" name="_csrf_token" value="{{ csrf_token('contact_form') }}">
 
-                {# Champ "Nom" #}
-                <div class="mb-4">
-                    <label for="name" class="block text-sm font-medium text-gray-700">Nom :</label>
-                    <input type="text" id="name" name="name" required 
-                           class="mt-1 block w-full border {% if errors.name is defined %}border-red-500{% else %}border-gray-300{% endif %} rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300"
-                           placeholder="Entrez votre nom">
-                    {% if errors.name is defined %}
-                        <p class="text-red-500 text-sm mt-1">{{ errors.name }}</p>
-                    {% endif %}
-                </div>
+				{# Champ "Nom" #}
+				<div class="mb-4">
+					<label for="name" class="block text-sm font-medium text-gray-700">Nom :</label>
+					<input type="text" id="name" name="name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300" placeholder="Entrez votre nom" value="{{ app.request.get('name', '') }}">
+				</div>
 
-                {# Champ "Email" #}
-                <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email :</label>
-                    <input type="email" id="email" name="email" required 
-                           class="mt-1 block w-full border {% if errors.email is defined %}border-red-500{% else %}border-gray-300{% endif %} rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300"
-                           placeholder="Votre adresse email">
-                    {% if errors.email is defined %}
-                        <p class="text-red-500 text-sm mt-1">{{ errors.email }}</p>
-                    {% endif %}
-                </div>
+				{# Champ "Email" #}
+				<div class="mb-4">
+					<label for="email" class="block text-sm font-medium text-gray-700">Email :</label>
+					<input type="email" id="email" name="email" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300" placeholder="Votre adresse email" value="{{ app.request.get('email', '') }}">
+				</div>
 
-                {# Champ "Message" (textarea) #}
-                <div class="mb-4">
-                    <label for="message" class="block text-sm font-medium text-gray-700">Message :</label>
-                    <textarea id="message" name="message" required rows="5"
-                              class="mt-1 block w-full border {% if errors.message is defined %}border-red-500{% else %}border-gray-300{% endif %} rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300"
-                              placeholder="Votre message ici"></textarea>
-                    {% if errors.message is defined %}
-                        <p class="text-red-500 text-sm mt-1">{{ errors.message }}</p>
-                    {% endif %}
-                </div>
-
-                {# Bouton "Envoyer" #}
-                <div class="flex justify-center">
-                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition">
-                        Envoyer
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+				{# Champ "Message" (textarea) #}
+				<div class="mb-4">
+					<label for="message" class="block text-sm font-medium text-gray-700">Message :</label>
+					<textarea id="message" name="message" required rows="5" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-300 focus:border-blue-300" placeholder="Votre message ici">{{ app.request.get('message', '') }}</textarea>
+				</div>
+				{# Bouton "Envoyer" #}
+				<div class="flex justify-center">
+					<button type="submit" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition">
+						Envoyer
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
 {% endblock %}

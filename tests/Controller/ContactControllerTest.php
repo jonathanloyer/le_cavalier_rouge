@@ -11,15 +11,12 @@ class ContactControllerTest extends WebTestCase
      */
     public function testPublicContactPageLoads(): void
     {
-        // Crée un client HTTP pour simuler un navigateur
         $client = static::createClient();
-
-        // Effectue une requête GET sur la page de contact
         $crawler = $client->request('GET', '/contactez-nous');
 
         // Vérifie que la réponse HTTP est un succès (code 200)
         $this->assertResponseIsSuccessful();
-        
+
         // Vérifie que le titre <h1> de la page est bien "Contactez-nous"
         $this->assertSelectorTextContains('h1', 'Contactez-nous');
     }
@@ -29,16 +26,14 @@ class ContactControllerTest extends WebTestCase
      */
     public function testPublicContactWithEmptyFields(): void
     {
-        // Crée un client HTTP
         $client = static::createClient();
         
         // Envoie une requête POST sans aucune donnée
-        $crawler = $client->request('POST', '/contactez-nous', []);
+        $client->request('POST', '/contactez-nous', []);
 
-        // Vérifie que la page retourne bien une réponse HTML valide (pas d'erreur 500)
+        // Vérifie que la réponse est un succès (code 200) et que le message d'erreur est affiché
         $this->assertResponseIsSuccessful();
-
-        // Vérifie que le message d'erreur "Tous les champs doivent être remplis." apparaît bien
+        $this->assertSelectorExists('.flash-error', 'Le message d’erreur doit être affiché');
         $this->assertSelectorTextContains('.flash-error', 'Tous les champs doivent être remplis.');
     }
 
@@ -47,7 +42,6 @@ class ContactControllerTest extends WebTestCase
      */
     public function testPublicContactWithValidData(): void
     {
-        // Crée un client HTTP
         $client = static::createClient();
         
         // Envoie une requête POST avec des données valides
@@ -57,13 +51,14 @@ class ContactControllerTest extends WebTestCase
             'message' => 'Test message'
         ]);
 
-        // Vérifie que la réponse est une redirection vers le formulaire après soumission
+        // Vérifie que la réponse est une redirection après soumission du formulaire
         $this->assertResponseRedirects('/contactez-nous');
-        
+
         // Suit la redirection pour afficher la page après soumission
         $client->followRedirect();
 
         // Vérifie que le message de succès est bien affiché
-        $this->assertSelectorTextContains('.flash-success', 'Votre message a été envoyé avec succès.');
+        $this->assertSelectorExists('.flash-success', 'Le message de succès doit être affiché');
+        $this->assertSelectorTextContains('.flash-success', 'Votre message a été envoyé avec succès');
     }
 }
