@@ -10,12 +10,12 @@ Gérez les utilisateurs, tournois, feuilles de match et clubs du Club d'Échecs 
 {% endblock %}
 
 {# SEO - Open Graph Meta Tags (Facebook, LinkedIn) #}
-{% set default_image = asset('img/echiquier-strategie-jeu-echecs.JPEG') %}
+{% set default_image = asset('img/echiquier-strategie-jeu-echecs.webp') %}
 {% block og_title %}Tableau de bord - Administration{% endblock %}
 {% block og_description %}
 Gérez les utilisateurs, tournois, feuilles de match et clubs du Club d'Échecs Le Cavalier Rouge.
 {% endblock %}
-{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') ?: default_image }}{% endblock %}
+{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') ?: default_image }}{% endblock %}
 {% block og_type %}website{% endblock %}
 
 {# SEO - Twitter Meta Tags (Twitter Cards) #}
@@ -23,7 +23,7 @@ Gérez les utilisateurs, tournois, feuilles de match et clubs du Club d'Échecs 
 {% block twitter_description %}
 Gérez efficacement le Club d'Échecs Le Cavalier Rouge avec ce tableau de bord administrateur.
 {% endblock %}
-{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') ?: default_image }}{% endblock %}
+{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') ?: default_image }}{% endblock %}
 {% block twitter_card %}summary_large_image{% endblock %}
 
 {# J’ouvre le bloc "body" qui contiendra tout le contenu de cette page #}
@@ -95,7 +95,7 @@ Gérez efficacement le Club d'Échecs Le Cavalier Rouge avec ce tableau de bord 
     <ul class="divide-y divide-gray-300">
         {% for activity in recentActivities %}
             <li class="py-4 flex justify-between">
-                <span class="text-gray-600">{{ activity.message }}</span>
+                <span class="text-gray-600">{{ activity.message|e }}</span>
                 <span class="text-sm text-gray-500">{{ activity.time }}</span>
             </li>
         {% else %}

@@ -14,7 +14,7 @@ Découvrez la liste des joueurs actifs du Club d'Échecs Le Cavalier Rouge. Cons
 {% block og_description %}
 Liste des joueurs actifs du Club d'Échecs Le Cavalier Rouge. Découvrez les membres et leur club affilié.
 {% endblock %}
-{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
+{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
 {% block og_type %}website{% endblock %}
 
 {# SEO - Twitter Meta Tags (Twitter Cards) #}
@@ -22,7 +22,7 @@ Liste des joueurs actifs du Club d'Échecs Le Cavalier Rouge. Découvrez les mem
 {% block twitter_description %}
 Consultez la liste des joueurs actifs du Club d'Échecs Le Cavalier Rouge et découvrez leur club d'affiliation.
 {% endblock %}
-{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
+{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
 {% block twitter_card %}summary_large_image{% endblock %}
 
 {# J’ouvre le bloc body pour y insérer le contenu principal #}
@@ -57,12 +57,12 @@ Consultez la liste des joueurs actifs du Club d'Échecs Le Cavalier Rouge et dé
                 {% for user in joueurs %}
                     <tr class="border-t">
                         {# Nom et Prénom en texte gris (text-gray-700) #}
-                        <td class="px-4 py-2 text-gray-700">{{ user.lastName }}</td>
-                        <td class="px-4 py-2 text-gray-700">{{ user.firstName }}</td>
+                        <td class="px-4 py-2 text-gray-700">{{ user.lastName|e }}</td>
+                        <td class="px-4 py-2 text-gray-700">{{ user.firstName|e }}</td>
                         <td class="px-4 py-2 text-gray-700">
                             {# Si user.club existe, j’affiche son nom, sinon "Aucun club" #}
                             {% if user.club %}
-                                {{ user.club.name }}
+                                {{ user.club.name|e }}
                             {% else %}
                                 Aucun club
                             {% endif %}

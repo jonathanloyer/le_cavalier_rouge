@@ -11,7 +11,7 @@
 {% block og_description %}
     Consultez la liste des compétitions d'échecs organisées par Le Cavalier Rouge à Clamart et Meudon. Suivez les événements à venir et en cours.
 {% endblock %}
-{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
+{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
 {% block og_type %}website{% endblock %}
 
 {% block twitter_title %}Tournois et Compétitions d'Échecs - Le Cavalier Rouge{% endblock %}
@@ -20,7 +20,7 @@
     Rejoignez-nous dans nos compétitions d'échecs à Clamart et Meudon. Découvrez les tournois à venir, en cours et terminés.
 {% endblock %}
 
-{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
+{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
 
 {% block body %}
     <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
@@ -32,15 +32,15 @@
             <table class="min-w-full table-auto" aria-label="Tableau des compétitions d'échecs">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="px-4 py-2 text-left text-gray-600">Nom</th>
-                        <th class="px-4 py-2 text-left text-gray-600">Date</th>
-                        <th class="px-4 py-2 text-center text-gray-600 w-[120px]">Statut</th>
+                        <th scope="col" class="px-4 py-2 text-left text-gray-600">Nom</th>
+                        <th scope="col" class="px-4 py-2 text-left text-gray-600">Date</th>
+                        <th scope="col" class="px-4 py-2 text-center text-gray-600 w-[120px]">Statut</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for competition in competitions %}
                         <tr class="border-t">
-                            <td class="px-4 py-2 text-gray-700">{{ competition.name }}</td>
+                            <td class="px-4 py-2 text-gray-700">{{ competition.name|e }}</td>
                             <td class="px-4 py-2 text-gray-700">{{ competition.competitionDate|date('d/m/Y') }}</td>
                             <td class="px-4 py-2 text-center text-gray-700">
                                 {% if competition.status == 'En attente' %}

@@ -13,7 +13,7 @@
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/mongodb-odm": "^2.9",
-        "doctrine/mongodb-odm-bundle": "*",
+        "doctrine/mongodb-odm-bundle": "^5.2",
         "doctrine/orm": "^3.3",
         "dompdf/dompdf": "^3.0",
         "mongodb/mongodb": "^1.20",

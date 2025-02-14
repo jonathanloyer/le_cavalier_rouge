@@ -5,13 +5,16 @@
 {% block body %}
 <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
     <!-- Titre d'erreur visible en texte -->
-    <h1 class="text-8xl font-extrabold text-red-600">Erreur 404</h1>
+    <h1 class="text-8xl font-extrabold text-red-600">Erreur {{'404'|e}}</h1>
     <p class="text-2xl text-gray-700 mt-6">Oups ! La page que vous cherchez n'existe pas.</p>
     <p class="text-gray-500 mt-2">Il se peut que vous ayez mal saisi l'URL ou que la page ait été déplacée.</p>
     
     <!-- Ajout du GIF -->
     <div class="mt-8">
-        <img src="{{ asset('img/error-404-page-not-found.gif') }}" alt="Erreur 404" class="w-64 h-auto">
+         <video autoplay loop muted playsinline class="w-64 h-auto">
+        <source src="{{ asset('img/error-404-page-not-found.webm') }}" type="video/webm">
+        <source src="{{ asset('img/error-404-page-not-found.mp4') }}" type="video/mp4">
+    </video>
     </div>
     
     <!-- Boutons d'action -->

@@ -32,7 +32,9 @@ class AdminController extends AbstractController
         CompetitionsRepository $competitionRepository,
         FeuilleMatchRepository $feuilleMatchRepository
     ): Response {
-        // Vérifier si l'utilisateur est bien un ADMIN
+        
+       // Vérifier si l'utilisateur est bien un ADMIN avant d'accéder à cette page
+       // cet méthode fait appel au SecurityBundle de Symfony pour gérer les autorisations
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         // Récupérer le nombre total d'utilisateurs

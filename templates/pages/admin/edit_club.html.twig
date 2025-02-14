@@ -6,7 +6,7 @@
 {% block og_description %}
 Modifiez les informations relatives au Club d'Échecs Le Cavalier Rouge.
 {% endblock %}
-{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
+{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
 {% block og_type %}website{% endblock %}
 
 {# SEO - Twitter Meta Tags (Twitter Cards) #}
@@ -14,7 +14,7 @@ Modifiez les informations relatives au Club d'Échecs Le Cavalier Rouge.
 {% block twitter_description %}
 Modifiez les informations du Club d'Échecs Le Cavalier Rouge.
 {% endblock %}
-{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
+{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
 {% block twitter_card %}summary_large_image{% endblock %}
 
 {# Je débute le bloc "body", où je place le contenu principal de la page #}
@@ -25,12 +25,14 @@ Modifiez les informations du Club d'Échecs Le Cavalier Rouge.
 
     {# Formulaire POST (méthode="POST"), sans action spécifiée (donc la même URL). #}
     <form method="POST">
+            <input type="hidden" name="_token" value="{{ csrf_token('modify_club') }}">
+
         {# Champ pour le nom du club #}
         <div class="mb-6">
             <label for="name" class="block text-lg font-medium text-gray-700">Nom du club</label>
             <div class="mt-1">
                 {# Input texte, prérempli avec club.name, obligatoire (required). #}
-                <input type="text" id="name" name="name" value="{{ club.name }}" required
+                <input type="text" id="name" name="name" value="{{ club.nam|e }}" required
                     class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
             </div>
         </div>

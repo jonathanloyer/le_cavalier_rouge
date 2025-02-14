@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Document\Contact;
+use App\Form\ContactType;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,38 +14,35 @@ use Psr\Log\LoggerInterface;
 class ContactController extends AbstractController
 {
     #[Route('/contactez-nous', name: 'public_contact_form', methods: ['GET', 'POST'])]
-    public function publicContact(Request $request, DocumentManager $dm): Response
+    public function publicContact(Request $request, DocumentManager $dm, LoggerInterface $logger): Response
     {
-        if ($request->isMethod('POST')) {
-            $name = $request->request->get('name');
-            $email = $request->request->get('email');
-            $message = $request->request->get('message');
+        $contact = new Contact(); // Création d’un nouveau document Contact
+        $form = $this->createForm(ContactType::class, $contact); // Création du formulaire
 
-            // Validation des champs
-            if (empty($name) || empty($email) || empty($message)) {
-                $this->addFlash('error', 'Tous les champs doivent être remplis.');
-            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $this->addFlash('error', 'Adresse email invalide.');
-            } elseif (strlen($name) > 100 || strlen($message) > 1000) {
-                $this->addFlash('error', 'Le nom ou le message est trop long.');
-            } else {
-                $contact = new Contact();
-                $contact->setName($name)
-                        ->setEmail($email)
-                        ->setMessage($message)
-                        ->setCreatedAt(new \DateTime());
+        $form->handleRequest($request); // Traitement de la requête
 
-                $dm->persist($contact);
-                $dm->flush();
+        if ($form->isSubmitted() && $form->isValid()) { // Si le formulaire est soumis et valide
+            $contact->setCreatedAt(new \DateTime()); // Définition de la date de création
 
-                $this->addFlash('success', 'Votre message a été envoyé avec succès.');
-                return $this->redirectToRoute('public_contact_form');
-            }
+            $dm->persist($contact); // Préparation de la sauvegarde
+            $dm->flush(); // Sauvegarde
+
+
+            //la methode addFlash() permet d'ajouter un message flash
+            $this->addFlash('success', 'Votre message a été envoyé avec succès.');
+
+            // Enregistrement d'un message dans les logs afin de tracer l'envoi de message ce qui permet de savoir qui a envoyé le message
+            $logger->info("Nouveau message de contact envoyé par : " . $contact->getEmail());
+
+            // retourne à la page d'accueil
+            return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('pages/contact/contact_form.html.twig');
+        // Retourne le formulaire de contact
+        return $this->render('pages/contact/contact_form.html.twig', [
+            'form' => $form->createView(), // Transmission du formulaire à la vue
+        ]);
     }
-
     #[Route('/admin/contacts', name: 'admin_manage_contacts', methods: ['GET', 'POST'])]
     public function manageContacts(Request $request, DocumentManager $dm): Response
     {
@@ -63,9 +61,9 @@ class ContactController extends AbstractController
             } else {
                 $contact = new Contact();
                 $contact->setName($name)
-                        ->setEmail($email)
-                        ->setMessage($message)
-                        ->setCreatedAt(new \DateTime());
+                    ->setEmail($email)
+                    ->setMessage($message)
+                    ->setCreatedAt(new \DateTime());
 
                 $dm->persist($contact);
                 $dm->flush();

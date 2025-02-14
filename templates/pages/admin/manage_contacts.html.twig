@@ -14,7 +14,7 @@ Consultez et gérez les messages envoyés par les membres du Club d'Échecs Le C
 {% block og_description %}
 Visualisez et administrez les messages envoyés par les membres du Club d'Échecs Le Cavalier Rouge.
 {% endblock %}
-{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
+{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
 {% block og_type %}website{% endblock %}
 
 {# SEO - Twitter Meta Tags (Twitter Cards) #}
@@ -22,7 +22,7 @@ Visualisez et administrez les messages envoyés par les membres du Club d'Échec
 {% block twitter_description %}
 Gérez les messages envoyés par les membres et visiteurs du Club d'Échecs Le Cavalier Rouge.
 {% endblock %}
-{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
+{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
 {% block twitter_card %}summary_large_image{% endblock %}
 
 {# J’ouvre le bloc "body" pour définir le contenu principal de cette page #}
@@ -42,9 +42,9 @@ Gérez les messages envoyés par les membres et visiteurs du Club d'Échecs Le C
                 {% for contact in contacts %}
                     {# Carte pour chaque contact #}
                     <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ contact.name }}</h2>
-                        <p class="text-gray-600 mb-2"><strong>Email :</strong> {{ contact.email }}</p>
-                        <p class="text-gray-600 mb-4"><strong>Message :</strong> {{ contact.message }}</p>
+                        <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ contact.name|e }}</h2>
+                        <p class="text-gray-600 mb-2"><strong>Email :</strong> {{ contact.email|e }}</p>
+                        <p class="text-gray-600 mb-4"><strong>Message :</strong> {{ contact.message|e }}</p>
                         <p class="text-sm text-gray-500 mb-4"><strong>Date :</strong> {{ contact.createdAt|date('d/m/Y H:i') }}</p>
 
                         {# Bouton pour supprimer le contact #}

@@ -14,7 +14,7 @@ Gérez les compétitions d'échecs du Club Le Cavalier Rouge. Ajoutez, modifiez 
 {% block og_description %}
 Administrez les tournois et compétitions du Club d'Échecs Le Cavalier Rouge. Organisez et suivez l'évolution des matchs.
 {% endblock %}
-{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
+{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
 {% block og_type %}website{% endblock %}
 
 {# SEO - Twitter Meta Tags (Twitter Cards) #}
@@ -22,7 +22,7 @@ Administrez les tournois et compétitions du Club d'Échecs Le Cavalier Rouge. O
 {% block twitter_description %}
 Ajoutez, modifiez et supprimez les compétitions d'échecs du Club Le Cavalier Rouge. Suivez les résultats en direct.
 {% endblock %}
-{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
+{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
 {% block twitter_card %}summary_large_image{% endblock %}
 
 {# J’ouvre le bloc body pour y placer le contenu de la page #}
@@ -63,7 +63,7 @@ un fond gris clair (bg-gray-100), et une hauteur minimale pleine (min-h-screen).
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for competition in competitions %}
                     <div class="border rounded-lg p-4 bg-gray-50 shadow-sm hover:shadow-md transition">
-                        <h3 class="text-lg font-bold text-gray-700 mb-2">{{ competition.name }}</h3>
+                        <h3 class="text-lg font-bold text-gray-700 mb-2">{{ competition.name|e }}</h3>
                         <p class="text-sm text-gray-600 mb-2">
                             <strong>Date :</strong> {{ competition.competitionDate|date('d/m/Y') }}
                         </p>
