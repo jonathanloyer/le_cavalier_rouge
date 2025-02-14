@@ -6,15 +6,18 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ContactControllerTest extends WebTestCase
 {
+
     private $client;
 
     protected function setUp(): void
     {
         $this->client = static::createClient();
+
     }
 
     public function testPublicContactWithEmptyFields(): void
     {
+
         $crawler = $this->client->request('GET', '/contactez-nous');
 
         $form = $crawler->selectButton('Envoyer')->form([
@@ -31,10 +34,12 @@ class ContactControllerTest extends WebTestCase
         $this->assertSelectorTextContains('form', 'Le prénom est requis');
         $this->assertSelectorTextContains('form', "L'email est requis");
         $this->assertSelectorTextContains('form', 'Le message est requis');
+
     }
 
     public function testPublicContactWithValidData(): void
     {
+
         $crawler = $this->client->request('GET', '/contactez-nous');
 
         $form = $crawler->selectButton('Envoyer')->form([
@@ -52,5 +57,6 @@ class ContactControllerTest extends WebTestCase
         // Suivre la redirection et vérifier la présence du message de succès
         $this->client->followRedirect();
         $this->assertSelectorTextContains('.flash-success', 'Votre message a été envoyé avec succès.');
+
     }
 }
