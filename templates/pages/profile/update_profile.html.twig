@@ -35,15 +35,26 @@
 	<div class="max-w-lg mx-auto mt-10 p-6 bg-white shadow-md rounded">
 		<h1 class="text-2xl font-bold mb-5 text-center">
 			Modifier le profil de
-			{{ app.user ? app.user.pseudo : 'Utilisateur' }}
+			{{ app.user ? app.user.pseudo|e : 'Utilisateur' }}
 		</h1>
+
+		   {# Vérification et sécurisation de l'avatar #}
+        {% set avatar = (app.user.avatar is defined and app.user.avatar matches('/^[a-zA-Z0-9_\.-]+$/')) 
+            ? asset('uploads/avatar/' ~ app.user.avatar) 
+            : asset('img/default-avatar.png') 
+        %}
+        
+        {# Affichage sécurisé de l'avatar #}
+        <div class="text-center mb-4">
+            <img src="{{ avatar|e }}" alt="Avatar" class="w-32 h-32 rounded-full mx-auto border-4 border-gray-300 object-cover">
+        </div>
 
 		{{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
 
 		{# Afficher les messages flash #}
 		{% for message in app.flashes('success') %}
 			<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-				{{ message }}
+				{{ message|e }}
 			</div>
 		{% endfor %}
 

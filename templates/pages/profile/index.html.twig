@@ -1,7 +1,7 @@
 {% extends 'pages/layout.html.twig' %}
 
 {% block title %}Profil de
-	{{ app.user ? app.user.pseudo : 'Utilisateur' }}
+	{{ app.user ? app.user.pseudo|e : 'Utilisateur' }}
 	- le Cavalier Rouge
 {% endblock %}
 
@@ -11,18 +11,18 @@
 
 {% block og_title %}
 	Profil de
-	{{ app.user ? app.user.pseudo : 'Utilisateur' }}
+	{{ app.user ? app.user.pseudo|e : 'Utilisateur' }}
 	- Le Cavalier Rouge
 {% endblock %}
 
 {% block og_description %}
 	Retrouvez toutes les informations de
-	{{ app.user ? app.user.pseudo : 'cet utilisateur' }}
+	{{ app.user ? app.user.pseudo|e  : 'cet utilisateur' }}
 	sur Le Cavalier Rouge. Suivez ses compétitions et évolutions.
 {% endblock %}
 
 {% block og_image %}
-	{{ app.user.avatar ? asset('uploads/avatar/' ~ app.user.avatar) : asset('img/default-avatar.png') }}
+	{{ app.user.avatar ? asset('uploads/avatar/' ~ app.user.avatar|e) : asset('img/default-avatar.png') }}
 {% endblock %}
 
 {% block og_type %}profile
@@ -30,18 +30,18 @@
 
 {% block twitter_title %}
 	Profil de
-	{{ app.user ? app.user.pseudo : 'Utilisateur' }}
+	{{ app.user ? app.user.pseudo|e : 'Utilisateur' }}
 	- Le Cavalier Rouge
 {% endblock %}
 
 {% block twitter_description %}
 	Découvrez le profil de
-	{{ app.user ? app.user.pseudo : 'cet utilisateur' }}
+	{{ app.user ? app.user.pseudo|e : 'cet utilisateur' }}
 	et suivez ses compétitions d'échecs.
 {% endblock %}
 
 {% block twitter_image %}
-	{{ app.user.avatar ? asset('uploads/avatar/' ~ app.user.avatar) : asset('img/default-avatar.png') }}
+	{{ app.user.avatar ? asset('uploads/avatar/' ~ app.user.avatar|e) : asset('img/default-avatar.png') }}
 {% endblock %}
 
 {% block body %}
@@ -55,7 +55,7 @@
 					class="sm:w-1/3 flex flex-col justify-between">
 					<!-- Bloc Avatar avec bouton Modifier positionné en bas à droite de l'image -->
 					<div class="relative flex flex-col items-center">
-						<img src="{{ app.user.avatar ? asset('uploads/avatar/' ~ app.user.avatar) : asset('images/default-avatar.png') }}" alt="Avatar" class="w-32 h-32 rounded-full border-4 border-gray-300 object-cover" data-test="profile-avatar"/>
+						<img src="{{ app.user.avatar ? asset('uploads/avatar/' ~ app.user.avatar|e) : asset('images/default-avatar.png') }}" alt="Avatar" class="w-32 h-32 rounded-full border-4 border-gray-300 object-cover" data-test="profile-avatar"/>
 						<a href="{{ path('app_profile_update') }}" class="mt-3 w-32 text-center bg-blue-500 text-white py-2 rounded hover:bg-blue-600 focus:outline-none shadow transition-colors duration-200" data-test="profile-edit-button">
 							Modifier
 						</a>
@@ -77,24 +77,24 @@
 					<div class="bg-gray-100 p-4 rounded">
 						<div class="text-center space-y-3" data-test="profile-info">
 							<h1 class="text-3xl font-semibold text-gray-800" data-test="profile-pseudo">
-								{{ app.user.pseudo ?: 'Pseudo non renseigné' }}
+								{{ app.user.pseudo|e ?: 'Pseudo non renseigné' }}
 							</h1>
 							<div class="flex flex-col sm:flex-row items-center justify-center gap-3 text-gray-600">
-								<span data-test="profile-lastname">{{ app.user.lastName ?: 'Nom non renseigné' }}</span>
-								<span data-test="profile-firstname">{{ app.user.firstName ?: 'Prénom non renseigné' }}</span>
+								<span data-test="profile-lastname">{{ app.user.lastName|e ?: 'Nom non renseigné' }}</span>
+								<span data-test="profile-firstname">{{ app.user.firstName|e ?: 'Prénom non renseigné' }}</span>
 							</div>
 							<p class="text-gray-600" data-test="profile-email">
 								<strong>Email :</strong>
-								<span>{{ app.user.email ?: 'Email non renseigné' }}</span>
+								<span>{{ app.user.email|e ?: 'Email non renseigné' }}</span>
 							</p>
 							<p class="text-gray-600" data-test="profile-codeFFE">
 								<strong>Code FFE :</strong>
-								<span>{{ app.user.codeFFE ?: 'Non renseigné' }}</span>
+								<span>{{ app.user.codeFFE|e ?: 'Non renseigné' }}</span>
 							</p>
 							{% if app.user.club %}
 								<p class="text-gray-600" data-test="profile-club">
 									<strong>Club :</strong>
-									<span>{{ app.user.club.name }}</span>
+									<span>{{ app.user.club.name|e }}</span>
 								</p>
 							{% else %}
 								<p class="text-gray-600" data-test="profile-club">

@@ -5,13 +5,17 @@
 {% block body %}
 <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center">
     <!-- Titre de l'erreur -->
-    <h1 class="text-8xl font-extrabold text-red-600">403</h1>
+    <h1 class="text-8xl font-extrabold text-red-600">{{ '403'|e }}</h1>
     <p class="text-2xl text-gray-700 mt-6">Oups ! Vous n'avez pas accès à cette page.</p>
     <p class="text-gray-500 mt-2">Vous ne possédez pas les permissions nécessaires pour afficher cette page.</p>
 
     <!-- Ajout d'une image ou d'un GIF -->
     <div class="mt-8">
-        <img src="{{ asset('img/access-denied-403.gif') }}" alt="Accès interdit" class="w-64 h-auto">
+        <video autoplay loop muted playsinline class="w-64 h-auto">
+        <source src="{{ asset('img/access-denied-403.webm') }}" type="video/webm">
+        <source src="{{ asset('img/access-denied-403.mp4') }}" type="video/mp4">
+        Votre navigateur ne supporte pas la vidéo.
+        </video>
     </div>
 
     <!-- Boutons d'action -->
@@ -28,9 +32,8 @@
     {% if not app.user %}
     <div class="mt-6">
      <a href="{{ path('app_login') }}" class="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-all duration-300">
-    Se connecter
-</a>
-
+        Se connecter
+    </a>
     </div>
     {% endif %}
 </div>

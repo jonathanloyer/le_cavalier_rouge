@@ -17,7 +17,7 @@
 	Accédez aux feuilles de match du Club d'Échecs Le Cavalier Rouge : consultez, modifiez et créez des matchs officiels.
 {% endblock %}
 {% block og_image %}
-	{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}
+	{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}
 {% endblock %}
 {% block og_type %}website
 {% endblock %}
@@ -29,7 +29,7 @@
 	Consultez ou créez une feuille de match pour les tournois d’échecs de notre club.
 {% endblock %}
 {% block twitter_image %}
-	{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}
+	{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}
 {% endblock %}
 {% block twitter_card %}summary_large_image
 {% endblock %}
@@ -57,8 +57,8 @@
 		{# Je crée un h3 avec taille 2xl, gras (font-bold), centré, marge-basse (mb-8). #}
 		<h1 class="text-2xl font-bold text-center mb-8">
 			Bonjour
-			{{ app.user.lastName }}
-			{{ app.user.firstName }}
+			{{ app.user.lastName|e }}
+			{{ app.user.firstName|e }}
 		</h1>
 		{# Sous-titre (h2) centré, texte gris, taille (text-lg), marge-basse (mb-8). #}
 		<h2 class="text-center text-lg text-gray-600 mb-8">Que souhaitez-vous faire ?</h2>

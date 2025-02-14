@@ -14,13 +14,14 @@ class LoginController extends AbstractController
     #[Route('/login', name: 'app_login')]
 public function login(Request $request, AuthenticationUtils $authenticationUtils):Response
 {
-      // Vérifie si l'utilisateur est déjà authentifié
-      if ($this->isGranted('ROLE_ADMIN')) {
-        return $this->redirectToRoute('app_admin'); // Redirige les administrateurs vers le tableau de bord
-    }
+    if ($this->getUser()) {  // Vérifier si l'utilisateur est déjà authentifié
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_admin'); // Rediriger les admins vers le tableau de bord
+        }
 
-    if ($this->isGranted('ROLE_USER')) {
-        return $this->redirectToRoute('app_profile'); // Redirige les utilisateurs standards vers leur profil
+        if ($this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('app_profile'); // Rediriger les utilisateurs vers leur profil
+        }
     }
     // je test les erreurs de connexion
     $error = $authenticationUtils->getLastAuthenticationError();

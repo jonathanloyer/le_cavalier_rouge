@@ -16,28 +16,29 @@ class AuthController extends AbstractController
     #[Route('/inscription', name: 'app_inscription')]
     public function inscription(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
-        $newuser = new User();
-        $form = $this->createForm(InscriptionType::class, $newuser);
+        $newuser = new User(); // Création d’un nouvel utilisateur
+        $form = $this->createForm(InscriptionType::class, $newuser); // Création du formulaire
 
-        $form->handleRequest($request);
+        $form->handleRequest($request); // Traitement de la requête
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) { // Si le formulaire est soumis et valide
             // Hashage du mot de passe
-            $hashedPassword = $passwordHasher->hashPassword($newuser, $form->get('password')->get('first')->getData());
-            $newuser->setPassword($hashedPassword);
-            $newuser->setRoles(['ROLE_USER']);
-            $newuser->setActive(true);
+            $hashedPassword = $passwordHasher->hashPassword($newuser, $form->get('password')->get('first')->getData()); // Récupération du mot de passe
+            $newuser->setPassword($hashedPassword); // Définition du mot de passe hashé
+            $newuser->setRoles(['ROLE_USER']); // Attribution du rôle ROLE_USER
+            $newuser->setActive(true); // Activation du compte
 
             // Sauvegarde en base
-            $entityManager->persist($newuser);
-            $entityManager->flush();
+            $entityManager->persist($newuser); // Préparation de la sauvegarde
+            $entityManager->flush(); // Sauvegarde
 
+            // Redirection vers la page de connexion
             $this->addFlash('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_login'); 
         }
-
+        
         return $this->render('pages/auth/index.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form->createView(), // Transmission du formulaire à la vue
         ]);
     }
 
