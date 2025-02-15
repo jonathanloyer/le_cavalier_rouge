@@ -6,17 +6,17 @@
 Découvrez comment nous collectons, utilisons et protégeons vos données personnelles conformément au Règlement Général sur la Protection des Données (RGPD).
 {% endblock %}
 
-{% block og_title %}
-Règlement Général sur la Protection des Données - Club d'Échecs Le Cavalier Rouge
-{% endblock %}
+{# Open Graph (Facebook, LinkedIn) #}
+{% block og_title %}Règlement Général sur la Protection des Données - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block og_description %}Consultez notre politique de confidentialité et notre utilisation des cookies pour protéger vos données personnelles conformément au RGPD.{% endblock %}
+{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
+{% block og_type %}website{% endblock %}
 
-{% block og_description %}
-Consultez notre politique de confidentialité et notre utilisation des cookies pour protéger vos données personnelles conformément au RGPD.
-{% endblock %}
-
-{% block og_image %}
-{{ asset('img/echiquier-strategie-jeu-echecs.jpg') }}
-{% endblock %}
+{# Twitter Cards #}
+{% block twitter_title %}Règlement Général sur la Protection des Données - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block twitter_description %}Découvrez comment nous protégeons vos données personnelles conformément au RGPD.{% endblock %}
+{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
+{% block twitter_card %}summary_large_image{% endblock %}
 
 {% block body %}
 <div class="container mx-auto p-6 bg-white shadow-md rounded-lg">

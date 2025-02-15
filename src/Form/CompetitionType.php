@@ -36,7 +36,7 @@ class CompetitionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Competitions::class,
-            'csrf_protection' => true, // Activer la protection CSRF
+            'csrf_protection' => true,
         ]);
     }
 }

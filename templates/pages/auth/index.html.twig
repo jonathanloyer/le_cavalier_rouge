@@ -37,13 +37,16 @@
 				{% for type, messages in app.flashes %}
 					{% for message in messages %}
 						<div class="mb-4 {% if type == 'success' %}bg-green-100 border-green-500 text-green-700{% else %}bg-red-100 border-red-500 text-red-700{% endif %} border-l-4 p-4" data-test="flash-message">
-							<p>{{ message }}</p>
+							<p>{{ message|e }}</p>
 						</div>
 					{% endfor %}
 				{% endfor %}
 
 				<!-- Début du formulaire -->
 				{{ form_start(form, {'attr': {'class': 'space-y-4', 'id': 'form-inscription'}, 'method': 'POST'}) }}
+
+				{# CSRF token pour la sécurité #}
+				{{ form_row(form._token) }}
 
 				<!-- Affichage des erreurs globales -->
 				{% if form.vars.errors|length > 0 %}

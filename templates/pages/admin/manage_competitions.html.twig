@@ -82,7 +82,9 @@ un fond gris clair (bg-gray-100), et une hauteur minimale pleine (min-h-screen).
                                class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition text-center w-28">
                                 Modifier
                             </a>
-                            <form action="{{ path('admin_delete_competition', {'id': competition.id}) }}" method="POST">
+                            <form action="{{ path('admin_delete_competition', {'id': competition.id}) }}" method="POST">    <input type="hidden" name="_token" value="{{ csrf_token('delete_competition_' ~ competition.id) }}">
+
+                            
                                 <button type="submit"
                                         class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition text-center w-28"
                                         onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette compétition ?')">

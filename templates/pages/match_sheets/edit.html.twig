@@ -25,13 +25,13 @@
 				des bords arrondis (rounded), une ombre (shadow),
 				une marge-basse (mb-4) et une petite taille de police (text-sm). #}
 				<div class="bg-white p-4 rounded shadow mb-4 text-sm"> <label class="block mt-4 mb-2 text-gray-700">Interclub :</label>
-				<input type="text" id="interclub" name="interclub" readonly value="{{ interclub }}" class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
+				<input type="text" id="interclub" name="interclub" readonly value="{{ interclub|e }}" class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
 
 				<label class="block mt-4 mb-2 text-gray-700">Division :</label>
-				<input type="text" id="division" name="division" readonly value="{{ division }}" class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
+				<input type="text" id="division" name="division" readonly value="{{ division|e }}" class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
 
 				<label class="block mt-4 mb-2 text-gray-700">Groupe :</label>
-				<input type="text" id="groupe" name="groupe" readonly value="{{ groupe }}" class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
+				<input type="text" id="groupe" name="groupe" readonly value="{{ groupe|e }}" class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
 			</div>
 
 			<!-- Titre -->
@@ -40,7 +40,7 @@
 			une marge en bas (mb-2) et une petite taille de police (text-sm). #}
 			<div class="bg-orange-500 text-white text-center font-bold py-2 mb-2 text-sm">
 				Modification de la Feuille de Match - Groupe :
-				<span>{{ feuilleMatch.groupe }}</span>
+				<span>{{ feuilleMatch.groupe|e }}</span>
 			</div>
 
 			<!-- Table des joueurs -->
@@ -79,7 +79,7 @@
 									<select name="clubA" class="w-full border border-gray-300 rounded px-2 py-1">
 										{% for club in clubs %}
 											<option value="{{ club.id }}" {% if club.id == feuilleMatch.clubA.id %} selected {% endif %}>
-												{{ club.name }}
+												{{ club.name|e }}
 											</option>
 										{% endfor %}
 									</select>
@@ -90,10 +90,10 @@
 									<select name="joueursA[]" class="w-full border border-gray-300 rounded px-2 py-1">
 										{% for user in joueursA %}
 											<option value="{{ user.id }}" {% if joueursSelectionnesA[i]|default(null) and joueursSelectionnesA[i].id == user.id %} selected {% endif %}>
-												{{ user.codeFFE }}
+												{{ user.codeFFE|e }}
 												-
-												{{ user.lastName }}
-												{{ user.firstName }}
+												{{ user.lastName|e }}
+												{{ user.firstName|e }}
 											</option>
 										{% endfor %}
 									</select>
@@ -119,10 +119,10 @@
 									<select name="joueursB[]" class="w-full border border-gray-300 rounded px-2 py-1">
 										{% for user in joueursB %}
 											<option value="{{ user.id }}" {% if joueursSelectionnesB[i]|default(null) and joueursSelectionnesB[i].id == user.id %} selected {% endif %}>
-												{{ user.codeFFE }}
+												{{ user.codeFFE|e }}
 												-
-												{{ user.lastName }}
-												{{ user.firstName }}
+												{{ user.lastName|e }}
+												{{ user.firstName|e }}
 											</option>
 										{% endfor %}
 									</select>
@@ -133,7 +133,7 @@
 									<select name="clubB" class="w-full border border-gray-300 rounded px-2 py-1">
 										{% for club in clubs %}
 											<option value="{{ club.id }}" {% if club.id == feuilleMatch.clubB.id %} selected {% endif %}>
-												{{ club.name }}
+												{{ club.name|e }}
 											</option>
 										{% endfor %}
 									</select>
@@ -150,13 +150,13 @@
 								<select id="capitaineA" name="capitaineA" class="border border-gray-300 rounded px-2 py-1">
 									<option value="" disabled>Code FFE - Capitaine équipe A</option>
 									{% for club in clubs %}
-										<optgroup label="{{ club.name }}">
+										<optgroup label="{{ club.name|e }}">
 											{% for user in club.users %}
 												<option value="{{ user.id }}" {% if capitainesEtArbitre.capitaineA and user.id == capitainesEtArbitre.capitaineA.id %} selected {% endif %}>
-													{{ user.codeFFE }}
+													{{ user.codeFFE|e }}
 													-
-													{{ user.lastName }}
-													{{ user.firstName }}
+													{{ user.lastName|e }}
+													{{ user.firstName|e }}
 												</option>
 											{% endfor %}
 										</optgroup>
@@ -169,13 +169,13 @@
 								<select id="capitaineB" name="capitaineB" class="border border-gray-300 rounded px-2 py-1">
 									<option value="" disabled>Code FFE - Capitaine équipe B</option>
 									{% for club in clubs %}
-										<optgroup label="{{ club.name }}">
+										<optgroup label="{{ club.name|e }}">
 											{% for user in club.users %}
 												<option value="{{ user.id }}" {% if capitainesEtArbitre.capitaineB and user.id == capitainesEtArbitre.capitaineB.id %} selected {% endif %}>
 													{{ user.codeFFE }}
 													-
-													{{ user.lastName }}
-													{{ user.firstName }}
+													{{ user.lastName|e }}
+													{{ user.firstName|e }}
 												</option>
 											{% endfor %}
 										</optgroup>
@@ -192,13 +192,13 @@
 								<select id="arbitre" name="arbitre" class="border border-gray-300 rounded px-2 py-1">
 									<option value="" disabled>Code FFE - joueur arbitre</option>
 									{% for club in clubs %}
-										<optgroup label="{{ club.name }}">
+										<optgroup label="{{ club.name|e }}">
 											{% for user in club.users %}
 												<option value="{{ user.id }}" {% if capitainesEtArbitre.arbitre and user.id == capitainesEtArbitre.arbitre.id %} selected {% endif %}>
-													{{ user.codeFFE }}
+													{{ user.codeFFE|e }}
 													-
-													{{ user.lastName }}
-													{{ user.firstName }}
+													{{ user.lastName|e }}
+													{{ user.firstName|e }}
 												</option>
 											{% endfor %}
 										</optgroup>

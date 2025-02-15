@@ -57,7 +57,7 @@ Ajoutez ou supprimez des utilisateurs et attribuez les rôles dans le Club d'Éc
                         Modifier
                     </a>
                     <form action="{{ path('admin_delete_user', {'id': user.id}) }}" method="POST" class="inline">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete_user' ~ user.id) }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete_user_' ~ user.id) }}">
                         <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-300 text-center text-sm">
                             Supprimer
                         </button>

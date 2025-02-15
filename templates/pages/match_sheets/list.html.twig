@@ -55,12 +55,12 @@
 
 							{# J’affiche le nom du Club A ou « Non défini » #}
 							<td class="border border-gray-300 p-2">
-								{{ feuille.clubA ? feuille.clubA.name : 'Non défini' }}
+								{{ feuille.clubA ? feuille.clubA.name|e : 'Non défini' }}
 							</td>
 
 							{# J’affiche le nom du Club B ou « Non défini » #}
 							<td class="border border-gray-300 p-2">
-								{{ feuille.clubB ? feuille.clubB.name : 'Non défini' }}
+								{{ feuille.clubB ? feuille.clubB.name|e : 'Non défini' }}
 							</td>
 
 							{# J’affiche la date en format jj/mm/aaaa #}

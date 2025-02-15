@@ -58,7 +58,7 @@ class MatchSheetType extends AbstractType
         $resolver->setDefaults([
             // Configurez les options du formulaire ici
             'data_class' => null, // Pas d'entité liée pour l'instant
-            'csrf_protection' => true, // Activer la protection CSRF
+            "csrf_protection" =>true, // Désactivez la protection CSRF
         ]);
     }
 }
