@@ -8,10 +8,20 @@ class ContactTest extends KernelTestCase
 {
     private DocumentManager $dm;
 
+    protected static function getKernelClass(): string
+    {
+        return \App\Kernel::class;
+    }
+
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->dm = static::getContainer()->get(DocumentManager::class);
+
+        if (method_exists(self::class, 'getContainer')) {
+            $this->dm = self::getContainer()->get(DocumentManager::class);
+        } else {
+            $this->dm = self::$kernel->getContainer()->get(DocumentManager::class);
+        }
 
         // Forcer l'utilisation d'une base de test temporaire
         $this->dm->getConfiguration()->setDefaultDB('le_cavalier_rouge_test');
@@ -47,4 +57,3 @@ class ContactTest extends KernelTestCase
         $this->dm->getDocumentCollection(Contact::class)->drop();
     }
 }
-//                 ->setCreatedAt(new \DateTime());
