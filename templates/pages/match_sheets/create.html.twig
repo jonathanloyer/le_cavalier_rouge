@@ -18,7 +18,7 @@
         {% for typeMsg, messages in app.flashes %}
             {% for msg in messages %}
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4" role="alert">
-                    {{ msg }}
+                    {{ msg|e}}
                 </div>
             {% endfor %}
         {% endfor %}
@@ -94,7 +94,7 @@
 									<select name="clubA" class="w-full border border-gray-300 rounded px-2 py-1">
 										<option value="" disabled selected>Sélectionnez un club</option>
 										{% for club in clubs %}
-											<option value="{{ club.id }}">{{ club.name }}</option>
+											<option value="{{ club.id }}">{{ club.name|e }}</option>
 										{% endfor %}
 									</select>
 								</td>
@@ -104,13 +104,13 @@
 									<select name="joueursA[]" class="w-full border border-gray-300 rounded px-2 py-1">
 										<option value="" disabled selected>Code FFE - joueur de club</option>
 										{% for club in clubs %}
-											<optgroup label="{{ club.name }}">
+											<optgroup label="{{ club.name|e }}">
 												{% for user in club.users %}
 													<option value="{{ user.id }}">
-														{{ user.codeFFE }}
+														{{ user.codeFFE|e }}
 														-
-														{{ user.lastName }}
-														{{ user.firstName }}
+														{{ user.lastName|e }}
+														{{ user.firstName|e }}
 													</option>
 												{% else %}
 													<option disabled>Aucun joueur disponible</option>
@@ -135,13 +135,13 @@
 									<select name="joueursB[]" class="w-full border border-gray-300 rounded px-2 py-1">
 										<option value="" disabled selected>Code FFE - joueur de club</option>
 										{% for club in clubs %}
-											<optgroup label="{{ club.name }}">
+											<optgroup label="{{ club.name|e }}">
 												{% for user in club.users %}
 													<option value="{{ user.id }}">
-														{{ user.codeFFE }}
+														{{ user.codeFFE|e  }}
 														-
-														{{ user.lastName }}
-														{{ user.firstName }}
+														{{ user.lastName|e  }}
+														{{ user.firstName|e  }}
 													</option>
 												{% else %}
 													<option disabled>Aucun joueur disponible</option>
@@ -156,7 +156,7 @@
 									<select name="clubB" class="w-full border border-gray-300 rounded px-2 py-1">
 										<option value="" disabled selected>Sélectionnez un club</option>
 										{% for club in clubs %}
-											<option value="{{ club.id }}">{{ club.name }}</option>
+											<option value="{{ club.id }}">{{ club.name|e  }}</option>
 										{% endfor %}
 									</select>
 								</td>
@@ -172,13 +172,13 @@
 								<select id="capitaineA" name="capitaineA" class="border border-gray-300 rounded px-2 py-1">
 									<option value="" disabled selected>Code FFE - Capitaine équipe A</option>
 									{% for club in clubs %}
-										<optgroup label="{{ club.name }}">
+										<optgroup label="{{ club.name|e  }}">
 											{% for user in club.users %}
 												<option value="{{ user.id }}">
-													{{ user.codeFFE }}
+													{{ user.codeFFE|e  }}
 													-
-													{{ user.lastName }}
-													{{ user.firstName }}
+													{{ user.lastName|e  }}
+													{{ user.firstName|e  }}
 												</option>
 											{% endfor %}
 										{% endfor %}
@@ -191,13 +191,13 @@
 								<select id="capitaineB" name="capitaineB" class="border border-gray-300 rounded px-2 py-1">
 									<option value="" disabled selected>Code FFE - Capitaine équipe B</option>
 									{% for club in clubs %}
-										<optgroup label="{{ club.name }}">
+										<optgroup label="{{ club.name|e  }}">
 											{% for user in club.users %}
 												<option value="{{ user.id }}">
-													{{ user.codeFFE }}
+													{{ user.codeFFE|e  }}
 													-
-													{{ user.lastName }}
-													{{ user.firstName }}
+													{{ user.lastName|e  }}
+													{{ user.firstName|e  }}
 												</option>
 											{% endfor %}
 										{% endfor %}
@@ -215,13 +215,13 @@
 								<select id="arbitre" name="arbitre" class="border border-gray-300 rounded px-2 py-1">
 									<option value="" disabled selected>Code FFE - joueur arbitre</option>
 									{% for club in clubs %}
-										<optgroup label="{{ club.name }}">
+										<optgroup label="{{ club.name|e  }}">
 											{% for user in club.users %}
 												<option value="{{ user.id }}">
-													{{ user.codeFFE }}
+													{{ user.codeFFE|e  }}
 													-
-													{{ user.lastName }}
-													{{ user.firstName }}
+													{{ user.lastName|e  }}
+													{{ user.firstName|e  }}
 												</option>
 											{% endfor %}
 										{% endfor %}

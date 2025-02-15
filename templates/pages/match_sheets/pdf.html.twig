@@ -172,13 +172,13 @@
         {# J'affiche les infos générales dans une box blanche #}
         <div class="box">
             <label>Interclub :</label>
-            <input type="text" readonly value="{{ feuilleMatch.interclub }}">
+            <input type="text" readonly value="{{ feuilleMatch.interclub|e }}">
 
             <label>Division :</label>
-            <input type="text" readonly value="{{ feuilleMatch.type }}">
+            <input type="text" readonly value="{{ feuilleMatch.type|e }}">
 
             <label>Groupe :</label>
-            <input type="text" readonly value="{{ feuilleMatch.groupe }}">
+            <input type="text" readonly value="{{ feuilleMatch.groupe|e }}">
 
             <label>Date du Match :</label>
             <input type="text" readonly value="{{ feuilleMatch.dateMatch|date('d/m/Y') }}">
@@ -186,7 +186,7 @@
 
         {# J'affiche un titre orange indiquant le groupe #}
         <div class="title-bar">
-            Feuille de Match - Groupe : {{ feuilleMatch.groupe }}
+            Feuille de Match - Groupe : {{ feuilleMatch.groupe|e }}
         </div>
 
         {# J'affiche le tableau des joueurs, en lecture seule #}
@@ -217,7 +217,7 @@
                         <td>{{ clubA ? clubA.name : 'Non défini' }}</td>
                         <td>
                             {% if joueursA[i] is defined %}
-                                {{ joueursA[i].codeFFE }} - {{ joueursA[i].lastName }} {{ joueursA[i].firstName }}
+                                {{ joueursA[i].codeFFE|e }} - {{ joueursA[i].lastName|e }} {{ joueursA[i].firstName|e }}
                             {% else %}
                                 Non défini
                             {% endif %}
@@ -225,12 +225,12 @@
                         <td>{{ resultats[i]|default('Non défini') }}</td>
                         <td>
                             {% if joueursB[i] is defined %}
-                                {{ joueursB[i].codeFFE }} - {{ joueursB[i].lastName }} {{ joueursB[i].firstName }}
+                                {{ joueursB[i].codeFFE|e }} - {{ joueursB[i].lastName|e }} {{ joueursB[i].firstName|e }}
                             {% else %}
                                 Non défini
                             {% endif %}
                         </td>
-                        <td>{{ clubB ? clubB.name : 'Non défini' }}</td>
+                        <td>{{ clubB ? clubB.name|e : 'Non défini' }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -252,13 +252,13 @@
                         <td>Capitaine équipe A</td>
                         <td>
                             {{ capitainesEtArbitre.capitaineA 
-                                ? capitainesEtArbitre.capitaineA.codeFFE 
+                                ? capitainesEtArbitre.capitaineA.codeFFE|e 
                                 : 'Non défini'
                             }}
                         </td>
                         <td>
                             {{ capitainesEtArbitre.capitaineA 
-                                ? (capitainesEtArbitre.capitaineA.lastName ~ ' ' ~ capitainesEtArbitre.capitaineA.firstName)
+                                ? (capitainesEtArbitre.capitaineA.lastName|e ~ ' ' ~ capitainesEtArbitre.capitaineA.firstName|e)
                                 : 'Non défini'
                             }}
                         </td>
@@ -267,13 +267,13 @@
                         <td>Capitaine équipe B</td>
                         <td>
                             {{ capitainesEtArbitre.capitaineB 
-                                ? capitainesEtArbitre.capitaineB.codeFFE 
+                                ? capitainesEtArbitre.capitaineB.codeFFE|e 
                                 : 'Non défini'
                             }}
                         </td>
                         <td>
                             {{ capitainesEtArbitre.capitaineB 
-                                ? (capitainesEtArbitre.capitaineB.lastName ~ ' ' ~ capitainesEtArbitre.capitaineB.firstName)
+                                ? (capitainesEtArbitre.capitaineB.lastName|e ~ ' ' ~ capitainesEtArbitre.capitaineB.firstName|e)
                                 : 'Non défini'
                             }}
                         </td>
@@ -282,13 +282,13 @@
                         <td>Arbitre</td>
                         <td>
                             {{ capitainesEtArbitre.arbitre 
-                                ? capitainesEtArbitre.arbitre.codeFFE 
+                                ? capitainesEtArbitre.arbitre.codeFFE|e 
                                 : 'Non défini'
                             }}
                         </td>
                         <td>
                             {{ capitainesEtArbitre.arbitre 
-                                ? (capitainesEtArbitre.arbitre.lastName ~ ' ' ~ capitainesEtArbitre.arbitre.firstName)
+                                ? (capitainesEtArbitre.arbitre.lastName|e ~ ' ' ~ capitainesEtArbitre.arbitre.firstName|e)
                                 : 'Non défini'
                             }}
                         </td>

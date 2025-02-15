@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Document\Contact;
+use App\Form\ContactType;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,25 +16,21 @@ class ContactController extends AbstractController
     #[Route('/contactez-nous', name: 'public_contact_form', methods: ['GET', 'POST'])]
     public function publicContact(Request $request, DocumentManager $dm): Response
     {
+        // Créer une instance de Contact
+        $contact = new Contact();
+
+        // Créer le formulaire en utilisant le formulaire ContactType
+        $form = $this->createForm(ContactType::class, $contact);
+
+        // Traitement du formulaire
         if ($request->isMethod('POST')) {
-            $name = $request->request->get('name');
-            $email = $request->request->get('email');
-            $message = $request->request->get('message');
+            $form->handleRequest($request);
 
-            // Validation des champs
-            if (empty($name) || empty($email) || empty($message)) {
-                $this->addFlash('error', 'Tous les champs doivent être remplis.');
-            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $this->addFlash('error', 'Adresse email invalide.');
-            } elseif (strlen($name) > 100 || strlen($message) > 1000) {
-                $this->addFlash('error', 'Le nom ou le message est trop long.');
-            } else {
-                $contact = new Contact();
-                $contact->setName($name)
-                        ->setEmail($email)
-                        ->setMessage($message)
-                        ->setCreatedAt(new \DateTime());
+            // Validation du formulaire et enregistrement des données
+            if ($form->isSubmitted() && $form->isValid()) {
+                $contact->setCreatedAt(new \DateTime());
 
+                // Persister l'objet Contact dans la base de données MongoDB
                 $dm->persist($contact);
                 $dm->flush();
 
@@ -42,31 +39,29 @@ class ContactController extends AbstractController
             }
         }
 
-        return $this->render('pages/contact/contact_form.html.twig');
+        return $this->render('pages/contact/contact_form.html.twig', [
+            'form' => $form->createView(),  // Passer la vue du formulaire à Twig
+        ]);
     }
 
     #[Route('/admin/contacts', name: 'admin_manage_contacts', methods: ['GET', 'POST'])]
     public function manageContacts(Request $request, DocumentManager $dm): Response
     {
+        // Créer une instance de Contact
+        $contact = new Contact();
+
+        // Créer le formulaire en utilisant le formulaire ContactType
+        $form = $this->createForm(ContactType::class, $contact);
+
+        // Traitement du formulaire
         if ($request->isMethod('POST')) {
-            $name = $request->request->get('name');
-            $email = $request->request->get('email');
-            $message = $request->request->get('message');
+            $form->handleRequest($request);
 
-            // Validation des champs
-            if (empty($name) || empty($email) || empty($message)) {
-                $this->addFlash('error', 'Tous les champs doivent être remplis.');
-            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $this->addFlash('error', 'Adresse email invalide.');
-            } elseif (strlen($name) > 100 || strlen($message) > 1000) {
-                $this->addFlash('error', 'Le nom ou le message est trop long.');
-            } else {
-                $contact = new Contact();
-                $contact->setName($name)
-                        ->setEmail($email)
-                        ->setMessage($message)
-                        ->setCreatedAt(new \DateTime());
+            // Validation du formulaire et enregistrement des données
+            if ($form->isSubmitted() && $form->isValid()) {
+                $contact->setCreatedAt(new \DateTime());
 
+                // Persister l'objet Contact dans la base de données MongoDB
                 $dm->persist($contact);
                 $dm->flush();
 
@@ -75,11 +70,12 @@ class ContactController extends AbstractController
             }
         }
 
-        // Récupération de tous les contacts depuis MongoDB
+        // Récupérer tous les contacts depuis MongoDB
         $contacts = $dm->getRepository(Contact::class)->findAll();
 
         return $this->render('pages/admin/manage_contacts.html.twig', [
             'contacts' => $contacts,
+            'form' => $form->createView(), // Passer la vue du formulaire à Twig
         ]);
     }
 

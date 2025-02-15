@@ -6,17 +6,18 @@
 Consultez les mentions légales du site du Club d'Échecs Le Cavalier Rouge pour plus d'informations sur l'éditeur, l'hébergement et le contact.
 {% endblock %}
 
-{% block og_title %}
-Mentions Légales - Club d'Échecs Le Cavalier Rouge
-{% endblock %}
+{# Open Graph (Facebook, LinkedIn) #}
+{% block og_title %}Mentions Légales - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block og_description %}Découvrez les mentions légales du site du Club d'Échecs Le Cavalier Rouge, incluant les informations sur l'éditeur, l'hébergement et le contact.{% endblock %}
+{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
+{% block og_type %}website{% endblock %}
 
-{% block og_description %}
-Découvrez les mentions légales du site du Club d'Échecs Le Cavalier Rouge, incluant les informations sur l'éditeur, l'hébergement et le contact.
-{% endblock %}
+{# Twitter Cards #}
+{% block twitter_title %}Mentions Légales - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block twitter_description %}Retrouvez les informations légales du Club d'Échecs Le Cavalier Rouge, l'hébergement et les contacts.{% endblock %}
+{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
+{% block twitter_card %}summary_large_image{% endblock %}
 
-{% block og_image %}
-{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}
-{% endblock %}
 
 {% block body %}
 <div class="container mx-auto p-6 bg-white shadow-md rounded-lg">
@@ -37,7 +38,8 @@ Découvrez les mentions légales du site du Club d'Échecs Le Cavalier Rouge, in
 
         <div>
             <h2 class="text-lg font-semibold text-gray-700">Contact</h2>
-            <p class="text-gray-600"><strong>Email :</strong> <a href="mailto:riou.luc@cavalier-rouge.fr" class="text-blue-500 hover:underline">riou.luc@cavalier-rouge.fr</a></p>
+            <p class="text-gray-600"><strong>Email :</strong>
+             <a href="mailto:riou.luc@cavalier-rouge.fr" class="text-blue-500 hover:underline">riou.luc@cavalier-rouge.fr</a></p>
             <p class="text-gray-600"><strong>Téléphone :</strong> 06 10 78 55 12</p>
         </div>
     </div>

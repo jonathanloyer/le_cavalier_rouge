@@ -26,7 +26,7 @@
     <div class="bg-white p-4 rounded shadow mb-4 text-sm">
         {# Je mets un label et un champ lecture seule pour "Interclub" #}
         <label class="block mt-4 mb-2 text-gray-700">Interclub :</label>
-        <input type="text" readonly value="{{ feuilleMatch.interclub }}"
+        <input type="text" readonly value="{{ feuilleMatch.interclub|e }}"
                class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
         {# 
           - w-full => je fais prendre tout l'espace horizontal 
@@ -38,12 +38,12 @@
 
         {# Je mets un label et un champ lecture seule pour la "Division" #}
         <label class="block mt-4 mb-2 text-gray-700">Division :</label>
-        <input type="text" readonly value="{{ feuilleMatch.type }}"
+        <input type="text" readonly value="{{ feuilleMatch.type|e }}"
                class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
 
         {# Je mets un label et un champ lecture seule pour le "Groupe" #}
         <label class="block mt-4 mb-2 text-gray-700">Groupe :</label>
-        <input type="text" readonly value="{{ feuilleMatch.groupe }}"
+        <input type="text" readonly value="{{ feuilleMatch.groupe|e }}"
                class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100">
 
         {# Je mets un label et un champ lecture seule pour la "Date du Match" #}
@@ -59,7 +59,7 @@
        une marge en bas (mb-2),
        et une petite taille de police (text-sm). #}
     <div class="bg-orange-500 text-white text-center font-bold py-2 mb-2 text-sm">
-        Feuille de Match - Groupe : <span>{{ feuilleMatch.groupe }}</span>
+        Feuille de Match - Groupe : <span>{{ feuilleMatch.groupe|e }}</span>
     </div>
 
     {# Je prévois un conteneur qui autorise le défilement horizontal si le tableau est trop large (overflow-x-auto) #}
@@ -102,13 +102,13 @@
 
                     {# Je montre le nom du Club A ou "Non défini" #}
                     <td class="border border-gray-300 p-1">
-                        {{ clubA ? clubA.name : 'Non défini' }}
+                        {{ clubA ? clubA.name|e : 'Non défini' }}
                     </td>
 
                     {# J'affiche Joueur A avec son codeFFE, ou "Non défini" #}
                     <td class="border border-gray-300 p-1">
                         {% if joueursA[i] is defined %}
-                            {{ joueursA[i].codeFFE }} - {{ joueursA[i].lastName }} {{ joueursA[i].firstName }}
+                            {{ joueursA[i].codeFFE|e }} - {{ joueursA[i].lastName|e }} {{ joueursA[i].firstName|e }}
                         {% else %}
                             Non défini
                         {% endif %}
@@ -122,7 +122,7 @@
                     {# J'affiche Joueur B avec son codeFFE, ou "Non défini" #}
                     <td class="border border-gray-300 p-1">
                         {% if joueursB[i] is defined %}
-                            {{ joueursB[i].codeFFE }} - {{ joueursB[i].lastName }} {{ joueursB[i].firstName }}
+                            {{ joueursB[i].codeFFE|e }} - {{ joueursB[i].lastName|e }} {{ joueursB[i].firstName|e }}
                         {% else %}
                             Non défini
                         {% endif %}
@@ -130,7 +130,7 @@
 
                     {# Je montre le nom du Club B ou "Non défini" #}
                     <td class="border border-gray-300 p-1">
-                        {{ clubB ? clubB.name : 'Non défini' }}
+                        {{ clubB ? clubB.name|e : 'Non défini' }}
                     </td>
                 </tr>
                 {% endfor %}
@@ -159,13 +159,13 @@
                     <td class="border border-gray-300 p-1 text-center">Capitaine équipe A</td>
                     <td class="border border-gray-300 p-1 text-center">
                         {{ capitainesEtArbitre.capitaineA
-                            ? capitainesEtArbitre.capitaineA.codeFFE
+                            ? capitainesEtArbitre.capitaineA.codeFFE|e
                             : 'Non défini'
                         }}
                     </td>
                     <td class="border border-gray-300 p-1 text-center">
                         {{ capitainesEtArbitre.capitaineA
-                            ? (capitainesEtArbitre.capitaineA.lastName ~ ' ' ~ capitainesEtArbitre.capitaineA.firstName)
+                            ? (capitainesEtArbitre.capitaineA.lastName|e ~ ' ' ~ capitainesEtArbitre.capitaineA.firstName|e)
                             : 'Non défini'
                         }}
                     </td>
@@ -176,13 +176,13 @@
                     <td class="border border-gray-300 p-1 text-center">Capitaine équipe B</td>
                     <td class="border border-gray-300 p-1 text-center">
                         {{ capitainesEtArbitre.capitaineB
-                            ? capitainesEtArbitre.capitaineB.codeFFE
+                            ? capitainesEtArbitre.capitaineB.codeFFE|e
                             : 'Non défini'
                         }}
                     </td>
                     <td class="border border-gray-300 p-1 text-center">
                         {{ capitainesEtArbitre.capitaineB
-                            ? (capitainesEtArbitre.capitaineB.lastName ~ ' ' ~ capitainesEtArbitre.capitaineB.firstName)
+                            ? (capitainesEtArbitre.capitaineB.lastName|e ~ ' ' ~ capitainesEtArbitre.capitaineB.firstName|e)
                             : 'Non défini'
                         }}
                     </td>
@@ -193,13 +193,13 @@
                     <td class="border border-gray-300 p-1 text-center">Arbitre</td>
                     <td class="border border-gray-300 p-1 text-center">
                         {{ capitainesEtArbitre.arbitre
-                            ? capitainesEtArbitre.arbitre.codeFFE
+                            ? capitainesEtArbitre.arbitre.codeFFE|e
                             : 'Non défini'
                         }}
                     </td>
                     <td class="border border-gray-300 p-1 text-center">
                         {{ capitainesEtArbitre.arbitre
-                            ? (capitainesEtArbitre.arbitre.lastName ~ ' ' ~ capitainesEtArbitre.arbitre.firstName)
+                            ? (capitainesEtArbitre.arbitre.lastName|e ~ ' ' ~ capitainesEtArbitre.arbitre.firstName|e)
                             : 'Non défini'
                         }}
                     </td>
@@ -221,11 +221,11 @@
            hover:bg-gray-700 => fond gris plus clair au survol
            transition => animation légère de transition au survol
         #}
-        <a href="{{ path('app_match_sheets_list') }}" class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition">
+        <a href="{{ path('app_match_sheets_list') }}" class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition" aria-label="Retour à la liste des feuilles de match">
             Retour à la liste
         </a>
         {# Je crée un deuxième lien pour télécharger la feuille en PDF #}
-        <a href="{{ path('app_match_sheets_download_pdf', {'id': feuilleMatch.id}) }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 transition">
+        <a href="{{ path('app_match_sheets_download_pdf', {'id': feuilleMatch.id}) }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 transition" aria-label="Télécharger la feuille de match en PDF">
             Télécharger en PDF
         </a>
     </div>

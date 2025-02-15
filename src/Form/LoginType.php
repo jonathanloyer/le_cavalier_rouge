@@ -58,6 +58,7 @@ class LoginType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => null, // Si ce formulaire n'est pas lié directement à l'entité User
+            'csrf_protection' => true,
         ]);
     }
 }

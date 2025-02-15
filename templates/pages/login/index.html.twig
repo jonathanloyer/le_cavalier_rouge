@@ -7,24 +7,18 @@ Connexion - Club d'Échecs Le Cavalier Rouge
 	{% block meta_description %}
 Connectez-vous à votre compte pour accéder aux fonctionnalités du Club d'Échecs Le Cavalier Rouge à Clamart.
 {% endblock %}
-	{% block og_title %}
-Connexion - Club d'Échecs Le Cavalier Rouge
-{% endblock %}
-	{% block og_description %}
-Identifiez-vous pour accéder à votre espace et participer aux tournois et événements d'échecs à Clamart et Meudon.
-{% endblock %}
-	{% block og_image %}
-{{ asset('img/login.jpg') }}
-{% endblock %}
-	{% block twitter_title %}
-Connexion - Club d'Échecs Le Cavalier Rouge
-{% endblock %}
-	{% block twitter_description %}
-Connectez-vous à votre compte et rejoignez notre communauté d’échecs !
-{% endblock %}
-	{% block twitter_image %}
-{{ asset('img/login.jpg') }}
-{% endblock %}
+
+	{# Open Graph (Facebook, LinkedIn) #}
+{% block og_title %}Connexion - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block og_description %}Identifiez-vous pour accéder à votre espace et participer aux tournois et événements d'échecs à Clamart et Meudon.{% endblock %}
+{% block og_image %}{{ asset('img/login.png') }}{% endblock %}
+{% block og_type %}website{% endblock %}
+
+{# Twitter Cards #}
+{% block twitter_title %}Connexion - Club d'Échecs Le Cavalier Rouge{% endblock %}
+{% block twitter_description %}Connectez-vous à votre compte et rejoignez notre communauté d’échecs !{% endblock %}
+{% block twitter_image %}{{ asset('img/login.png') }}{% endblock %}
+{% block twitter_card %}summary_large_image{% endblock %}
 
 {# J’ouvre le bloc "body" qui contiendra le contenu principal de cette page #}
 	{% block body %}

@@ -66,6 +66,7 @@ class UserType extends AbstractType
         // Je configure les options pour ce formulaire.
         $resolver->setDefaults([
             'data_class' => User::class, // Je lie ce formulaire à l’entité User.
+            'csrf_protection' => true, // Je protège ce formulaire contre les attaques CSRF.
         ]);
     }
 }

@@ -14,7 +14,7 @@ Gérez les utilisateurs du Club d'Échecs Le Cavalier Rouge : modification, supp
 {% block og_description %}
 Gérez les utilisateurs du Club d'Échecs Le Cavalier Rouge : modification, suppression et attribution des rôles.
 {% endblock %}
-{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
+{% block og_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
 {% block og_type %}website{% endblock %}
 
 {# SEO - Twitter Meta Tags (Twitter Cards) #}
@@ -22,7 +22,7 @@ Gérez les utilisateurs du Club d'Échecs Le Cavalier Rouge : modification, supp
 {% block twitter_description %}
 Ajoutez ou supprimez des utilisateurs et attribuez les rôles dans le Club d'Échecs Le Cavalier Rouge.
 {% endblock %}
-{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.JPEG') }}{% endblock %}
+{% block twitter_image %}{{ asset('img/echiquier-strategie-jeu-echecs.webp') }}{% endblock %}
 {% block twitter_card %}summary_large_image{% endblock %}
 
 {# Je commence le bloc "body" où se trouvera tout le contenu de cette page #}
@@ -35,7 +35,7 @@ Ajoutez ou supprimez des utilisateurs et attribuez les rôles dans le Club d'Éc
         <select id="userSelect" class="w-full p-2 border rounded" onchange="showUserCard(this.value)">
             <option value="">-- Choisissez un utilisateur --</option>
             {% for user in users %}
-                <option value="user-{{ user.id }}">{{ user.firstName }} {{ user.lastName }}</option>
+                <option value="user-{{ user.id }}">{{ user.firstName|e }} {{ user.lastName|e }}</option>
             {% endfor %}
         </select>
     </div>
@@ -45,11 +45,11 @@ Ajoutez ou supprimez des utilisateurs et attribuez les rôles dans le Club d'Éc
         {% for user in users %}
             <div id="user-{{ user.id }}" class="hidden border p-4 rounded-lg shadow-md">
                 <p><strong>ID:</strong> {{ user.id }}</p>
-                <p><strong>Email:</strong> {{ user.email }}</p>
-                <p><strong>Pseudo:</strong> {{ user.pseudo }}</p>
-                <p><strong>Nom:</strong> {{ user.lastName }}</p>
-                <p><strong>Prénom:</strong> {{ user.firstName }}</p>
-                <p><strong>Club:</strong> {{ user.club ? user.club.name : 'Aucun club' }}</p>
+                <p><strong>Email:</strong> {{ user.email|e }}</p>
+                <p><strong>Pseudo:</strong> {{ user.pseudo|e }}</p>
+                <p><strong>Nom:</strong> {{ user.lastName|e }}</p>
+                <p><strong>Prénom:</strong> {{ user.firstName|e }}</p>
+                <p><strong>Club:</strong> {{ user.club ? user.club.name|e : 'Aucun club' }}</p>
                 <p><strong>Actif:</strong> <span class="{{ user.active ? 'text-green-500' : 'text-red-500' }}">{{ user.active ? 'Oui' : 'Non' }}</span></p>
                 <p><strong>Créé le:</strong> {{ user.createdAt|date('d/m/Y H:i') }}</p>
                 <div class="flex flex-wrap gap-2 mt-2 justify-center">
@@ -57,6 +57,7 @@ Ajoutez ou supprimez des utilisateurs et attribuez les rôles dans le Club d'Éc
                         Modifier
                     </a>
                     <form action="{{ path('admin_delete_user', {'id': user.id}) }}" method="POST" class="inline">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete_user_' ~ user.id) }}">
                         <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-300 text-center text-sm">
                             Supprimer
                         </button>
