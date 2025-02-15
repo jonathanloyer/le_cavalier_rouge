@@ -13,14 +13,22 @@
 
 {% block body %}
 <div class="bg-gray-100">
+
+  <!-- Messages Flashs -->
+    {% for message in app.flashes('success') %}
+        <div class="flash-success bg-green-200 text-green-800 p-4 rounded-lg text-center my-4">
+            {{ message|e }}
+        </div>
+    {% endfor %}
+
     <!-- Bannière principale -->
     <div class="relative h-[300px] flex flex-col items-center justify-center">
         <h1 class="text-3xl md:text-5xl font-bold text-black text-center">
             Votre association à Clamart
         </h1>
         <p class="mt-4 text-gray-700 text-lg text-center px-6 md:px-12">
-            Créé en mai 2010, le club d’échecs du Cavalier Rouge a pour but de favoriser la pratique du jeu d’échecs à Clamart et dans ses environs, 
-            en proposant des cours pour enfants et adultes, en organisant aussi régulièrement des tournois et des manifestations autour du jeu d’échecs.
+            Le Cavalier Rouge, club d’échecs fondé en mai 2010, a pour mission de promouvoir le jeu d’échecs à Clamart et ses environs. Nous proposons des cours adaptés aux enfants et adultes, et organisons régulièrement des tournois ainsi que des événements autour de ce jeu stratégique. Notre objectif est de rendre le jeu d’échecs accessible à tous, en favorisant l'apprentissage et la convivialité. 
+
         </p>
     </div>
 
@@ -45,7 +53,8 @@
                     OBJECTIFS
                 </h2>
                 <p class="text-gray-700 text-lg leading-relaxed">
-                    La vocation du club est d’apprendre le jeu d’échecs aux enfants de Clamart et de leur proposer des compétitions adaptées à leur niveau et à leur âge, et de permettre aux joueurs adultes de s’épanouir dans ce sport.
+                    Le club a pour objectif d'enseigner le jeu d’échecs aux jeunes de Clamart, en leur offrant des cours et des compétitions adaptées à leur âge et à leur niveau. Nous visons également à accompagner les adultes passionnés, afin qu'ils puissent se perfectionner et s’épanouir pleinement dans ce sport de réflexions. 
+
                 </p>
             </div>
             <!-- Image à droite -->
@@ -74,7 +83,7 @@
                     MOYENS
                 </h2>
                 <p class="text-gray-700 text-lg leading-relaxed">
-                    Différents moyens sont mis en œuvre pour permettre la progression : des cours collectifs, l’utilisation de l’informatique, le suivi personnalisé, etc.
+                   Nous mettons en place diverses méthodes pour favoriser la progression des joueurs, telles que des cours en groupe, l’utilisation de ressources informatiques, ainsi qu’un suivi personnalisé adapté à chaque besoin.
                 </p>
                 <p class="text-gray-700 text-lg leading-relaxed mt-4">
                     Amitié, Convivialité, Respect et Plaisir sont les maîtres-mots du club.

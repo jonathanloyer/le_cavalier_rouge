@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
@@ -38,26 +39,26 @@ class ProfileType extends AbstractType
             ],
         ])
         ->add('lastName', TextType::class, [
-            'attr' => ['placeholder' => 'Choisissez un nom d\'utilisateur'],
+            'attr' => ['placeholder' => 'Entrez votre nom'],
             'constraints' => [
                 new NotBlank(['message' => 'Veuillez entrer un nom d\'utilisateur']),
                 new Length([
                     'min' => 3,
                     'max' => 50,
-                    'minMessage' => 'Votre pseudo doit comporter au moins {{ limit }} caractères',
-                    'maxMessage' => 'Votre pseudo ne peut pas dépasser {{ limit }} caractères',
+                    'minMessage' => 'Votre nom doit comporter au moins {{ limit }} caractères',
+                    'maxMessage' => 'Votre nom ne peut pas dépasser {{ limit }} caractères',
                 ]),
             ],
         ])
         ->add('firstName', TextType::class, [
-            'attr' => ['placeholder' => 'Choisissez un nom d\'utilisateur'],
+            'attr' => ['placeholder' => 'Entrez votre prénom'],
             'constraints' => [
                 new NotBlank(['message' => 'Veuillez entrer un nom d\'utilisateur']),
                 new Length([
                     'min' => 3,
                     'max' => 50,
-                    'minMessage' => 'Votre pseudo doit comporter au moins {{ limit }} caractères',
-                    'maxMessage' => 'Votre pseudo ne peut pas dépasser {{ limit }} caractères',
+                    'minMessage' => 'Votre prénom doit comporter au moins {{ limit }} caractères',
+                    'maxMessage' => 'Votre prénom ne peut pas dépasser {{ limit }} caractères',
                 ]),
             ],
         ])

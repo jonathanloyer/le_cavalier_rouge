@@ -18,15 +18,17 @@ class CompetitionsControllerTest extends WebTestCase
         $client->loginUser($this->createUser());
 
         // ✅ Accéder à la page de gestion des compétitions
-        $client->request('GET', '/admin/competitions');
+        $crawler = $client->request('GET', '/admin/competitions');
 
         // ✅ Vérifier que la réponse est un succès (200)
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Gérer les compétitions');
+        
+        // ✅ Vérifier que le H1 contient bien "Gestion des Compétitions"
+        $this->assertSelectorTextContains('h1', 'Gestion des Compétitions');
     }
 
     /**
-     * Vérifie que la liste des compétitions s'affiche correctement sans vérifier le statut.
+     * Vérifie que la liste des compétitions s'affiche correctement.
      */
     public function testCompetitionsList(): void
     {
@@ -43,9 +45,8 @@ class CompetitionsControllerTest extends WebTestCase
         // ✅ Accéder à la page des compétitions
         $crawler = $client->request('GET', '/admin/competitions');
 
-        // ✅ Vérifier la présence des compétitions sans tester le statut exact
-        $this->assertSelectorExists('table tr:nth-child(1) td:nth-child(1)');
-        $this->assertSelectorExists('table tr:nth-child(2) td:nth-child(1)');
+        // ✅ Vérifier la présence des compétitions sous forme de cartes (grid)
+        $this->assertSelectorExists('.grid .border.rounded-lg h3');
     }
 
     /**
@@ -91,7 +92,7 @@ class CompetitionsControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/admin/competitions');
 
         // ✅ Vérifier que la compétition est bien présente avant suppression
-        $this->assertSelectorExists('table tr td:contains("Test Compétition")');
+        $this->assertSelectorTextContains('.grid .border.rounded-lg h3', 'Test Compétition');
 
         // ✅ Supprimer la compétition
         $entityManager = static::getContainer()->get(EntityManagerInterface::class);

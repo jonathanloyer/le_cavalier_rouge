@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 class ContactController extends AbstractController
 {
     #[Route('/contactez-nous', name: 'public_contact_form', methods: ['GET', 'POST'])]
-    public function publicContact(Request $request, DocumentManager $dm): Response
+    public function publicContact(Request $request, DocumentManager $dm, LoggerInterface $logger): Response
     {
         // Créer une instance de Contact
         $contact = new Contact();
@@ -34,8 +34,14 @@ class ContactController extends AbstractController
                 $dm->persist($contact);
                 $dm->flush();
 
+                //la methode addFlash() permet d'ajouter un message flash
                 $this->addFlash('success', 'Votre message a été envoyé avec succès.');
-                return $this->redirectToRoute('public_contact_form');
+
+                // Enregistrement d'un message dans les logs afin de tracer l'envoi de message ce qui permet de savoir qui a envoyé le message
+                $logger->info("Nouveau message de contact envoyé par : " . $contact->getEmail());
+
+                // retourne à la page d'accueil
+                return $this->redirectToRoute('app_home');
             }
         }
 

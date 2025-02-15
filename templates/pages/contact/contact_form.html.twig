@@ -22,9 +22,10 @@
 
 {# ✅ Contenu principal #}
 {% block body %}
+
     <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
         <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Contactez-nous</h1>
-        <p class="text-gray-600 text-center mb-6">Nous sommes à votre écoute pour toute question sur nos tournois, nos cours ou votre adhésion.</p>
+        <p class="text-gray-600 text-center mb-6">Nous sommes à votre écoute pour toute question.</p>
 
         {# 🔔 Messages de succès ou d'erreur #}
         {% for message in app.flashes('success') %}

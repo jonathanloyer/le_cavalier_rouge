@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\ProfileType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -16,6 +17,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ProfileController extends AbstractController
 {
     #[Route('/profile', name: 'app_profile')]
+    #[IsGranted('ROLE_USER')]
     public function profile(
         Request $request,
         UserRepository $repo,

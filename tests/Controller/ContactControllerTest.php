@@ -6,64 +6,57 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ContactControllerTest extends WebTestCase
 {
-    /**
-     * Teste si la page de contact se charge correctement.
-     */
-    public function testPublicContactPageLoads(): void
+
+    private $client;
+
+    protected function setUp(): void
     {
-        // Crée un client HTTP pour simuler un navigateur
-        $client = static::createClient();
+        $this->client = static::createClient();
 
-        // Effectue une requête GET sur la page de contact
-        $crawler = $client->request('GET', '/contactez-nous');
-
-        // Vérifie que la réponse HTTP est un succès (code 200)
-        $this->assertResponseIsSuccessful();
-        
-        // Vérifie que le titre <h1> de la page est bien "Contactez-nous"
-        $this->assertSelectorTextContains('h1', 'Contactez-nous');
     }
 
-    /**
-     * Teste l'envoi du formulaire avec des champs vides.
-     */
     public function testPublicContactWithEmptyFields(): void
     {
-        // Crée un client HTTP
-        $client = static::createClient();
-        
-        // Envoie une requête POST sans aucune donnée
-        $crawler = $client->request('POST', '/contactez-nous', []);
 
-        // Vérifie que la page retourne bien une réponse HTML valide (pas d'erreur 500)
-        $this->assertResponseIsSuccessful();
+        $crawler = $this->client->request('GET', '/contactez-nous');
 
-        // Vérifie que le message d'erreur "Tous les champs doivent être remplis." apparaît bien
-        $this->assertSelectorTextContains('.flash-error', 'Tous les champs doivent être remplis.');
-    }
-
-    /**
-     * Teste l'envoi du formulaire avec des données valides.
-     */
-    public function testPublicContactWithValidData(): void
-    {
-        // Crée un client HTTP
-        $client = static::createClient();
-        
-        // Envoie une requête POST avec des données valides
-        $client->request('POST', '/contactez-nous', [
-            'name' => 'Jonathan Loyer',
-            'email' => 'jonathan@example.com',
-            'message' => 'Test message'
+        $form = $crawler->selectButton('Envoyer')->form([
+            'contact[name]' => '',
+            'contact[firstname]' => '',
+            'contact[email]' => '',
+            'contact[message]' => ''
         ]);
 
-        // Vérifie que la réponse est une redirection vers le formulaire après soumission
-        $this->assertResponseRedirects('/contactez-nous');
-        
-        // Suit la redirection pour afficher la page après soumission
-        $client->followRedirect();
+        $this->client->submit($form);
 
-        // Vérifie que le message de succès est bien affiché
+        // Vérification de la présence des erreurs dans le formulaire
+        $this->assertSelectorTextContains('form', 'Le nom est requis');
+        $this->assertSelectorTextContains('form', 'Le prénom est requis');
+        $this->assertSelectorTextContains('form', "L'email est requis");
+        $this->assertSelectorTextContains('form', 'Le message est requis');
+
+    }
+
+    public function testPublicContactWithValidData(): void
+    {
+
+        $crawler = $this->client->request('GET', '/contactez-nous');
+
+        $form = $crawler->selectButton('Envoyer')->form([
+            'contact[name]' => 'John',
+            'contact[firstname]' => 'Doe',
+            'contact[email]' => 'john.doe@example.com',
+            'contact[message]' => 'Ceci est un message de test.'
+        ]);
+
+        $this->client->submit($form);
+
+        // Vérification de la redirection après soumission (vers la page d'accueil)
+        $this->assertResponseRedirects($this->client->getContainer()->get('router')->generate('app_home'));
+
+        // Suivre la redirection et vérifier la présence du message de succès
+        $this->client->followRedirect();
         $this->assertSelectorTextContains('.flash-success', 'Votre message a été envoyé avec succès.');
+
     }
 }

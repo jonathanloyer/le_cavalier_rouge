@@ -23,7 +23,7 @@ security:
         # "app_login" le nom de la route pour le app_connexion
         login_path: app_login
         check_path: app_login
-
+        
         username_parameter: email
         password_parameter: password
 

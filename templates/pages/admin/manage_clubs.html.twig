@@ -45,8 +45,7 @@ Ajoutez, modifiez et supprimez les clubs affiliés au Club d'Échecs Le Cavalier
 			<div
 				class="flex items-center space-x-4">
 				{# Champ texte pour le nom du club #}
-				<input
-				type="text" name="name" placeholder="Nom du club" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:border-blue-300">
+				<input type="text" name="name" placeholder="Nom du club" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:border-blue-300">
 				{# Bouton "Ajouter" #}
 				<button type="submit" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-300">
 					Ajouter
@@ -89,6 +88,8 @@ Ajoutez, modifiez et supprimez les clubs affiliés au Club d'Échecs Le Cavalier
 
         <!-- Bouton Supprimer -->
         <form action="{{ path('admin_delete_club', {'id': club.id}) }}" method="POST">
+		    <input type="hidden" name="_token" value="{{ csrf_token('delete_club_' ~ club.id) }}">
+
             <button type="submit"
                     class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition duration-300"
                     onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce club ?')">
