@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="    Contactez le Club d'Échecs Le Cavalier Rouge pour toute question sur les tournois, les cours et les adhésions.
+">
+		<meta name="author" content="Le Cavalier Rouge">
+		<meta name="robots" content="index, follow">
+
+		<!-- Open Graph -->
+		<meta property="og:title" content="Contactez-nous - Club d'Échecs Le Cavalier Rouge">
+		<meta property="og:description" content="    Besoin d'informations sur nos compétitions et événements ? Contactez le Club d'Échecs Le Cavalier Rouge dès maintenant.
+">
+		<meta property="og:image" content="/img/echiquier-strategie-jeu-echecs.webp">
+		<meta property="og:type" content="website">
+
+		<!-- Twitter Cards -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="Contactez-nous - Club d'Échecs Le Cavalier Rouge">
+		<meta name="twitter:description" content="    Rejoignez la communauté du Club d'Échecs Le Cavalier Rouge. Contactez-nous pour en savoir plus sur nos activités.
+">
+		<meta name="twitter:image" content="/img/echiquier-strategie-jeu-echecs.webp">
+
+
+		<!-- Canonical URL (Position correcte pour le SEO) -->
+					<meta property="og:url" content="http://localhost/contactez-nous">
+			<link rel="canonical" href="http://localhost/contactez-nous">
+		
+
+		<!-- Ajouter le favicon -->
+		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin='anonymous'>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+
+		<title>
+			Contactez-nous - Club d'Échecs Le Cavalier Rouge		</title>
+
+					<!-- Lien vers le fichier CSS généré par Webpack Encore -->
+			<link rel="stylesheet" href="/build/assets_styles_app_css.css">
+							<script src="/build/runtime.js" defer></script><script src="/build/app.js" defer></script>
+			<script src="/build/cookies.js" defer></script>
+					
+	</head>
+	<body class="font-sans flex flex-col min-h-screen bg-gray-100" data-turbo="false">
+		<!-- Navbar -->
+		<nav class="navbar shared-navbar-footer text-white p-4 flex items-center justify-between fixed top-0 w-full z-50" style="height: 50px !important;">
+    <!-- Logo -->
+    <div class="flex items-center space-x-4">
+        <img src="/img/logo.png" alt="Logo de l'association Le Cavalier Rouge" class="h-8 w-auto">
+        <a href="/" class="text-white text-xl font-bold  sm:block">Le Cavalier Rouge</a>
+    </div>
+
+    <!-- Menu Burger -->
+    <button id="navbar-menu-button" aria-label="Ouvrir le menu" aria-expanded="false" class="md:hidden focus:outline-none">
+        <svg width="24" height="24" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="12" y2="12"/>
+            <line x1="4" x2="20" y1="6" y2="6"/>
+            <line x1="4" x2="20" y1="18" y2="18"/>
+        </svg>
+    </button>
+
+    <!-- Menu -->
+    <ul id="navbar-menu" class="hidden md:flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
+        <li><a href="/" class="text-lg hover:text-indigo-500 transition-colors duration-200">Accueil</a></li>
+                       <li><a href="/login" class="text-lg hover:text-indigo-500 transition-colors duration-200">Connexion</a></li>
+            <li><a href="/inscription" class="text-lg hover:text-indigo-500 transition-colors duration-200">Inscription</a></li>
+                
+                    <li><a href="/contactez-nous" class="text-lg hover:text-indigo-500 transition-colors duration-200">Contactez-nous</a></li>
+            </ul>
+</nav>
+
+<script>
+
+// ici J'ai ajouté le DOMContentLoaded pour que le script ne s'exécute que lorsque le DOM est chargé
+document.addEventListener('DOMContentLoaded', () => { 
+    const menuButton = document.querySelector('#navbar-menu-button'); // ici j'ai ajouté le # pour cibler l'élément par son id
+    const menu = document.querySelector('#navbar-menu'); // ici j'ai ajouté le # pour cibler l'élément par son id
+
+    if (!menuButton || !menu) {// ici j'ai ajouté une condition pour vérifier si le menuButton et le menu existent
+        console.error('Menu button or menu not found'); // ici j'ai ajouté un message d'erreur afin de savoir si le menuButton ou le menu n'existent pas
+        return;
+    }
+
+    menuButton.addEventListener('click', () => { // ici j'ai ajouté un écouteur d'événement pour le clic sur le menuButton
+
+        // ici j'ai ajouté une condition pour vérifier si le menu est ouvert ou fermé
+        const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'; 
+
+        // ici j'ai ajouté un attribut aria-expanded pour indiquer si le menu est ouvert ou fermé
+        menuButton.setAttribute('aria-expanded', !isExpanded);
+
+        // ici j'ai ajouté une classe open pour afficher ou masquer le menu
+        menu.classList.toggle('open');
+    });
+
+
+    // ici j'ai ajouté un écouteur d'événement pour le clic en dehors du menu
+    document.addEventListener('click', (event) => { 
+
+        // ici j'ai ajouté une condition pour vérifier si le clic est en dehors du menu et du menuButton
+        if (!menu.contains(event.target) && !menuButton.contains(event.target)) {
+
+            // ici j'ai ajouté un attribut aria-expanded pour indiquer que le menu est fermé
+            menuButton.setAttribute('aria-expanded', false);
+
+            // ici j'ai ajouté une classe open pour masquer le menu
+            menu.classList.remove('open');
+        }
+    });
+});
+</script>
+
+		<!-- Contenu principal -->
+		<main class="flex-grow container mx-auto p-6"> 
+    <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+        <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Contactez-nous</h1>
+        <p class="text-gray-600 text-center mb-6">Nous sommes à votre écoute pour toute question.</p>
+
+                        
+                <div class="max-w-lg mx-auto bg-white shadow rounded-lg p-6">
+            <form name="contact" method="post" class="space-y-4" id="contact-form">
+
+                        <div>
+                <label class="block text-sm font-medium text-gray-700 required" for="contact_name">Nom</label>
+                		<input type="text" id="contact_name" name="contact[name]" required="required" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" placeholder="Entrez votre nom" >
+
+                                    <div class="form-error-message text-red-600 font-semibold">
+                        <ul><li>Le nom est obligatoire.</li><li>Le nom est obligatoire.</li></ul>
+                    </div>
+                            </div>
+
+                        <div>
+                <label class="block text-sm font-medium text-gray-700 required" for="contact_firstname">Prénom</label>
+                		<input type="text" id="contact_firstname" name="contact[firstname]" required="required" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" placeholder="Entrez votre prénom" >
+
+                                    <div class="form-error-message text-red-600 font-semibold">
+                        <ul><li>Le prénom est obligatoire.</li><li>Le prénom est obligatoire.</li></ul>
+                    </div>
+                            </div>
+
+                        <div>
+                <label class="block text-sm font-medium text-gray-700 required" for="contact_email">Email</label>
+                		<input type="email" id="contact_email" name="contact[email]" required="required" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" placeholder="Entrez votre adresse email" >
+
+                                    <div class="form-error-message text-red-600 font-semibold">
+                        <ul><li>L&#039;email est obligatoire.</li><li>L&#039;email est obligatoire.</li></ul>
+                    </div>
+                            </div>
+
+                        <div>
+                <label class="block text-sm font-medium text-gray-700 required" for="contact_message">Message</label>
+                <textarea id="contact_message" name="contact[message]" required="required" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" rows="5" placeholder="Écrivez votre message ici..."></textarea>
+                                    <div class="form-error-message text-red-600 font-semibold">
+                        <ul><li>Le message est obligatoire.</li><li>Le message est obligatoire.</li></ul>
+                    </div>
+                            </div>
+
+                        <div class="flex justify-center">
+                <button type="submit" id="contact_submit" name="contact[submit]" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition">Envoyer</button>
+            </div>
+
+            		<input type="hidden" id="contact__token" name="contact[_token]"  value="ee74163aba8681.jcKvj6TVGOOmU0nq5-Zfu-0n9hQuxVBZAJMxG2UVYy0.w6TW3-ixWZbyIzqil4Ny3dsfhGdfiDQbePtXKBFdG1_nkPns8Lxzj8xrLg" >
+</form>
+        </div>
+    </div>
+			</main>
+
+			<!-- Footer -->
+			<footer class="footer shared-navbar-footer bg-gray-800 text-white px-4" style="height: 50px !important;">
+    <div class="container mx-auto flex justify-between items-center lg:mt-4">
+        <!-- Icônes des réseaux sociaux à gauche -->
+        <div class="flex space-x-4">
+            <!-- Lien Facebook -->
+            <a href="https://www.facebook.com/profile.php?id=100089010302413" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700 transition duration-200" aria-label="Visitez notre page Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 50 50"  class="w-6 h-6 sm:w-6 sm:h-6 lg:w-8 lg:h-8" role="img">
+                    <circle cx="25" cy="25" r="25" fill="#000"/>
+                    <path d="M33.5 25.5h-5v15h-6v-15h-3v-5h3v-3c0-2.8 1.2-7 7-7h5v5h-3c-0.5 0-1.5 0.3-1.5 1.7v3.3h5l-1 5z" fill="#fff"/>
+                </svg>
+            </a>
+
+            <!-- Lien X -->
+            <a href="https://x.com/lecavalierrouge" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-600 transition duration-200" aria-label="Visitez notre page X">
+                <svg xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewbox="0 0 512 512"  class="w-6 h-6 sm:w-6 sm:h-6 lg:w-8 lg:h-8" role="img">
+                    <path d="M256 0c141.385 0 256 114.615 256 256S397.385 512 256 512 0 397.385 0 256 114.615 0 256 0z"/>
+                    <path fill="#fff" fill-rule="nonzero" d="M318.64 157.549h33.401l-72.973 83.407 85.85 113.495h-67.222l-52.647-68.836-60.242 68.836h-33.423l78.052-89.212-82.354-107.69h68.924l47.59 62.917 55.044-62.917zm-11.724 176.908h18.51L205.95 176.493h-19.86l120.826 157.964z"/>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Texte à centrer -->
+        <p class="text-center flex-grow">
+            &copy; 2025 Le Cavalier Rouge - Club D'Echecs - Clamart
+        </p>
+
+        <!-- Bouton Politique du site à droite -->
+        <div class="text-right">
+            <button id="privacy-button" class="text-white hover:underline">Politique du site</button>
+        </div>
+    </div>
+
+    <!-- Modal pour afficher les liens des politiques -->
+    <div id="privacy-modal" style="display:none;" class="fixed inset-0 bg-gray-800 bg-opacity-50 z-50 flex justify-center items-center">
+        <div class="bg-white p-6 rounded-lg w-1/3">
+            <h2 class="text-xl font-bold mb-4">Politiques du site</h2>
+            <ul>
+                <li>
+                    <a href="/rgpd" class="text-blue-500 hover:underline">Règlement Général sur la Protection des Données</a>
+                </li>
+                <li>
+                    <a href="/cgu" class="text-blue-500 hover:underline">Conditions Générales d'Utilisation</a>
+                </li>
+                <li>
+                    <a href="/mentions-legales" class="text-blue-500 hover:underline">Mentions légales</a>
+                </li>
+
+                <li>
+                    <a href="/cookies" class="text-blue-500 hover:underline">Gestion des cookies</a>
+                </li>
+            </ul>
+            <button id="close-modal" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md">Fermer</button>
+        </div>
+    </div>
+</footer>
+
+			<!-- Bannière des cookies -->
+			<div id="cookie-banner" class="fixed bottom-0 w-full bg-gray-800 text-white p-3 flex justify-between items-center shadow-lg z-50">
+				<p class="text-sm flex-1 leading-tight">
+					Nous utilisons des cookies pour améliorer votre expérience.
+					<a href="/rgpd" class="text-blue-400 hover:underline">En savoir plus</a>.
+				</p>
+				<div class="flex space-x-2">
+					<button id="accept-cookies" class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded-md">
+						Accepter
+					</button>
+					<button id="decline-cookies" class="bg-gray-600 hover:bg-gray-700 text-white text-sm px-3 py-1 rounded-md">
+						Refuser
+					</button>
+				</div>
+			</div>
+
+
+		</body>
+	</html>
