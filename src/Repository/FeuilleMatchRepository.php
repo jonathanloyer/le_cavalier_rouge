@@ -17,7 +17,13 @@ class FeuilleMatchRepository extends ServiceEntityRepository
     }
 
     /**
-     * Sauvegarde une nouvelle feuille de match
+     * J'ajoute une nouvelle feuille de match dans la base de données
+     */
+    /**
+     * @param FeuilleMatch $newFeuilleMatch
+     * @param bool|null $flush
+     * 
+     * @return FeuilleMatch
      */
     public function save(FeuilleMatch $newFeuilleMatch, ?bool $flush = false): FeuilleMatch
     {

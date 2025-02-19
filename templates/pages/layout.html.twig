@@ -1,23 +1,38 @@
 <!DOCTYPE html>
 <html lang="fr" class="h-full">
 	<head>
+
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-B5W8BMR9JS"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+			dataLayer.push(arguments);
+					}
+			gtag('js', new Date());
+
+				gtag('config', 'G-B5W8BMR9JS');
+		</script>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="{% block meta_description %}Club d'échecs Le Cavalier Rouge - Clamart et Meudon : cours, tournois et activités pour les passionnés d'échecs.{% endblock %}">
 		<meta name="author" content="Le Cavalier Rouge">
-		<meta name="robots" content="index, follow">
+		<meta
+		name="robots" content="index, follow">
 
 		<!-- Open Graph -->
 		<meta property="og:title" content="{% block og_title %}Le Cavalier Rouge - Club d'échecs{% endblock %}">
 		<meta property="og:description" content="{% block og_description %}Rejoignez notre club d'échecs à Clamart et Meudon. Participez à des cours, tournois et événements pour tous niveaux !{% endblock %}">
 		<meta property="og:image" content="{% block og_image %}{{ asset('img/logo.png') }}{% endblock %}">
-		<meta property="og:type" content="website">
+		<meta
+		property="og:type" content="website">
 
 		<!-- Twitter Cards -->
 		<meta name="twitter:card" content="summary_large_image">
 		<meta name="twitter:title" content="{% block twitter_title %}Le Cavalier Rouge - Club d'échecs{% endblock %}">
 		<meta name="twitter:description" content="{% block twitter_description %}Découvrez Le Cavalier Rouge : le club d'échecs à Clamart et Meudon. Des cours et tournois pour tous !{% endblock %}">
-		<meta name="twitter:image" content="{% block twitter_image %}{{ asset('img/logo.png') }}{% endblock %}">
+		<meta
+		name="twitter:image" content="{% block twitter_image %}{{ asset('img/logo.png') }}{% endblock %}">
 
 
 		<!-- Canonical URL (Position correcte pour le SEO) -->
@@ -46,7 +61,9 @@
 
 		{% block stylesheets %}
 			<!-- Lien vers le fichier CSS généré par Webpack Encore -->
-			<link rel="stylesheet" href="{{ asset('build/assets_styles_app_css.css') }}">
+			{# <link rel="stylesheet" href="{{ asset('build/855.c24a7a29.css') }}"> #}
+						{{ encore_entry_link_tags('styles') }}
+
 		{% endblock %}
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
@@ -55,12 +72,15 @@
 		{% endblock %}
 
 	</head>
-	<body class="font-sans flex flex-col min-h-screen bg-gray-100" data-turbo="false">
+
+
+	<body
+		class="font-sans flex flex-col min-h-screen bg-gray-100" data-turbo="false">
 		<!-- Navbar -->
 		{% include "components/navbar.html.twig" %}
 
 		<!-- Contenu principal -->
-		<main class="flex-grow container mx-auto p-6"> {% block body %}{% endblock %}
+		<main class="flex-grow container mx-auto p-6 min-h-screen"> {% block body %}{% endblock %}
 			</main>
 
 			<!-- Footer -->

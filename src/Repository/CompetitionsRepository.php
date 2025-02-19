@@ -17,6 +17,13 @@ class CompetitionsRepository extends ServiceEntityRepository
         parent::__construct($registry, Competitions::class);
     }
 
+    /**
+     * ça me permet d'ajouter une nouvelle compétition dans la base de donnée
+     * @param Competitions $newCompetitions
+     * @param bool|null $flush=false
+     * 
+     * @return [type]
+     */
     function save(Competitions $newCompetitions, ?bool $flush=false)
     {
         // Je sauvegarde un nouvel objet Competitions dans la base de données.

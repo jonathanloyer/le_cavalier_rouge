@@ -1,98 +1,113 @@
 {% extends 'pages/layout.html.twig' %}
 
-{% block title %}Accueil - Club d'Échecs Le Cavalier Rouge{% endblock %}
-{% block meta_description %}Découvrez le Club d'échecs Le Cavalier Rouge à Clamart. Cours, tournois et événements pour tous niveaux !{% endblock %}
+{% block title %}Accueil - Club d'Échecs Le Cavalier Rouge
+{% endblock %}
+{% block meta_description %}Découvrez le Club d'échecs Le Cavalier Rouge à Clamart. Cours, tournois et événements pour tous niveaux !
+{% endblock %}
 
-{% block og_title %}Accueil - Club d'Échecs Le Cavalier Rouge{% endblock %}
-{% block og_description %}Découvrez le club d’échecs de Clamart : cours, tournois et activités pour les joueurs de tous niveaux.{% endblock %}
-{% block og_image %}{{ asset('img/echiquier-tournoi-club-echecs.webp') }}{% endblock %}
+{% block og_title %}Accueil - Club d'Échecs Le Cavalier Rouge
+{% endblock %}
+{% block og_description %}Découvrez le club d’échecs de Clamart : cours, tournois et activités pour les joueurs de tous niveaux.
+{% endblock %}
+{% block og_image %}
+	{{ asset('img/echiquier-tournoi-club-echecs.webp') }}
+{% endblock %}
 
-{% block twitter_title %}Accueil - Club d'Échecs Le Cavalier Rouge{% endblock %}
-{% block twitter_description %}Participez à nos tournois et entraînez-vous avec des joueurs passionnés à Clamart.{% endblock %}
-{% block twitter_image %}{{ asset('img/echiquier-tournoi-club-echecs.webp') }}{% endblock %}
+{% block twitter_title %}Accueil - Club d'Échecs Le Cavalier Rouge
+{% endblock %}
+{% block twitter_description %}Participez à nos tournois et entraînez-vous avec des joueurs passionnés à Clamart.
+{% endblock %}
+{% block twitter_image %}
+	{{ asset('img/echiquier-tournoi-club-echecs.webp') }}
+{% endblock %}
 
 {% block body %}
-<div class="bg-gray-100">
+	<div
+		class="bg-gray-100">
 
-  <!-- Messages Flashs -->
-    {% for message in app.flashes('success') %}
-        <div class="flash-success bg-green-200 text-green-800 p-4 rounded-lg text-center my-4">
-            {{ message|e }}
-        </div>
-    {% endfor %}
+		<!-- Messages Flashs -->
+		{% for message in app.flashes('success') %}
+			<div class="flash-success bg-green-200 text-green-800 p-4 rounded-lg text-center my-4">
+				{{ message|e }}
+			</div>
+		{% endfor %}
 
-    <!-- Bannière principale -->
-    <div class="relative h-[300px] flex flex-col items-center justify-center">
-        <h1 class="text-3xl md:text-5xl font-bold text-black text-center">
-            Votre association à Clamart
-        </h1>
-        <p class="mt-4 text-gray-700 text-lg text-center px-6 md:px-12">
-            Le Cavalier Rouge, club d’échecs fondé en mai 2010, a pour mission de promouvoir le jeu d’échecs à Clamart et ses environs. Nous proposons des cours adaptés aux enfants et adultes, et organisons régulièrement des tournois ainsi que des événements autour de ce jeu stratégique. Notre objectif est de rendre le jeu d’échecs accessible à tous, en favorisant l'apprentissage et la convivialité. 
+		<!-- Bannière principale -->
+		<div class="min-h-screen flex flex-col items-center justify-center py-10 bg-gray-100">
+			<h1 class="text-3xl md:text-5xl font-bold text-black text-center transition-all duration-500">
 
-        </p>
-    </div>
+				Votre association à Clamart
+			</h1>
 
-    <!-- Vidéo avec introduction -->
-    <section class="mt-10 w-full bg-white py-10 flex justify-center">
-        <h2 class="sr-only">Vidéo d'introduction</h2>
-        <div class="flex justify-center mt-6">
-            <video class="rounded-lg shadow-md w-3/4" controls>
-            <source src="/img/video-presentation-club-echecs.mp4" type="video/mp4">
-            <source src="/img/video-presentation-club-echecs.webm" type="video/webm">
-            Votre navigateur ne supporte pas la vidéo.
-        </video>
-        </div>
-    </section>
+			<p class="mt-4 text-gray-800 text-lg text-center max-w-3xl">
 
-    <!-- Section Objectifs -->
-    <section class="mt-10 py-12 px-6 md:px-12 bg-white border border-gray-300 rounded-lg">
-        <article class="flex flex-col md:flex-row items-center gap-8">
-            <!-- Texte à gauche -->
-            <div class="md:w-2/3">
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
-                    OBJECTIFS
-                </h2>
-                <p class="text-gray-700 text-lg leading-relaxed">
-                    Le club a pour objectif d'enseigner le jeu d’échecs aux jeunes de Clamart, en leur offrant des cours et des compétitions adaptées à leur âge et à leur niveau. Nous visons également à accompagner les adultes passionnés, afin qu'ils puissent se perfectionner et s’épanouir pleinement dans ce sport de réflexions. 
+				Le Cavalier Rouge, club d’échecs fondé en mai 2010, a pour mission de promouvoir le jeu d’échecs à Clamart et ses environs.Nous proposons des cours adaptés aux enfants et adultes, et organisons régulièrement des tournois ainsi que des événements autour de ce jeu stratégique. Notre objectif est de rendre le jeu d’échecs accessible à tous, en favorisant l'apprentissage et la convivialité.
+			</p>
+		</div>
 
-                </p>
-            </div>
-            <!-- Image à droite -->
-            <div class="flex flex-col items-center md:w-1/3 mt-6">
-                <img src="/img/echiquier-strategie-jeu-echecs.webp" alt="Échiquier lors d’un tournoi de club d'échecs à Clamart" class="rounded-lg shadow-md w-64 h-48 object-cover">
-                <p class="text-gray-700 text-sm leading-relaxed mt-4 text-center">
-                    Une approche unique pour enseigner et jouer aux échecs, adaptée à tous les âges.
-                </p>
-            </div>
-        </article>
-    </section>
+		<!-- Vidéo avec introduction -->
+		<section class="mt-10 w-full bg-white py-10 flex justify-center px-4">
+			<h2 class="sr-only">Vidéo d'introduction</h2>
+			<div class="w-full max-w-2xl aspect-video">
+				<video class="rounded-lg shadow-md w-full h-full object-cover" controls preload="auto">
+					<source src="/img/video-presentation-club-echecs.webm" type="video/webm">
+					<source src="/img/video-presentation-club-echecs.mp4" type="video/mp4">
+					Votre navigateur ne supporte pas la vidéo.
+				</video>
+			</div>
+		</section>
 
-    <!-- Section Moyens -->
-    <section class="mt-10 py-12 px-6 md:px-12 bg-white border border-gray-300 rounded-lg">
-        <article class="flex flex-col md:flex-row items-center gap-8">
-            <!-- Image à gauche -->
-            <div class="flex flex-col items-center md:w-1/3 mt-6">
-                <img src="/img/echiquier-tournoi-club-echecs.webp" alt="Tournoi d'échecs" class="rounded-lg shadow-md w-64 h-48 object-cover">
-                <p class="text-gray-700 text-sm leading-relaxed mt-4 text-center">
-                    Des moyens innovants pour progresser dans le jeu d'échecs.
-                </p>
-            </div>
-            <!-- Texte à droite -->
-            <div class="md:w-2/3">
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
-                    MOYENS
-                </h2>
-                <p class="text-gray-700 text-lg leading-relaxed">
-                   Nous mettons en place diverses méthodes pour favoriser la progression des joueurs, telles que des cours en groupe, l’utilisation de ressources informatiques, ainsi qu’un suivi personnalisé adapté à chaque besoin.
-                </p>
-                <p class="text-gray-700 text-lg leading-relaxed mt-4">
-                    Amitié, Convivialité, Respect et Plaisir sont les maîtres-mots du club.
-                </p>
-                <p class="text-gray-800 text-lg font-semibold mt-6">
-                    Nous vous attendons nombreux !
-                </p>
-            </div>
-        </article>
-    </section>
-</div>
+		<!-- Section Objectifs -->
+		<section class="mt-10 py-12 px-6 md:px-12 bg-white border border-gray-300 rounded-lg">
+			<article
+				class="flex flex-col md:flex-row items-center gap-8">
+				<!-- Texte à gauche -->
+				<div class="md:w-2/3">
+					<h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
+						OBJECTIFS
+					</h2>
+					<p class="text-gray-700 text-lg leading-relaxed">
+						Le club a pour objectif d'enseigner le jeu d’échecs aux jeunes de Clamart, en leur offrant des cours et des compétitions adaptées à leur âge et à leur niveau. Nous visons également à accompagner les adultes passionnés, afin qu'ils puissent se perfectionner et s’épanouir pleinement dans ce sport de réflexions.
+
+					</p>
+				</div>
+				<!-- Image à droite -->
+				<div class="flex flex-col items-center md:w-1/3 mt-6">
+					<img src="/img/echiquier-strategie-jeu-echecs.webp" alt="Échiquier lors d’un tournoi de club d'échecs à Clamart" class="rounded-lg shadow-md w-64 h-48 object-cover">
+					<p class="text-gray-700 text-sm leading-relaxed mt-4 text-center">
+						Une approche unique pour enseigner et jouer aux échecs, adaptée à tous les âges.
+					</p>
+				</div>
+			</article>
+		</section>
+
+		<!-- Section Moyens -->
+		<section class="mt-10 py-12 px-6 md:px-12 bg-white border border-gray-300 rounded-lg">
+			<article
+				class="flex flex-col md:flex-row items-center gap-8">
+				<!-- Image à gauche -->
+				<div class="flex flex-col items-center md:w-1/3 mt-6">
+					<img src="/img/echiquier-tournoi-club-echecs.webp" alt="Tournoi d'échecs" class="rounded-lg shadow-md w-64 h-48 object-cover">
+					<p class="text-gray-700 text-sm leading-relaxed mt-4 text-center">
+						Des moyens innovants pour progresser dans le jeu d'échecs.
+					</p>
+				</div>
+				<!-- Texte à droite -->
+				<div class="md:w-2/3">
+					<h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
+						MOYENS
+					</h2>
+					<p class="text-gray-700 text-lg leading-relaxed">
+						Nous mettons en place diverses méthodes pour favoriser la progression des joueurs, telles que des cours en groupe, l’utilisation de ressources informatiques, ainsi qu’un suivi personnalisé adapté à chaque besoin.
+					</p>
+					<p class="text-gray-700 text-lg leading-relaxed mt-4">
+						Amitié, Convivialité, Respect et Plaisir sont les maîtres-mots du club.
+					</p>
+					<p class="text-gray-800 text-lg font-semibold mt-6">
+						Nous vous attendons nombreux !
+					</p>
+				</div>
+			</article>
+		</section>
+	</div>
 {% endblock %}

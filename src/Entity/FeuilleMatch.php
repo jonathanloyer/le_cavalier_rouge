@@ -13,10 +13,10 @@ class FeuilleMatch
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'clubA')]
+    #[ORM\ManyToOne(inversedBy: 'clubA')] // Relation ManyToOne avec l'entité Club
     private ?Club $clubA = null;
 
-    #[ORM\ManyToOne(inversedBy: 'clubB')]
+    #[ORM\ManyToOne(inversedBy: 'clubB')]  // Relation ManyToOne avec l'entité Club
     private ?Club $clubB = null;
 
     #[ORM\Column]
